@@ -28,15 +28,15 @@
 	<div class="banner" id="home">
 		<div class="banner-overlay-designinfo">
 			<div class="top-header-design">
-				<h1><a class="col-md-4 navbar-brand" href="index..php">S-APP<span>Improving Learning for Students</span></a></h1>
+				<h1><a class="col-md-4 navbar-brand" href="index.php">S-APP<span>Improving Learning for Students</span></a></h1>
 				<div class="col-md-4 top-header-design-right">
 
 				</div>
 				<div class="col-md-4 top-header-design-left" >
 					<ul class="num-gcubels">
 						<li>
-							<a href="ls/login..php" style="color: #b6cbed; padding-right: 30px;">Login</a>
-							<a href="ls/signup..php" style="color: #b6cbed;">Sign-Up</a>
+							<a href="ls/login.php" style="color: #b6cbed; padding-right: 30px;">Login</a>
+							<a href="ls/signup.php" style="color: #b6cbed;">Sign-Up</a>
 						</li>
 					</ul>
 					<div class="gcubels_search">
@@ -374,7 +374,7 @@
 		<div class="container">
 			<div class="footer-row gcubelayouts-design">
 				<div class="col-md-6 footer-grids gcubel-designer">
-					<h6><a href="index..php">S-APP</a></h6>
+					<h6><a href="index.php">S-APP</a></h6>
 					<p class="footer-one-gcubels">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar tellus sed mauvehicula tempor.
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar tellus sed mauvehicula tempor.
