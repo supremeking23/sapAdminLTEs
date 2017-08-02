@@ -1,3 +1,15 @@
+<?php
+  include("includes/sessions.php");
+  include("includes/connection.php");
+  include("includes/functions.php");
+  ?>
+
+
+  <?php
+      //login process
+  ?>
+
+
 
 <!DOCTYPE html>
 <html>
