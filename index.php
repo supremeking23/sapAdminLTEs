@@ -28,15 +28,15 @@
 	<div class="banner" id="home">
 		<div class="banner-overlay-designinfo">
 			<div class="top-header-design">
-				<h1><a class="col-md-4 navbar-brand" href="index.php">S-APP<span>Improving Learning for Students</span></a></h1>
+				<h1><a class="col-md-4 navbar-brand" href="index..php">S-APP<span>Improving Learning for Students</span></a></h1>
 				<div class="col-md-4 top-header-design-right">
 
 				</div>
 				<div class="col-md-4 top-header-design-left" >
 					<ul class="num-gcubels">
 						<li>
-							<a href="ls/login.php" style="color: #b6cbed; padding-right: 30px;">Login</a>
-							<a href="ls/signup.php" style="color: #b6cbed;">Sign-Up</a>
+							<a href="ls/login..php" style="color: #b6cbed; padding-right: 30px;">Login</a>
+							<a href="ls/signup..php" style="color: #b6cbed;">Sign-Up</a>
 						</li>
 					</ul>
 					<div class="gcubels_search">
@@ -70,7 +70,7 @@
 					<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1" style="margin-left: 300px;">
 						<nav class="link-effect-3" id="link-effect-3">
 							<ul class="nav navbar-nav" >
-								<li class="active"><a href="index.html"><span data-hover="Home">Home</span></a></li>
+								<li class="active"><a href="index.php"><span data-hover="Home">Home</span></a></li>
 								<li><a href="#features-section" > <span data-hover="Features">Features</span></a></li>
 								<li><a href="#developers-section" > <span data-hover="Developers">Developers</span></a></li>
 								<li><a href="#about-section" > <span data-hover="About Us">About Us</span></a></li>
@@ -200,7 +200,7 @@
 			<div class="features-info" align="right">
 				<h3 class="tittle-designer-gcubelayouts white-gcubels" align="center">Our System Features</h3>
 				<p class="for-gcube-design white-gcubels" align="left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar tellus sed mauvehicula tempor. In hac habitasse platea dictumst. Donec nunc nunc,interdum sed aliquet quis.</p>
-				<a href="signup.html" class="button-gcubelayouts hvr-rectangle-out">Sign-Up Now!</a>
+				<a href="signup.php" class="button-gcubelayouts hvr-rectangle-out">Sign-Up Now!</a>
 			</div>
 		</div>
 
@@ -374,7 +374,7 @@
 		<div class="container">
 			<div class="footer-row gcubelayouts-design">
 				<div class="col-md-6 footer-grids gcubel-designer">
-					<h6><a href="index.html">S-APP</a></h6>
+					<h6><a href="index..php">S-APP</a></h6>
 					<p class="footer-one-gcubels">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar tellus sed mauvehicula tempor.
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar tellus sed mauvehicula tempor.
@@ -393,8 +393,8 @@
 					<h3>Footer Menu</h3>
 					<ul class="b-nav">
 						<li><a href="#home">Home</a></li>
-						<li><a href="about.html" >Features</a></li>
-						<li><a href="blog.html">About Us</a></li>
+						<li><a href="about.php" >Features</a></li>
+						<li><a href="blog.php">About Us</a></li>
 					</ul>
 				</div>
 				<div class="col-md-3 footer-grids gcubel-designer">
