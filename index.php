@@ -35,8 +35,8 @@
 				<div class="col-md-4 top-header-design-left" >
 					<ul class="num-gcubels">
 						<li>
-							<a href="ls/login.php" style="color: #b6cbed; padding-right: 30px;">Login</a>
-							<a href="ls/signup.php" style="color: #b6cbed;">Sign-Up</a>
+							<a href="private_pages/login.php" style="color: #b6cbed; padding-right: 30px;">Login</a>
+							<a href="private_pages/signup.php" style="color: #b6cbed;">Sign-Up</a>
 						</li>
 					</ul>
 					<div class="gcubels_search">

@@ -38,7 +38,7 @@
 /*-- Index-Page-Styling --*/
 
 body {
-	background: url("images/umakA.jpg");
+	background: url("../images/umakA.jpg");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center;
@@ -54,7 +54,7 @@ body {
 .hidden {
 	display:none;
 }
-  
+
 
 body a {
 	transition: 0.5s all;
@@ -90,7 +90,7 @@ h1 {
 
 
 .logo {
-	
+
 }
 
 input[type="text"], input[type="password"], input[type="email"]{
@@ -523,7 +523,7 @@ input[type="checkbox"] {
 		font-weight: 500;
 		padding: 6px 5px;
 	}
-	
+
 	.footer p {
 		letter-spacing: 0px;
 	}
