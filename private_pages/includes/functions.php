@@ -43,15 +43,15 @@ function register($idnumber,$email,$password){
   }
 }
 
-
-function attempt_login($email,$password){
+//login process
+function attempt_login_student($email,$password){
 	global $connection;
 
   $email = mysql_prep($_POST['email']);
   //the confirm password
   $password = mysql_prep($_POST['password']);
 
-  $query = "SELECT * FROM dummy_table WHERE email = '$email' AND password = '$password' LIMIT 1";
+  $query = "SELECT * FROM tblstudentinfo WHERE email = '$email' AND password = '$password' LIMIT 1";
   $result = $connection->query($query);
 
   if($login = mysqli_fetch_assoc($result)){
@@ -63,6 +63,59 @@ function attempt_login($email,$password){
     return null;
     //redirect_to("login.php");
   }
+}
+
+function attempt_login_professor($email,$password){
+	global $connection;
+
+  $email = mysql_prep($_POST['email']);
+  //the confirm password
+  $password = mysql_prep($_POST['password']);
+
+  $query = "SELECT * FROM tblprofessor WHERE email = '$email' AND password = '$password' LIMIT 1";
+  $result = $connection->query($query);
+
+  if($login = mysqli_fetch_assoc($result)){
+    //echo $login['name'];
+    return $login;
+
+
+  }else{
+    return null;
+    //redirect_to("login.php");
+  }
+}
+
+function attempt_login_councilor($email,$password){
+	global $connection;
+
+  $email = mysql_prep($_POST['email']);
+  //the confirm password
+  $password = mysql_prep($_POST['password']);
+
+  $query = "SELECT * FROM tblguidancecounselor WHERE email = '$email' AND password = '$password' LIMIT 1";
+  $result = $connection->query($query);
+
+  if($login = mysqli_fetch_assoc($result)){
+    //echo $login['name'];
+    return $login;
+
+
+  }else{
+    return null;
+    //redirect_to("login.php");
+  }
+}
+
+
+function logged_in() {
+	return isset($_SESSION["student_id"]);
+}
+
+function confirm_logged_in() {
+	if (!logged_in()) {
+		redirect_to("login.php");
+	}
 }
 
 ?>

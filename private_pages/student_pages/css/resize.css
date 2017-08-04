@@ -1,0 +1,305 @@
+
+@media only screen and (max-width: 900px) {
+ 
+	
+	div.vertical-line{		
+		width: 3px; /* Line width */
+		height:75px;
+		background-color: black; /* Line color */ 
+		float: left;
+		margin-left:105px;
+		margin-right:100px;
+		background-color:#5D6D7E;
+		margin-top:-8px;
+		margin-bottom:-10px;
+		
+	}
+	
+	
+	#cal{
+		padding-right:px;
+		width:px;
+		height:px;
+		color:#34495E;
+		font-size:25px;
+		margin-left:85px;
+		
+		float:left;
+		
+	}
+
+	#bell{
+		padding-left:px;
+		padding-right:px;
+		width:px;
+		height:px;
+		color:#34495E;
+		font-size:25px;
+		margin-left:400px;
+		margin-top:-48px;
+		float:left;	
+	}
+
+	#user{
+		padding-left:px;
+		font-size:25px;
+		padding-right:px;
+		width:px;
+		height:px;
+		color:#34495E;
+		margin-top:-48px;
+		margin-left:450px;
+		float:left;
+	}
+	
+	
+	#logo{
+		margin-top:-10px;
+		margin-bottom:px;
+		margin-right:100x;
+		margin-left:-20px;
+		float:left;
+	}
+	
+	#sidenav{
+	
+		margin-top:164px;
+		
+		width:20px;
+		margin-left:-15px;
+	
+	}
+	
+	#studentpic{
+	background-color:lightblue;
+	width:100px;
+	height:100px;
+	border-radius:50%;
+	margin-top:125px;
+	margin-left:26px;
+	margin-right:26px;
+	
+	border:3px solid #F1C40F;
+	}
+	
+	#overview{
+		margin-top:-100px;
+		margin-bottom:-4px;
+		border-radius:0;
+		padding:20px;
+		border-bottom:2px solid;
+		border-top:2px solid;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #34495E;
+		text-transform: uppercase;
+		color:#F1C40F;
+		font-size:15px;
+	 
+	}
+	#subjects{
+		font-size:15px;
+		border-radius:0;
+		padding:20px;
+		border-top:2px solid ;
+		border-bottom:2px solid;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #34495E;
+		text-transform: uppercase;
+		color:#F1C40F;
+	}
+
+	#a{
+		font-size:15px;
+		color:#F1C40F;
+		border-radius:0;
+		padding:20px;
+		border-bottom:2px solid;
+		width:182px;	
+		letter-spacing:3px;
+		text-shadow: 2px 1px #34495E;
+		text-transform: uppercase;
+	
+	}
+	
+	
+	
+	#overview:hover{
+		color:#34495E;
+		border-radius:0;
+		padding:20px;
+		background-color:#5DADE2;
+		border-bottom:2px solid #34495E;
+		border-top:2px solid;
+		border-left:10px solid #34495E;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #F1C40F;
+		text-transform: uppercase;
+	}
+
+	#subjects:hover{
+		color:#34495E;
+		border-radius:0;
+		padding:20px;
+		background-color:#5DADE2;
+		border-bottom:2px solid;
+		border-top:2px solid;
+		border-left:10px solid #34495E;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #F1C40F;
+		text-transform: uppercase;
+	}
+
+	#a:hover{
+		color:#34495E;
+		margin-top:-5px;
+		border-radius:0;
+		padding:20px;
+		background-color:#5DADE2;
+		border-bottom:2px solid;
+		border-top:2px solid;
+		border-left:10px solid #34495E;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #F1C40F;
+		text-transform: uppercase;
+	}
+
+	#content{
+		margin-top:100px;
+		width:350px;
+		margin-left:165px;
+		overflow-x:hidden;
+		border-radius:;
+	}
+
+	/*Chartcontainer*/
+
+
+
+	/*Centering the gauge*/
+	#canvas {
+		display: block;
+		margin: 100px auto;
+		width: 125px;
+		height:125px;
+		margin-left:0px;
+		margin-top:-50px;
+  
+	}
+	
+	#vid{
+	
+		font-size:15px;
+		text-transform: uppercase;
+		margin-left:0px;
+		width:250px	;
+		margin-top:-25px;
+		text-align:center;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	}
+	
+	
+	#link{
+	
+		font-size:15px;
+		text-transform: uppercase;
+		color:black;
+		margin-left:0px;
+		width:250px	;
+		margin-top:200px;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	
+	}
+	
+	#vis{
+		height:100px;
+		width:100px;
+		margin-top:-180px;
+	}
+
+	#mis{
+		height:100px;
+		width:100px;
+		margin-top:-150px;
+		margin-left:0px;
+
+		
+	}
+	
+	#mission{
+		height:300px;
+		width:250px;
+		background-color:white;
+	}
+
+		
+	#vid1{
+		font-size:18px;
+		text-transform: uppercase;
+		color:#34495E;
+		margin-left:10px;
+		width:200px	;
+		margin-top:-35px;
+		text-align:center;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	}
+	
+	#vision{
+		height:300px;
+		width:250px;
+		margin-left:0px;
+		margin-top:30px;
+		background-color:white;
+	}
+	#missionvisioncontainer{
+		width:270px;
+		height:700px;
+		background-color:white;
+	}
+	
+	#ccs{
+		width:270px;
+		height:700px;
+		background-color:white;
+	}
+
+	#vid3{
+		font-size:15px;
+		text-transform: uppercase;
+		margin-left:-5px;
+		width:250px	;
+		margin-top:-20px;
+		text-align:center;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	}
+	
+	#name{
+		font-size:15px;
+		margin-left:100px;
+	}
+
+	#role{
+		font-size:12px;
+		margin-top:-15px;
+		margin-left:100px;
+	}	
+	
+	#sec{
+		height:75px;
+		width:75px;
+		float:left;
+		margin-left:-5px;
+	}
+}

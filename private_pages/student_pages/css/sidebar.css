@@ -1,0 +1,700 @@
+body{
+	background-color:#ECF0F1;
+
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+#sidebar{
+	background-color:#1F618D;
+	margin-top:-20px;
+	padding-bottom:500px;
+
+	
+}
+
+#navbar{
+	background-color:#AED6F1;
+	border-bottom:0;
+	border-bottom:2px solid #5D6D7E;
+}
+div.vertical-line{
+    width: 3px; /* Line width */
+	height:70px;
+    background-color: black; /* Line color */ 
+    float: left;
+	margin-left:244px;
+	background-color:#5D6D7E;
+}
+#sidenav{
+	
+	margin-top:164px;
+	margin-bottom:px;
+	width:339px;
+	margin-left:-15px;
+	
+}
+
+
+
+/**sidebars**/
+#overview{
+	margin-top:-100px;
+	margin-bottom:-4px;
+	border-radius:0;
+	padding:20px;
+	border-bottom:2px solid;
+	border-top:2px solid;
+	width:342px;
+	letter-spacing:3px;
+	background-color:#5DADE2;
+		text-shadow: 2px 1px #F1C40F;
+	 text-transform: uppercase;
+	color:#34495E;
+	 font-size:18px;
+	  border-left:10px solid #34495E;
+	 
+}
+#subjects{
+	font-size:18px;
+	border-radius:0;
+	padding:20px;
+	border-top:2px solid ;
+	border-bottom:2px solid;
+	width:342px;
+	letter-spacing:3px;
+	text-shadow: 2px 1px #34495E;
+	 text-transform: uppercase;
+	 color:#F1C40F;
+	 border-top:2px solid #34495E;
+}
+
+#a{
+	font-size:18px;
+	color:#F1C40F;
+	border-radius:0;
+	padding:20px;
+	border-bottom:2px solid;
+	width:342px;
+	letter-spacing:3px;
+	text-shadow: 2px 1px #34495E;
+	 text-transform: uppercase;
+	
+}
+
+#overview:hover{
+	color:#34495E;
+	border-radius:0;
+	padding:20px;
+	background-color:#5DADE2;
+	border-bottom:2px solid #34495E;
+	border-top:2px solid;
+	 border-left:10px solid #34495E;
+	width:342px;
+	letter-spacing:3px;
+	text-shadow: 2px 1px #F1C40F;
+	 text-transform: uppercase;
+	
+
+}
+#subjects:hover{
+	
+	color:#34495E;
+	border-radius:0;
+	padding:20px;
+	background-color:#5DADE2;
+	border-bottom:2px solid;
+	border-top:2px solid;
+	 border-left:10px solid #34495E;
+	width:342px;
+	letter-spacing:3px;
+	text-shadow: 2px 1px #F1C40F;
+	 text-transform: uppercase;
+
+}
+
+#a:hover{
+	color:#34495E;
+	margin-top:-5px;
+	border-radius:0;
+	padding:20px;
+	background-color:#5DADE2;
+	border-bottom:2px solid;
+	border-top:2px solid;
+	 border-left:10px solid #34495E;
+	width:342px;
+	letter-spacing:3px;
+	text-shadow: 2px 1px #F1C40F;
+	 text-transform: uppercase;
+}
+/**end of sidebar**/
+
+/**Pictures*/
+#studentpic{
+	background-color:lightblue;
+	width:150px;
+	height:150px;
+	border-radius:50%;
+	margin-top:125px;
+	margin-left:70px;
+	border:3px solid #F1C40F;
+	
+}
+
+#logo{
+	margin-top:-5px;
+	margin-bottom:-10px;
+	margin-left:;
+	width:80px;
+	height:80px;
+	float:left;
+}
+
+#cal{
+	padding-right:50px;
+	width:18px;
+	height:18px;
+	color:#34495E;
+	font-size:30px;
+}
+
+#bell{
+	padding-left:10px;
+	padding-right:50px;
+	width:18px;
+	height:18px;
+	color:#34495E;
+	font-size:30px;
+}
+
+#user{
+	padding-left:10px;
+	font-size:30px;
+	padding-right:100px;
+	width:18px;
+	height:18px;
+	color:#34495E;
+}
+
+#cal:hover{
+	color:#2471A3;
+}
+
+#bell:hover{
+	color:#2471A3;
+}
+
+#user:hover{
+	color:#2471A3;
+	
+
+}
+/*end of pictures and glyphicons**/
+#content{
+	margin-top:100px;
+	overflow-x:hidden;
+}
+
+/*Chartcontainer*/
+
+
+
+/*Centering the gauge*/
+#canvas {
+  display: block;
+  margin: 100px auto;
+  width: 200px;
+  height:200px;
+  margin-left:0px;
+  margin-top:-100px;
+  
+}
+
+/*Custom font for numbers*/
+@font-face {
+  font-family: "bebas";
+  src: url("http://thecodeplayer.com/uploads/fonts/BebasNeue.otf");
+}
+
+#chartbackground{
+	width:960px;
+	height:300px;
+	background-color:white;
+}
+
+/**VideoList*/
+#vidlist{
+	width:960px;
+	height:300px;
+	background-color:white;
+	
+	
+}
+#vidlist2{
+	width:960px;
+	height:500px;
+	background-color:white;
+	
+	
+}
+
+#vid{
+	
+	font-size:15px;
+	 text-transform: uppercase;
+	
+	margin-left:-60px;
+	width:300px	;
+	margin-top:-35px;
+	text-align:center;
+	background-color:white;
+	border-color:white;
+	letter-spacing:3px;
+}
+
+#vid3{
+	
+	font-size:15px;
+	text-transform: uppercase;
+	margin-left:-60px;
+	width:400px	;
+	margin-top:-35px;
+	text-align:center;
+	background-color:white;
+	border-color:white;
+	letter-spacing:3px;
+
+}
+#mission{
+	height:300px;
+	width:400px;
+	background-color:white;
+	
+	
+	
+}
+#vision{
+	height:300px;
+	width:400px;
+	margin-left:425px;
+	margin-top:-330px;
+	background-color:white;
+	
+}
+#missionvisioncontainer{
+	width:960px;
+	height:400px;
+	background-color:white;
+	
+}
+
+#vid1{
+	font-size:18px;
+	 text-transform: uppercase;
+	color:#34495E;
+	margin-left:-20px;
+	width:300px	;
+	margin-top:-35px;
+	text-align:center;
+	background-color:white;
+	border-color:white;
+	letter-spacing:3px;
+
+}
+
+#link{
+	
+	font-size:15px;
+	 text-transform: uppercase;
+	color:black;
+	margin-left:-20px;
+	width:300px	;
+	margin-left:;
+	margin-top:200px;
+	background-color:white;
+	border-color:white;
+	letter-spacing:3px;
+	
+}
+
+#link1{
+	margin-bottom:0px;
+	border-radius:0px;
+	border-bottom:2px solid #34495E;
+	background-color:white;
+	border-top:2px solid white;
+	border-left:2px solid white;
+	border-right:2px solid white;
+	font-size:15px;
+	margin-top:0px;
+	width:200px;
+	
+}
+
+#mcontent{
+	font-size:15px;
+	text-align:center;
+}
+
+#vcontent{
+	font-size:15px;
+	text-align:center;
+	
+}
+
+#vis{
+	height:100px;
+	width:100px;
+	margin-top:-180px;
+}
+
+#mis{
+	height:100px;
+	width:100px;
+	margin-top:-180px;
+
+}
+
+#sec{
+height:100px;
+	width:100px;
+	float:left;
+	margin-left:-30px;
+}
+
+#name{
+	font-size:18px;
+	margin-left:100px;
+}
+
+#role{
+	
+	font-size:15px;
+	margin-top:-15px;
+	margin-left:150px;
+}
+
+#ccs{
+	width:960px;
+	height:700px;
+	background-color:white;
+}
+/**Content holder**/
+
+
+@media only screen and (max-width: 900px) {
+ 
+	
+	div.vertical-line{		
+		width: 3px; /* Line width */
+		height:75px;
+		background-color: black; /* Line color */ 
+		float: left;
+		margin-left:105px;
+		margin-right:100px;
+		background-color:#5D6D7E;
+		margin-top:-8px;
+		margin-bottom:-10px;
+		
+	}
+	
+	
+	#cal{
+		padding-right:px;
+		width:px;
+		height:px;
+		color:#34495E;
+		font-size:25px;
+		margin-left:40px;
+		float:left;
+		
+	}
+
+	#bell{
+		padding-left:px;
+		padding-right:px;
+		width:px;
+		height:px;
+		color:#34495E;
+		font-size:25px;
+		margin-left:350px;
+		margin-top:-48px;
+		float:left;	
+	}
+
+	#user{
+		padding-left:px;
+		font-size:25px;
+		padding-right:px;
+		width:px;
+		height:px;
+		color:#34495E;
+		margin-top:-48px;
+		margin-left:400px;
+		float:left;
+	}
+	
+	
+	#logo{
+		margin-top:-10px;
+		margin-bottom:px;
+		margin-right:100x;
+		margin-left:-20px;
+		float:left;
+	}
+	
+	#sidenav{
+	
+		margin-top:164px;
+		
+		width:20px;
+		margin-left:-15px;
+	
+	}
+	
+	#studentpic{
+	background-color:lightblue;
+	width:100px;
+	height:100px;
+	border-radius:50%;
+	margin-top:125px;
+	margin-left:26px;
+	margin-right:26px;
+	
+	border:3px solid #F1C40F;
+	}
+	
+	#overview{
+	margin-top:-100px;
+	margin-bottom:-4px;
+	border-radius:0;
+	padding:20px;
+	border-bottom:2px solid;
+	border-top:2px solid;
+	width:182px;
+	letter-spacing:3px;
+	background-color:#5DADE2;
+		text-shadow: 2px 1px #F1C40F;
+	 text-transform: uppercase;
+	color:#34495E;
+	 font-size:18px;
+	  border-left:10px solid #34495E;
+	 
+	
+	}
+	#subjects{
+		font-size:15px;
+		border-radius:0;
+		padding:20px;
+		border-top:2px solid ;
+		border-bottom:2px solid;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #34495E;
+		text-transform: uppercase;
+		color:#F1C40F;
+		 border-top:2px solid #34495E;
+	}
+
+	#a{
+		font-size:15px;
+		color:#F1C40F;
+		border-radius:0;
+		padding:20px;
+		border-bottom:2px solid;
+		width:182px;	
+		letter-spacing:3px;
+		text-shadow: 2px 1px #34495E;
+		text-transform: uppercase;
+	
+	}
+	
+	
+	
+	#overview:hover{
+		color:#34495E;
+		border-radius:0;
+		padding:20px;
+		background-color:#5DADE2;
+		border-bottom:2px solid #34495E;
+		border-top:2px solid;
+		border-left:10px solid #34495E;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #F1C40F;
+		text-transform: uppercase;
+	}
+
+	#subjects:hover{
+		color:#34495E;
+		border-radius:0;
+		padding:20px;
+		background-color:#5DADE2;
+		border-bottom:2px solid;
+		border-top:2px solid;
+		border-left:10px solid #34495E;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #F1C40F;
+		text-transform: uppercase;
+	}
+
+	#a:hover{
+		color:#34495E;
+		margin-top:-5px;
+		border-radius:0;
+		padding:20px;
+		background-color:#5DADE2;
+		border-bottom:2px solid;
+		border-top:2px solid;
+		border-left:10px solid #34495E;
+		width:182px;
+		letter-spacing:3px;
+		text-shadow: 2px 1px #F1C40F;
+		text-transform: uppercase;
+	}
+
+	#content{
+		margin-top:100px;
+		width:300px;
+		margin-left:165px;
+		overflow-x:hidden;
+		border-radius:;
+	}
+
+	/*Chartcontainer*/
+
+
+
+	/*Centering the gauge*/
+	#canvas {
+		display: block;
+		margin: 100px auto;
+		width: 125px;
+		height:125px;
+		margin-left:0px;
+		margin-top:-50px;
+  
+	}
+	
+	#vid{
+	
+		font-size:15px;
+		text-transform: uppercase;
+		margin-left:0px;
+		width:250px	;
+		margin-top:-25px;
+		text-align:center;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	}
+	
+	
+	#link{
+	
+		font-size:15px;
+		text-transform: uppercase;
+		color:black;
+		margin-left:0px;
+		width:250px	;
+		margin-top:200px;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	
+	}
+	
+	#vis{
+		height:100px;
+		width:100px;
+		margin-top:-180px;
+	}
+
+	#mis{
+		height:100px;
+		width:100px;
+		margin-top:-150px;
+		margin-left:0px;
+
+		
+	}
+	
+	#mission{
+		height:300px;
+		width:250px;
+		background-color:white;
+	}
+
+		
+	#vid1{
+		font-size:18px;
+		text-transform: uppercase;
+		color:#34495E;
+		margin-left:10px;
+		width:200px	;
+		margin-top:-35px;
+		text-align:center;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	}
+	
+	#vision{
+		height:300px;
+		width:250px;
+		margin-left:0px;
+		margin-top:30px;
+		background-color:white;
+	}
+	#missionvisioncontainer{
+		width:270px;
+		height:700px;
+		background-color:white;
+	}
+	
+	#ccs{
+		width:270px;
+		height:700px;
+		background-color:white;
+	}
+
+	#vid3{
+		font-size:15px;
+		text-transform: uppercase;
+		margin-left:-5px;
+		width:250px	;
+		margin-top:-20px;
+		text-align:center;
+		background-color:white;
+		border-color:white;
+		letter-spacing:3px;
+	}
+	
+	#name{
+		font-size:15px;
+		margin-left:100px;
+	}
+
+	#role{
+		font-size:12px;
+		margin-top:-15px;
+		margin-left:100px;
+	}
+	
+	#sec{
+		height:75px;
+		width:75px;
+		float:left;
+		margin-left:-5px;
+	}
+	
+
+}
+
+
+
+/**end of smartphone screen**/
+
+/**end of tablet screen**/
