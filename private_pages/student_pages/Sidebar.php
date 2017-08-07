@@ -2,6 +2,9 @@
   include("../includes/sessions.php");
   include("../includes/connection.php");
   include("../includes/functions.php");
+
+//checked to see if the user is login...
+  confirm_logged_in();
   ?>
 
 <!DOCTYPE html>
@@ -15,7 +18,7 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/sidebar.css" rel="stylesheet">
+	  <link href="css/sidebar.css" rel="stylesheet">
 
 		<!--HomePageDesigningTools-->
 

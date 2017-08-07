@@ -15,31 +15,63 @@ return $escaped_string;
 }
 
 
-function check_student_id($idnumber){
+// check if the id number exist in the database
+function check_id_presence($idnumber){
   global $connection;
   $idnumber = mysql_prep($idnumber);
-  $check_for_id_query2= "SELECT * FROM dummy_table where student_id = '$idnumber' AND (email = '' AND password = '') LIMIT 1";
-  $row_result = $connection->query($check_for_id_query2);
-  if($row_result->num_rows > 0){
-      return $row_result;
-      //redirect_to("register.php");
+
+  $query = "Select * FROM tblstudentinfo WHERE student_id = '$idnumber' LIMIT 1";
+
+  $check_query = $connection->query($query);
+
+  if($check_query->num_rows ==1){
+      return $check_student = mysqli_fetch_assoc($check_query);
   }else{
-      return null;
+    return null;
   }
 }
 
+//after the id has been verified... checked if the id has an email and a password
+function check_student_id($idnumber){
+  global $connection;
+  $idnumber = mysql_prep($idnumber);
 
+  $query = "Select * FROM tblstudentinfo WHERE student_id = '$idnumber' AND (email ='' AND password ='') LIMIT 1";
+
+  $check_query = $connection->query($query);
+
+  if($check_query->num_rows ==1){
+      return $check_student = mysqli_fetch_assoc($check_query);
+  }else{
+    return null;
+  }
+}
+
+// check if the email has a match in any account
+function  check_email_exist($email){
+  global $connection;
+  $email = mysql_prep($email);
+  $query = "Select * FROM tblstudentinfo WHERE email = '$email' LIMIT 1";
+  $check_query = $connection->query($query);
+  if($check_query->num_rows ==1){
+      return $check_student = mysqli_fetch_assoc($check_query);
+  }else{
+    return null;
+  }
+}
+
+//student registration function
 function register($idnumber,$email,$password){
   global $connection;
-  $idnumber = mysql_prep($_POST['idnumber']);
-  $email = mysql_prep($_POST['email']);
+  $idnumber = mysql_prep($idnumber);
+  $email = mysql_prep($email);
   //the confirm password
   $password = mysql_prep($_POST['confirm_password']);
-  $query_update = "UPDATE dummy_table SET email = '$email', password = '$password' WHERE student_id = '$idnumber'";
+  $query_update = "UPDATE tblstudentinfo SET email = '$email', password = '$password' WHERE student_id = '$idnumber'";
   if ($connection->query($query_update) === TRUE) {
       return true;
   } else {
-
+    return null;
   }
 }
 
@@ -114,7 +146,7 @@ function logged_in() {
 
 function confirm_logged_in() {
 	if (!logged_in()) {
-		redirect_to("login.php");
+		redirect_to("../login.php");
 	}
 }
 

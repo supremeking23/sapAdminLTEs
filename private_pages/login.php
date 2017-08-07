@@ -33,7 +33,12 @@
               }
 
         }else if($identity == "councilor"){
+            $councilor_attempt_login = attempt_login_councilor($email,$password);
 
+            if($councilor_attempt_login){
+              $_SESSION["gc_id"] = $councilor_attempt_login["gc_id"];
+              redirect_to("councilor_pages/Sidebar.php");
+            }
         }
 
 
