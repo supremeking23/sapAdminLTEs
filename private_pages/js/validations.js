@@ -23,3 +23,28 @@ function passwordconfirm(in_password,in_confirm){
 		}
 	}
 }
+
+
+
+function lettersonly(e){
+	var unicode = e.charCode ? e.charCode : e.keyCode;
+	//65-90 and 97-122
+	if(unicode!=32){
+		if((unicode>64&&unicode<91)||(unicode>96&&unicode<123)){
+		
+		}
+		else{
+			return false;
+		}
+	}
+}
+
+
+function numbersonly(e){
+	var unicode = e.charCode ? e.charCode : e.keyCode;
+	if(unicode!=8){
+		if(unicode<48||unicode>57){
+			return false;
+		}
+	}
+}
