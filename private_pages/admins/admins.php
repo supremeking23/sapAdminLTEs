@@ -186,6 +186,7 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li ><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
         <li class="active"><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
+         <li><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
         <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
         <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
         <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
@@ -509,56 +510,7 @@ desired effect
 
           <!--- info box end -->
 
-          <div class="box box-success">
-              <div class="box-header with-border">
-                <h3 class="box-title">Add Department</h3>
-                  <div class="box-tools pull-right">
-                      
-                  </div><!-- /.box-tools -->
-              </div><!-- /.box-header -->
-                    
-                    
-                    <form action="admins_page_process.php" method="post" enctype="multipart/form-data">
-                          <div class="box-body">
-                           
-                            <div class="form-group">
-                              <label>All Departments</label>
-                              <select multiple class="form-control" name="departments">
-                              <?php $all_departments = get_all_department();
-                                    while($departments = mysqli_fetch_assoc($all_departments)){
-                                      ?>
-                                      <option><?php echo $departments['department_code']?></option>
-                                      <?php
-                                    }
-                              ?>
-                                
-                              </select>
-                            </div>
 
-                            <p>Department Code</p>
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Department Code" required="" name="department_code" value="<?php ?>">
-                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                              </div>
-                               <p>Department Name</p>
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Department Name" required="" name="department_name" value="<?php ?>">
-                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                              </div>
-
-                            <p>Enter password to continue</p>
-                            <div class="form-group has-feedback">
-                              <input  required  type="password" class="form-control" placeholder="Password" required="" name="password">
-                              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                            </div>
-                          </div><!-- /.box-body -->
-                         
-                          <div class="box-footer">
-                              <input type="submit" name="add_department" value="Add Department" class="btn btn-primary pull-right">
-                          </div><!-- box-footer -->
-                    </form>
-
-                </div><!-- /.box add department-->
 
 
         </div>
@@ -582,7 +534,7 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Anything you want
+      
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; <?php echo date('Y');?><a href="#">Company</a>.</strong> All rights reserved.
@@ -591,7 +543,10 @@ desired effect
  
 </div>
 <!-- ./wrapper -->
-
+<?php 
+//close connection
+$connection->close();
+?>
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
@@ -607,21 +562,8 @@ desired effect
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
 
-<!-- page script -->
-
-<script>
-  $(function () {
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-  })
-</script>
+<!-- self script -->
+<script src="additional_styling/additional.js"></script>
 
 
 

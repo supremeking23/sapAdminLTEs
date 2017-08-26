@@ -7,8 +7,9 @@
 
   <?php 
     //login process
+    
     if(isset($_POST['submit'])){
-
+      
       $email = $_POST['email'];
       $password = $_POST['password'];
 
@@ -21,7 +22,8 @@
           $_SESSION['admin_id'] = $admin['admin_id'];
           redirect_to('index.php');
       }else{
-          redirect_to('wala.php');
+          //redirect_to('wala.php');
+          $_SESSION["failed_message"] = "Username / Password mismatch";
       }
       
      /* $query = "SELECT * FROM tbladmins WHERE email = '$email' AND password = '$password' LIMIT 1";
@@ -98,7 +100,9 @@
   </style>
 
 </head>
-<body >
+<body>
+
+
 <div class="login-box">
   <div class="login-logo">
     <a href="../../index2.html"><b>S-APP</b> ADMIN</a>
@@ -133,12 +137,17 @@
 </div>
 <!-- /.login-box -->
 
+<?php echo failed_message();?>
+
 <!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="plugins/iCheck/icheck.min.js"></script>
+<!-- self script -->
+<script src="additional_styling/additional.js"></script>
+
 <script>
   $(function () {
     $('input').iCheck({

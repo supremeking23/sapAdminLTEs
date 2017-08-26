@@ -251,11 +251,22 @@ function admin_department($admin_id_department){
 function get_all_department(){
    global $connection;
 
-  $query = "SELECT  * FROM tbldepartments";
+  $query = "SELECT  * FROM tbldepartments WHERE department_id != 1";
 
   $get_department = $connection->query($query) or die(mysqli_error());
 
   return $get_department;
+
+}
+
+function get_all_programs(){
+   global $connection;
+
+  $query = "SELECT  * FROM tblcollegeprograms WHERE department_id != 1";
+
+  $get_programs = $connection->query($query) or die(mysqli_error());
+
+  return $get_programs;
 
 }
 
@@ -392,6 +403,111 @@ function count_professor_gender_female(){
 }
 
 
+//with id parameters
+//count programs for eache department
+function count_programs_by_department($department_id){
+  global $connection;
+  $department_id = mysql_prep($department_id);
 
+  $query = "SELECT count(*) AS 'number_of_programs' FROM tblcollegeprograms WHERE department_id = '$department_id'";
+
+  $count_programs_department = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_programs_department;
+}
+
+//count admins for each department
+function count_admins_by_department($department_id){
+  global $connection;
+  $department_id = mysql_prep($department_id);
+
+  $query = "SELECT count(*) AS 'number_of_admins' FROM tbladmins WHERE admin_department_id = '$department_id'";
+
+  $count_admin_department = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_admin_department;
+}
+
+
+//count professors for each department
+function count_professors_by_department($department_id){
+  global $connection;
+  $department_id = mysql_prep($department_id);
+
+  $query = "SELECT count(*) AS 'number_of_professors' FROM tblprofessor WHERE department = '$department_id'";
+
+  $count_professors_department = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_professors_department;
+}
+
+
+ function count_students_by_department($department_id){
+  global $connection;
+  $department_id = mysql_prep($department_id);
+
+  $query = "SELECT count(*) AS 'number_of_students' FROM tblstudentinfo WHERE department = '$department_id'";
+
+  $count_students_department = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_students_department;
+}
+
+
+
+//count section for each program
+function count_section_by_programs($program_id){
+  global $connection;
+  $program_id = mysql_prep($program_id);
+
+  $query = "SELECT count(*) AS 'number_of_sections' FROM tblsection WHERE program_id = '$program_id'";
+
+  $count_section_program = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_section_program;
+}
+
+
+//function countstudent for each program
+function count_student_by_programs($program_id){
+  global $connection;
+  $program_id = mysql_prep($program_id);
+
+  $query = "SELECT count(*) AS 'number_of_students' FROM tblstudentinfo WHERE program_major = '$program_id'";
+
+  $count_student_program = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_student_program;
+}
+
+
+
+
+
+
+//with parameters
+//get department_details by department id
+function get_department_details_by_department_id($department_id){
+    global $connection;
+    $department_id = mysql_prep($department_id);
+
+    $query = "SELECT * FROM tbldepartments WHERE department_id = '$department_id'";
+
+    $get_department_details = $connection->query($query) or die(mysqli_error($connection));
+
+    return $get_department_details;
+}
+
+//get all programs by department id
+function get_all_programs_by_department($department_id){
+      global $connection;
+      $department_id = mysql_prep($department_id);
+
+      $query = "SELECT * FROM tblcollegeprograms WHERE department_id = '$department_id'";
+
+      $get_department_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_department_details;
+  }
 
 ?>

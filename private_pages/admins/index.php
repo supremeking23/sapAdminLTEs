@@ -44,6 +44,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+    <!-- fullCalendar -->
+  <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.min.css">
+  <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -184,9 +187,11 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
         <li><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
+        <li><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
         <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
         <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
         <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
+
         
    
       </ul>
@@ -281,7 +286,7 @@ desired effect
         </div>
 
 
-                <div class="col-lg-3 col-xs-6">
+          <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
@@ -315,10 +320,68 @@ desired effect
           </div>
         </div>
 
-      </div>
-              
+      </div> <!--/.row-->
 
+    
+      <div class="row">
+                    <!--  -->
+           <div class="col-xs-6"></div>
 
+           <div class="col-xs-6">
+
+                          <!-- calendar -->
+            <div class="box box-danger">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Calendar</h3>
+                      <div class="box-tools pull-right">
+                      
+                      </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    
+               
+                          <div class="box-body">
+                              <div id='calendar' style="max-width: 900px; margin: 0 auto;"></div>
+
+                          </div><!-- /.box-body -->
+                         
+                          <div class="box-footer">
+                             
+                          </div><!-- box-footer -->
+                
+
+             </div><!-- /.box -->
+           </div>  <!-- /. col for calendar -->
+            <!--  Modal  to Add Event -->
+            <div id="createEventModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <!--  Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Event</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="control-group">
+                      <label class="control-label" for="inputPatient">Event:</label>
+                      <div class="field desc">
+                        <input class="form-control" id="title" name="title" placeholder="Event" type="text" value="">
+                      </div>
+                    </div>
+                    <input type="hidden" id="startTime"/>
+                    <input type="hidden" id="endTime"/>
+                    <div class="control-group">
+                      <label class="control-label" for="when">When:</label>
+                      <div class="controls controls-row" id="when" style="margin-top:5px;"> </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div> <!-- /.end row -->
 
 
          <!--|
@@ -333,7 +396,7 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Anything you want
+      
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; <?php echo date('Y');?> <a href="#">Company</a>.</strong> All rights reserved.
@@ -343,6 +406,10 @@ desired effect
 </div>
 <!-- ./wrapper -->
 
+<?php 
+//close connection
+$connection->close();
+?>
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
@@ -358,114 +425,138 @@ desired effect
 
 <!-- page script -->
 
-
-
-
 <script src="bower_components/plotlyjs/plotly-latest.min.js"></script>
 
+<!-- fullCalendar -->
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+
 <script>
+ $(document).ready(function() {
+        
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: '<?php echo date('m-d-y')?>',
+            selectable: true,
+            selectHelper: true,
+              editable: true,
+            eventLimit: true, 
+        
+             events: "index.php?view=1",  // request to load current events
+                eventClick:  function(event, jsEvent, view) {  // when some one click on any event
+                endtime = $.fullCalendar.moment(event.end).format('h:mm');
+                starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
+                var mywhen = starttime + ' - ' + endtime;
+                $('#modalTitle').html(event.title);
+                $('#modalWhen').text('');
+                $('#eventID').val(event.id);
+                $('#calendarModal').modal();
+            },
 
-/*
-//----- BAR GRAPH
-//midterm bar
-  var midterm_data_bar = {
-  x: ['OOPROGR', 'DATAAPP', 'WEBAPPS','DATASTRU','FIL101'],
-  y: [75 + '%', 77, 87,77,95],
-  name: 'Midterm',
-  type: 'bar'
-  };
+            select: function(start, end, jsEvent) {  // click on empty time slot
+                endtime = $.fullCalendar.moment(end).format('h:mm');
+                starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
+                var mywhen = starttime + ' - ' + endtime;
+                start = moment(start).format();
+                end = moment(end).format();
+                $('#createEventModal #startTime').val(start);
+                $('#createEventModal #endTime').val(end);
+                $('#createEventModal #when').text('');
+                $('#createEventModal').modal('toggle');
+           },
 
-var data_midterm_bar = [midterm_data_bar];
-
-var midterm_layout_bar = {barmode: 'group'};
-
-
-Plotly.newPlot('midtermBar', data_midterm_bar, midterm_layout_bar);
-
-//Plotly.newPlot('midtermBars', data_midterm_bar, midterm_layout_bar);
-
-//final bar
-var final_data_bar = {
-  x: ['OOPROGR', 'DATAAPP', 'WEBAPPS','DATASTRU','FIL101'],
-  y: [95, 78, 87,88,93],
-  name: 'Final',
-  type: 'bar'
-  };
-
-
-
-var data_final_bar = [final_data_bar];
-
-var final_layout_bar = {barmode: 'group'};
-
-Plotly.newPlot('finalBar', data_final_bar, final_layout_bar);
-
-
-//semestral bar
-
-
-var semestral_data_bar = {
-  x: ['OOPROGR', 'DATAAPP', 'WEBAPPS','DATASTRU','FIL101'],
-  y: [98, 88, 87,88,95],
-  name: 'Semester',
-  type: 'bar'
-  };
-var data_semestral_bar = [midterm_data_bar,final_data_bar,semestral_data_bar];
-
-var semestral_layout_bar = {barmode: 'group'};
-
-Plotly.newPlot('semestralBar', data_semestral_bar, semestral_layout_bar);
-
-//----- ./BAR GRAPH
+           eventDrop: function(event, delta){ // event drag and drop
+               $.ajax({
+                   url: 'index.php',
+                   data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id ,
+                   type: "POST",
+                   success: function(json) {
+                   //alert(json);
+                   }
+               });
+           },
 
 
-//----- PIE GRAPH
-
-//Midterm
-var midterm_data_pie = [{
-  values: [75, 77, 87,77,95],
-  labels: ['OOPROGR = 75%', 'DATAAPP = 77%', 'WEBAPPS = 87%','DATASTRU =77%','FIL101= 95%'],
-  type: 'pie',
-  //remove the text in pie
-  textinfo: 'none',
-  text: '',
-  hoverinfo: 'label'
-}];
-
-var midterm_layout_pie = {
-  height: 400,
-  width: 500
-};
-
-Plotly.newPlot('midtermPie', midterm_data_pie, midterm_layout_pie);
+           eventResize: function(event) {  // resize to increase or decrease time of event
+               $.ajax({
+                   url: 'index.php',
+                   data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id,
+                   type: "POST",
+                   success: function(json) {
+                       //alert(json);
+                   }
+               });
+           }
 
 
-//Final
-var final_data_pie = [{
-  values: [88, 87, 87,77,95],
-  labels: ['OOPROGR = 88%', 'DATAAPP = 87%', 'WEBAPPS = 87%','DATASTRU = 77%','FIL101 = 95%'],
-  type: 'pie',
-  textinfo: 'none',
-  text: '',
-  hoverinfo: 'label'
-}];
+        });
 
-var final_layout_pie = {
-  height: 400,
-  width: 500
-};
+        $('#submitButton').on('click', function(e){ // add event submit
+           // We don't want this to act as a link so cancel the link action
+           e.preventDefault();
+           doSubmit(); // send to form submit function
+       });
+       
+       $('#deleteButton').on('click', function(e){ // delete event clicked
+           // We don't want this to act as a link so cancel the link action
+           e.preventDefault();
+           doDelete(); //send data to delete function
+       });
 
-Plotly.newPlot('finalPie', final_data_pie, final_layout_pie);
-*/
+         function doDelete(){  // delete event 
+           $("#calendarModal").modal('hide');
+           var eventID = $('#eventID').val();
+           $.ajax({
+               url: 'index.php',
+               data: 'action=delete&id='+eventID,
+               type: "POST",
+               success: function(json) {
+                   if(json == 1)
+                        $("#calendar").fullCalendar('removeEvents',eventID);
+                   else
+                        return false;
+                    
+                   
+               }
+           });
+       }
+
+
+              function doSubmit(){ // add event
+           $("#createEventModal").modal('hide');
+           var title = $('#title').val();
+           var startTime = $('#startTime').val();
+           var endTime = $('#endTime').val();
+           
+           $.ajax({
+               url: 'index.php',
+               data: 'action=add&title='+title+'&start='+startTime+'&end='+endTime,
+               type: "POST",
+               success: function(json) {
+                   $("#calendar").fullCalendar('renderEvent',
+                   {
+                       id: json.id,
+                       title: title,
+                       start: startTime,
+                       end: endTime,
+                   },
+                   true);
+               }
+           });
+           
+       }
+
+          // allow "more" link when too many events
+           
+        
+        
+    });
+
 </script>
-
-
-
-
-
-
-
-
 
 </body>
 </html>

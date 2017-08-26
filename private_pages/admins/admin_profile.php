@@ -187,6 +187,7 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
         <li><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
+        <li><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
         <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
         <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
         <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
@@ -287,7 +288,7 @@ desired effect
               <div class="box-footer">
                 <center>
                   <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                  Launch Default Modal
+                    Change Information
                   </button>
                 </center>
 
@@ -500,6 +501,8 @@ desired effect
 
 
 <script src="bower_components/plotlyjs/plotly-latest.min.js"></script>
+<!-- self script -->
+<script src="additional_styling/additional.js"></script>
 
 <script>
 
