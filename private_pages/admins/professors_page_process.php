@@ -8,7 +8,7 @@
 
 <?php 
 		if(isset($_POST['register_professor'])){
-			$prof_id = $_POST['prof_id'];
+			$prof_id = 'A'. sprintf('%07d', mt_rand(1, 999999)); //auto generate
 			$last_name = $_POST['last_name'];
 			$first_name = $_POST['first_name'];
 			$middle_name = $_POST['middle_name'];
@@ -32,7 +32,7 @@
 			        move_uploaded_file($professor_profile_tmp, "professor_images/$professor_profile");
 
 
-			        $query_insert_professor = "INSERT INTO tblprofessor (prof_id,last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,department) VALUES ('$prof_id','$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$professor_profile','$department')";
+			        $query_insert_professor = "INSERT INTO tblprofessor (prof_id,last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,department,isActive) VALUES ('$prof_id','$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$professor_profile','$department',1)";
 
 			        $run_insert_professor = mysqli_query($connection,$query_insert_professor)or die(mysqli_error($connection));
 

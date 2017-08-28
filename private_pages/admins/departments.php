@@ -84,7 +84,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini ">
+<body class="hold-transition skin-blue sidebar-mini " id="departments">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -181,18 +181,16 @@ desired effect
 
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Control Panel</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li ><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
-        <li ><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
-         <li class="active"><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
-        <li ><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
-        <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
-        <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
-        
-   
-      </ul>
+          <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">Control Panel</li>
+            <!-- Optionally, you can add icons to the links -->
+            <li><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
+            <li ><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
+            <li class="active"><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
+            <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
+            <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
+            <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
+         </ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -434,11 +432,6 @@ desired effect
         <!-- end col 6 -->
       </div>
       <!-- end row -->
-              
-
-
-
-
          <!--|
         -------------------------->
 

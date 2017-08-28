@@ -84,7 +84,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini ">
+<body class="hold-transition skin-blue sidebar-mini " id="admins">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -108,10 +108,6 @@ desired effect
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-
-
-
-
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->
@@ -164,35 +160,9 @@ desired effect
     <section class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-    
-
-            <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?php echo $first_name . " " . $last_name;?></p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> <?php echo $admin_department; ?></a>
-        </div>
-      </div>
-
-
-
+      <!-- Sidebar user panel (optional) -->
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Control Panel</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li ><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
-        <li class="active"><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
-         <li><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
-        <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
-        <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
-        <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
-        
-   
-      </ul>
+        <?php include('layouts/navigation.php'); ?>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -246,7 +216,7 @@ desired effect
                 </thead>
                 <tbody>
                  <?php //display all admins
-                  $get_admins = get_all_admins();
+                  $get_admins = get_all_admins($admin_department_id);
                   while ($total_admin = mysqli_fetch_assoc($get_admins)) {
                       ?> 
                   <tr>
@@ -272,89 +242,89 @@ desired effect
                      <?php
                         }//department code
                     ?>
-                   <td><a data-toggle='modal' data-target='#editmodal<?php echo $total_admin['admin_id'] ?>'> <span class='glyphicon glyphicon-pencil'></span></a> | <a  data-toggle='modal' data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a></td>
+                   <td><a data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Edit Information" data-target='#editmodal<?php echo $total_admin['admin_id'] ?>'> <span class='glyphicon glyphicon-pencil'></span></a> | <a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="admin_full_info.php?admin_id=<?php echo $total_admin['admin_id']; ?>" ><span class='glyphicon glyphicon-user'></span></a></td>
                 </tr>
 
-                        <div class="modal fade" id="editmodal<?php echo $total_admin['admin_id'] ?>">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Edit Profile</h4>
-                              </div>
-                              
-                              <!-- form for updating of admin profile  -->
+                <div class="modal fade" id="editmodal<?php echo $total_admin['admin_id'] ?>">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Edit Profile</h4>
+                      </div>
+                      
+                      <!-- form for updating of admin profile  -->
 
-                        <script src = "../js/validations.js"></script>
-                          <form action="admins_page_process.php" method="post" enctype="multipart/form-data">
-                              <div class="modal-body">
-                               
-                                <div class="form-group has-feedback">
-                                  <input pattern="[a-zA-Z\s]{1,}" title="Letters only!" type="text" class="form-control" required="" placeholder="First Name" name="first_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_admin['first_name'] ?>">
-                                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                </div>
-
-                                <div class="form-group has-feedback">
-                                  <input pattern="[a-zA-Z\s]{1,}" title="Letters only!" type="text" class="form-control" required="" placeholder="Middle Name" name="middle_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_admin['middle_name'] ?>">
-                                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                </div>
-
-                              <div class="form-group has-feedback">
-                                <input pattern="[a-zA-Z\s]{1,}" title="Letters only!" type="text" class="form-control" required="" placeholder="Last Name" name="last_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_admin['last_name'] ?>">
-                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                              </div>
-
-                              <div class="form-group has-feedback">
-                                <select class="form-control" name="gender">
-                                  <option value="Male" <?php if($total_admin['gender'] == 'Male') echo "selected=''"; ?>>Male</option>
-                                  <option value="Female" <?php if($total_admin['gender'] == 'Female') echo "selected=''"; ?>>Female</option>
-                                </select>
-                              </div>
-
-
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Address" name="address" value="<?php echo $total_admin['address'] ;?>">
-                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
-                              </div>
-
-
-                              <div class="form-group has-feedback">
-                                <input type="date" class="form-control" required="" name="date_birth" placeholder="Date of Birth" value="<?php echo $total_admin['date_birth']; ?>">
-                                <span class="glyphicon glyphicon-calendar form-control-feedback" ></span>
-                              </div>
-
-
-                              <div class="form-group has-feedback">
-                                <input title="Number only!" type="text" class="form-control" required="" placeholder="Contact" name="contact" onkeypress = "return numbersonly(event)" value="<?php echo $total_admin['contact'] ?>">
-                                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
-                              </div>
-
-
-                            <p>Enter your password to edit.</p>
-                            
-                            <div class="form-group has-feedback">
-                              <input  required  type="password" class="form-control" placeholder="Password" required="" name="password">
-                              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                            </div>
-
-
-                              </div>
-                              
-                              <div class="modal-footer">
-                                <input type="hidden" name="edit_admin_id" value="<?php echo $total_admin['admin_id']?>">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                <input type="submit" name="edit_admin" value="Update Info" class="btn btn-primary pull-right">
-                              </div>
-
-                            </form>
-
-                            </div>
-                            <!-- /.modal-content -->
-                          </div>
-                          <!-- /.modal-dialog -->
+                <script src = "../js/validations.js"></script>
+                  <form action="admins_page_process.php" method="post" enctype="multipart/form-data">
+                      <div class="modal-body">
+                       
+                        <div class="form-group has-feedback">
+                          <input data-tooltip="tooltip" title="Letters only!" type="text" class="form-control" required="" placeholder="First Name" name="first_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_admin['first_name'] ?>">
+                          <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
-                        <!-- /.modal -->
+
+                        <div class="form-group has-feedback">
+                          <input data-tooltip="tooltip" title="Letters only!" type="text" class="form-control" required="" placeholder="Middle Name" name="middle_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_admin['middle_name'] ?>">
+                          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        </div>
+
+                      <div class="form-group has-feedback">
+                        <input data-tooltip="tooltip" title="Letters only!" type="text" class="form-control" required="" placeholder="Last Name" name="last_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_admin['last_name'] ?>">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                      </div>
+
+                      <div class="form-group has-feedback">
+                        <select class="form-control" name="gender">
+                          <option value="Male" <?php if($total_admin['gender'] == 'Male') echo "selected=''"; ?>>Male</option>
+                          <option value="Female" <?php if($total_admin['gender'] == 'Female') echo "selected=''"; ?>>Female</option>
+                        </select>
+                      </div>
+
+
+                      <div class="form-group has-feedback">
+                        <input type="text" class="form-control" required="" placeholder="Address" name="address" value="<?php echo $total_admin['address'] ;?>">
+                        <span class="glyphicon glyphicon-globe form-control-feedback"></span>
+                      </div>
+
+
+                      <div class="form-group has-feedback">
+                        <input type="date" class="form-control" required="" name="date_birth" placeholder="Date of Birth" value="<?php echo $total_admin['date_birth']; ?>">
+                        <span class="glyphicon glyphicon-calendar form-control-feedback" ></span>
+                      </div>
+
+
+                      <div class="form-group has-feedback">
+                        <input data-tooltip="tooltip" title="Number only!" type="text" class="form-control" required="" placeholder="Contact" name="contact" onkeypress = "return numbersonly(event)" value="<?php echo $total_admin['contact'] ?>">
+                        <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+                      </div>
+
+
+                    <p>Enter your password to edit.</p>
+                    
+                    <div class="form-group has-feedback">
+                      <input  required  type="password" class="form-control" placeholder="Password" required="" name="password">
+                      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+
+
+                      </div>
+                      
+                      <div class="modal-footer">
+                        <input type="hidden" name="edit_admin_id" value="<?php echo $total_admin['admin_id']?>">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <input type="submit" name="edit_admin" value="Update Info" class="btn btn-primary pull-right">
+                      </div>
+
+                    </form>
+
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
 
 
                <?php       
@@ -367,96 +337,10 @@ desired effect
             <!-- /.box-body -->
           </div>
 
-
-
-
       <div class="row">
           
-        <div class="col-md-6">
-          <div class="box">
-            <div class="box-header">
-              <div class="box-tools pull-right">
-                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-              </div>
-              <h3 class="box-title">Add new Admin</h3>
-            </div>
-            <div class="box-body">
-              <div class="register-box-body">
-                <p class="login-box-msg">Register a New admin</p>
-                <form action="admins_page_process.php" method="post" enctype="multipart/form-data">
-                 
-                  <div class="form-group has-feedback">
-                    <input type="text"  title="Letters only!" required="" class="form-control" placeholder="First Name" onkeypress = "return lettersonly(event)" name="first_name">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="text"  title="Letters only!" onkeypress = "return lettersonly(event)" required="" class="form-control" placeholder="Middle Name" name="middle_name">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="text" pattern="[a-zA-Z\s]{1,}" title="Letters only!" required="" class="form-control" placeholder="Last Name" onkeypress = "return lettersonly(event)" name="last_name">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <select class="form-control" name="gender">
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                    </select>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="date" required="" class="form-control" name="date_birth" placeholder="Date of Birth">
-                    <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="email" required="" class="form-control" placeholder="Email" required="" name="email">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                  </div>
-
-                  <div class="form-group has-feedback">
-                      <input title="Number only!" type="text" class="form-control" required="" placeholder="Contact" name="contact" onkeypress = "return numbersonly(event)" >
-                        <span class="glyphicon glyphicon-phone form-control-feedback"></span>
-                    </div>
-
-                     <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Address" name="address" value="">
-                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
-                      </div>
-
-                    <div class="form-group has-feedback">
-                    <select class="form-control" name="department">
-                      <?php //departments?>
-                       <?php $all_departments = get_all_department();
-                                    while($departments = mysqli_fetch_assoc($all_departments)){
-                                      ?>
-                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
-
-                        <?php }?>
-                    </select>
-                  </div>
-                  
-                  <div class="form-group has-feedback">
-                    <input type="password"   required="" class="form-control" placeholder="Password" name="password">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="password" required="" class="form-control" placeholder="Retype password" name="confirm_password">
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                  </div>
-                  <input type="file" name="upload_image" class="input-group">
-
-                  <div class="row">
-                    <div class="col-xs-8">
-                    </div>
-                    <div class="col-xs-4">
-                      <button type="submit" class="btn btn-primary btn-block btn-flat" name="register_admin">Register</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <!-- add new admin -->
+      <?php include('layouts/add_admins.php'); ?>
 
         <div class="col-md-6">
          
@@ -509,19 +393,11 @@ desired effect
           </div>
 
           <!--- info box end -->
-
-
-
-
         </div>
         <!-- end col 6 -->
       </div>
       <!-- end row -->
-              
-
-
-
-
+            
          <!--|
         -------------------------->
 
@@ -564,6 +440,7 @@ $connection->close();
 
 <!-- self script -->
 <script src="additional_styling/additional.js"></script>
+<script src="additional_styling/navigation.js"></script>
 
 
 

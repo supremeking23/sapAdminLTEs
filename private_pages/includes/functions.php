@@ -6,6 +6,18 @@ function redirect_to($new_location){
   exit;
 }
 
+//
+//text limit
+function limit_text($text, $limit) {
+      if (str_word_count($text, 0) > $limit) {
+          $words = str_word_count($text, 2);
+          $pos = array_keys($words);
+          $text = substr($text, 0, $pos[$limit]) . '...';
+      }
+      return $text;
+ }
+
+
 
 // prepared statement
 function mysql_prep($string){
@@ -199,7 +211,7 @@ function get_admin_by_id($admin_id){
 
   $admin_id = mysql_prep($admin_id);
 
-  $query = "SELECT * FROM tbladmins WHERE admin_id = '$admin_id'";
+  $query = "SELECT * FROM tbladmins WHERE admin_id = '$admin_id' AND isActive = 1";
 
   $result = $connection->query($query) or die(mysqli_error());
 
@@ -248,10 +260,17 @@ function admin_department($admin_id_department){
 
 
 //get all departments
-function get_all_department(){
+function get_all_department($department_id){
    global $connection;
 
-  $query = "SELECT  * FROM tbldepartments WHERE department_id != 1";
+  $department_id = mysql_prep($department_id);
+
+  if($department_id == 1){
+    $query = "SELECT  * FROM tbldepartments WHERE department_id != 1";
+  }else{
+    $query = "SELECT  * FROM tbldepartments WHERE  department_id = $department_id";
+  }
+  
 
   $get_department = $connection->query($query) or die(mysqli_error());
 
@@ -273,10 +292,17 @@ function get_all_programs(){
 
 //get all admins
 
-function get_all_admins(){
+function get_all_admins($department_id){
   global $connection;
 
-  $query = "SELECT  * FROM tbladmins";
+  $department_id = mysql_prep($department_id);
+
+  if($department_id==1){
+    $query = "SELECT  * FROM tbladmins WHERE isActive = 1";
+  }else{
+    $query = "SELECT * FROM tbladmins INNER JOIN tbldepartments ON tbladmins.admin_department_id  = tbldepartments.department_id WHERE isActive = 1 AND tbladmins.admin_department_id = $department_id";
+  }
+  
 
   $get_admin = $connection->query($query) or die(mysqli_error());
 
@@ -285,22 +311,41 @@ function get_all_admins(){
 
 
 //get all professors
-
+/*
 function get_all_professors(){
   global $connection;
 
-  $query = "SELECT  * FROM tblprofessor";
+  $query = "SELECT  * FROM tblprofessor WHERE isActive = 1";
 
+  $get_professors = $connection->query($query) or die(mysqli_error());
+
+  return $get_professors;
+}*/
+
+//depending on department
+
+function get_all_professors($department_id){
+  global $connection;
+
+  $department_id = mysql_prep($department_id);
+
+  if($department_id == 1){
+    $query = "SELECT  * FROM tblprofessor WHERE isActive = 1";
+  }else{
+    //join query
+    $query = "SELECT * FROM tblprofessor INNER JOIN tbldepartments ON tblprofessor.department  = tbldepartments.department_id WHERE isActive = 1 AND tblprofessor.department = $department_id";
+  }
+
+  
   $get_professors = $connection->query($query) or die(mysqli_error());
 
   return $get_professors;
 }
 
-
 function get_all_students(){
   global $connection;
 
-  $query = "SELECT  * FROM tblstudentinfo";
+  $query = "SELECT  * FROM tblstudentinfo WHERE isActive = 1";
 
   $get_students = $connection->query($query) or die(mysqli_error());
 
@@ -316,7 +361,7 @@ function get_all_students(){
 function count_total_admins(){
   global $connection;
 
-  $query = "SELECT count(*) AS 'total admin' FROM tbladmins";
+  $query = "SELECT count(*) AS 'total admin' FROM tbladmins WHERE isActive = 1";
 
   $count_admin = $connection->query($query) or die(mysqli_error());
 
@@ -327,7 +372,7 @@ function count_total_admins(){
 function count_total_professors(){
   global $connection;
 
-  $query = "SELECT count(*) AS 'total prof' FROM tblprofessor";
+  $query = "SELECT count(*) AS 'total prof' FROM tblprofessor WHERE isActive = 1";
 
   $count_prof = $connection->query($query) or die(mysqli_error());
 
@@ -337,7 +382,7 @@ function count_total_professors(){
 function count_total_guidance_councilors(){
   global $connection;
 
-  $query = "SELECT count(*) AS 'total gc' FROM tblguidancecouncilor";
+  $query = "SELECT count(*) AS 'total gc' FROM tblguidancecouncilor WHERE isActive = 1";
 
   $count_gc = $connection->query($query) or die(mysqli_error($connection));
 
@@ -348,7 +393,7 @@ function count_total_guidance_councilors(){
 function count_total_students(){
   global $connection;
 
-  $query = "SELECT count(*) AS 'total student' FROM tblstudentinfo";
+  $query = "SELECT count(*) AS 'total student' FROM tblstudentinfo WHERE isActive = 1";
 
   $count_student = $connection->query($query) or die(mysqli_error());
 
@@ -361,7 +406,7 @@ function count_total_students(){
 function count_admin_gender_male(){
   global $connection;
 
-  $query = "SELECT count(gender) AS 'gender_male' FROM tbladmins WHERE gender = 'Male'";
+  $query = "SELECT count(gender) AS 'gender_male' FROM tbladmins WHERE gender = 'Male' AND isActive = 1";
 
   $count_admin_male = $connection->query($query) or die(mysqli_error($connection));
 
@@ -372,7 +417,7 @@ function count_admin_gender_male(){
 function count_admin_gender_female(){
   global $connection;
 
-  $query = "SELECT count(gender) AS 'gender_female' FROM tbladmins WHERE gender = 'Female'";
+  $query = "SELECT count(gender) AS 'gender_female' FROM tbladmins WHERE gender = 'Female' AND isActive = 1";
 
   $count_admin_female = $connection->query($query) or die(mysqli_error($connection));
 
@@ -384,7 +429,7 @@ function count_admin_gender_female(){
 function count_professor_gender_male(){
   global $connection;
 
-  $query = "SELECT count(gender) AS 'gender_male' FROM tblprofessor WHERE gender = 'Male'";
+  $query = "SELECT count(gender) AS 'gender_male' FROM tblprofessor WHERE gender = 'Male' AND isActive = 1";
 
   $count_professors_male = $connection->query($query) or die(mysqli_error($connection));
 
@@ -395,7 +440,7 @@ function count_professor_gender_male(){
 function count_professor_gender_female(){
   global $connection;
 
-  $query = "SELECT count(gender) AS 'gender_female' FROM tblprofessor WHERE gender = 'Female'";
+  $query = "SELECT count(gender) AS 'gender_female' FROM tblprofessor WHERE gender = 'Female' AND isActive = 1";
 
   $count_professor_female = $connection->query($query) or die(mysqli_error($connection));
 
@@ -434,7 +479,7 @@ function count_professors_by_department($department_id){
   global $connection;
   $department_id = mysql_prep($department_id);
 
-  $query = "SELECT count(*) AS 'number_of_professors' FROM tblprofessor WHERE department = '$department_id'";
+  $query = "SELECT count(*) AS 'number_of_professors' FROM tblprofessor WHERE department = '$department_id' AND isActive = 1";
 
   $count_professors_department = $connection->query($query) or die(mysqli_error($connection));
 
@@ -446,7 +491,7 @@ function count_professors_by_department($department_id){
   global $connection;
   $department_id = mysql_prep($department_id);
 
-  $query = "SELECT count(*) AS 'number_of_students' FROM tblstudentinfo WHERE department = '$department_id'";
+  $query = "SELECT count(*) AS 'number_of_students' FROM tblstudentinfo WHERE department = '$department_id' AND isActive = 1";
 
   $count_students_department = $connection->query($query) or die(mysqli_error($connection));
 
@@ -508,6 +553,44 @@ function get_all_programs_by_department($department_id){
       $get_department_details = $connection->query($query) or die(mysqli_error($connection));
 
       return $get_department_details;
+  }
+
+
+
+
+
+
+
+  //with parameters
+  //insert into log table
+
+  function insert_log($log_user_id,$log_header,$log_message){
+    global $connection;
+
+    $log_user_id = mysql_prep($log_user_id);
+    $log_message =  mysql_prep($log_message);
+    $log_haeder = mysql_prep($log_header);
+    //$log_time = mysql_prep($log_time);
+
+    $query = "INSERT INTO tbllogs(log_user_id,log_header,log_message,log_time) VALUES ('$log_user_id','$log_header','$log_message', now())";
+
+    $run_log = $connection->query($query) && mysqli_affected_rows($connection) == 1 or die(mysqli_error($connection));
+
+    return $run_log;
+  }
+
+
+  //for getting logs
+
+  function get_all_logs_by_admin_id($admin_id){
+      global $connection;
+      $department_id = mysql_prep($admin_id);
+
+      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$department_id' ORDER BY log_time DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
   }
 
 ?>

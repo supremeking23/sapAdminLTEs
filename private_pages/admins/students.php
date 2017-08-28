@@ -84,7 +84,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini ">
+<body class="hold-transition skin-blue sidebar-mini " id="students">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -164,35 +164,8 @@ desired effect
     <section class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-    
-
-            <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?php echo $first_name . " " . $last_name;?></p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> <?php echo $admin_department; ?></a>
-        </div>
-      </div>
-
-
-
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Control Panel</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li ><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
-        <li ><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
-        <li><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
-        <li ><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
-        <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
-        <li class="active"><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
-        
-   
-      </ul>
+      <?php include('layouts/navigation.php');?>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -372,98 +345,8 @@ desired effect
 
 
       <div class="row">
-          <!-- add new professors -->
-        <div class="col-md-6">
-          <div class="box">
-            <div class="box-header">
-              <div class="box-tools pull-right">
-                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-              </div>
-              <h3 class="box-title">Add new Students</h3>
-            </div>
-            <div class="box-body">
-              <div class="register-box-body">
-                <p class="login-box-msg">Register a New Student</p>
-                <form action="students_page_process.php" method="post" enctype="multipart/form-data">
-
-                  <div class="form-group has-feedback">
-                    <input type="text"  required="" class="form-control" placeholder="Student ID" name="student_id">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
-                 
-                  <div class="form-group has-feedback">
-                    <input type="text"  title="Letters only!" required="" class="form-control" placeholder="First Name" onkeypress = "return lettersonly(event)" name="first_name">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="text"  title="Letters only!" onkeypress = "return lettersonly(event)" required="" class="form-control" placeholder="Middle Name" name="middle_name">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="text" pattern="[a-zA-Z\s]{1,}" title="Letters only!" required="" class="form-control" placeholder="Last Name" onkeypress = "return lettersonly(event)" name="last_name">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <select class="form-control" name="gender">
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                    </select>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="date" required="" class="form-control" name="date_birth" placeholder="Date of Birth">
-                    <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="email" required="" class="form-control" placeholder="Email" required="" name="email">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                  </div>
-
-                  <div class="form-group has-feedback">
-                      <input title="Number only!" type="text" class="form-control" required="" placeholder="Contact" name="contact" onkeypress = "return numbersonly(event)" >
-                        <span class="glyphicon glyphicon-phone form-control-feedback"></span>
-                    </div>
-
-                     <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Address" name="address" value="">
-                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
-                      </div>
-
-                    <div class="form-group has-feedback">
-                    <select class="form-control" name="department">
-                      <?php //departments?>
-                       <?php $all_departments = get_all_department();
-                                    while($departments = mysqli_fetch_assoc($all_departments)){
-                                      ?>
-                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
-
-                        <?php }?>
-                    </select>
-                  </div>
-                  
-                  <div class="form-group has-feedback">
-                    <input type="password"   required="" class="form-control" placeholder="Password" name="password">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                  </div>
-                  <div class="form-group has-feedback">
-                    <input type="password" required="" class="form-control" placeholder="Retype password" name="confirm_password">
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                  </div>
-                  <input type="file" name="upload_image" class="input-group">
-
-                  <div class="row">
-                    <div class="col-xs-8">
-                    </div>
-                    <div class="col-xs-4">
-                      <button type="submit" class="btn btn-primary btn-block btn-flat" name="register_student">Register</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
+          <!-- add new students -->
+        <?php include('layouts/add_students.php');?>
         <div class="col-md-6">
          
 
@@ -569,6 +452,7 @@ $connection->close();
 <!-- page script -->
 <!-- self script -->
 <script src="additional_styling/additional.js"></script>
+<script src="additional_styling/navigation.js"></script>
 
 <!-- page script -->
 

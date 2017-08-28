@@ -10,37 +10,24 @@
     
     if(isset($_POST['submit'])){
       
-      $email = $_POST['email'];
-      $password = $_POST['password'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $admin = attempt_login_admins($email,$password);
+        if($admin){
+            $_SESSION['admin_id'] = $admin['admin_id'];
+            $log_user_id = $admin['admin_id'];
+            $date=date("l jS \of F Y ");
+            $log_message = "Success Login at " . $date;
+            $log_header = "Success Login";
+            insert_log($log_user_id,$log_header,$log_message);
+            redirect_to('index.php');
 
 
 
-      $admin = attempt_login_admins($email,$password);
-
-      if($admin){
-
-          $_SESSION['admin_id'] = $admin['admin_id'];
-          redirect_to('index.php');
-      }else{
-          //redirect_to('wala.php');
-          $_SESSION["failed_message"] = "Username / Password mismatch";
-      }
-      
-     /* $query = "SELECT * FROM tbladmins WHERE email = '$email' AND password = '$password' LIMIT 1";
-
-      $run_query = mysqli_query($connection,$query);
-
-      if($row = mysqli_fetch_assoc($run_query)){
-          echo $row['email'];
-      }
-      
-      $admin = attempt_login_admins($email,$password);
-
-      if($admin){
-          redirect_to('index.php');
-      }else{
-          redirect_to('wala.php');
-      }*/
+        }else{
+            //redirect_to('wala.php');
+            $_SESSION["failed_message"] = "Incorrect Email or Passoword";
+        }
     }else{
 
     }

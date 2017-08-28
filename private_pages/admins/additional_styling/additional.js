@@ -1,3 +1,10 @@
+
+//for navigations
+
+
+
+
+
  $(document).ready(function(){
       $('#errormodal').modal('show');
     });

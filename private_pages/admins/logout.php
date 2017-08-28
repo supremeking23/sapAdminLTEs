@@ -10,6 +10,11 @@
 <?php 
 	//v1: simple logout
 	// session_start();
+	$log_user_id = $_SESSION["admin_id"];
+	$date=date("l jS \of F Y ");
+	$log_header = "Success Logout";
+	$log_message = "Success Logout at " . $date;
+	insert_log($log_user_id,$log_header,$log_message);
 	$_SESSION["admin_id"] = null; //wash it away.... handstamp
 	//$_SESSION["username"] = null;
 	redirect_to("login.php");

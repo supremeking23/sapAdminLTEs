@@ -85,7 +85,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini ">
+<body class="hold-transition skin-blue sidebar-mini " id="admins">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -165,35 +165,8 @@ desired effect
     <section class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-    
-
-            <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?php echo $first_name . " " . $last_name;?></p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> <?php echo $admin_department; ?></a>
-        </div>
-      </div>
-
-
-
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Control Panel</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
-        <li><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
-        <li><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
-        <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
-        <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
-        <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
-        
-   
-      </ul>
+     <?php include('layouts/navigation.php'); ?>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -502,8 +475,9 @@ desired effect
 
 <script src="bower_components/plotlyjs/plotly-latest.min.js"></script>
 <!-- self script -->
-<script src="additional_styling/additional.js"></script>
 
+<script src="additional_styling/additional.js"></script>
+<script src="additional_styling/navigation.js"></script>
 <script>
 
 /*

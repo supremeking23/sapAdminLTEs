@@ -9,5 +9,37 @@ kulang
 	still working in head admin
 
 	no log file yet
+
 	
 
+	
+
+ <?php echo $age = floor((time() - strtotime($customer['birthdate'])) / 31556926);?>
+
+
+log file // done
+	log id
+	log message
+	user_log_id
+	log_time
+
+
+ng: date_format() expects parameter 1 to be DateTimeInterface, string given in C:\xampp\htdocs\Software Engineering\S-App\private_pages\admins\admin_full_info.php on line 247
+
+ thing to do tommorow
+
+ actions
+ 	edit basic info
+ 	see details
+ 	delete
+
+ dapat auto generated ung id ng prof at student done
+
+
+  <a data-toggle='modal' data-target='#editmodal<?php echo $total_admin['admin_id'] ?>'> <span class='glyphicon glyphicon-pencil'></span></a> | <a  data-toggle='modal' data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a>
+
+
+                    <div class="form-group has-feedback">
+                    <input type="text"  required="" class="form-control" placeholder="Professor ID" name="prof_id" disabled="" value="<?php echo  $num_str = 'A'. sprintf('%07d', mt_rand(1, 999999));?>">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                  </div>

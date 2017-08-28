@@ -28,10 +28,6 @@
        
 
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html>
 <head>
   <meta charset="utf-8">
@@ -64,6 +60,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+ <style type="text/css">
+   .colors{
+    color: red;
+   }
+ </style> 
+
+
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -85,7 +88,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini ">
+<body class="hold-transition skin-blue sidebar-mini " id="overview">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -164,37 +167,10 @@ desired effect
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
+     
       <!-- Sidebar user panel (optional) -->
-    
-
-            <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img  src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?php echo $first_name . " " . $last_name;?></p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> <?php echo $admin_department; ?></a>
-        </div>
-      </div>
-
-
-
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Control Panel</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
-        <li><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
-        <li><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
-        <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
-        <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
-        <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
-
-        
-   
-      </ul>
+      <?php include('layouts/navigation.php'); ?>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -430,7 +406,8 @@ $connection->close();
 <!-- fullCalendar -->
 <script src="bower_components/moment/moment.js"></script>
 <script src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-
+<script src="additional_styling/additional.js"></script>
+<script src="additional_styling/navigation.js"></script>
 <script>
  $(document).ready(function() {
         

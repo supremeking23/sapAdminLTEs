@@ -39,7 +39,7 @@
             move_uploaded_file($admin_profile_tmp, "admin_images/$admin_profile");
 
 
-         	$query_insert_admins = "INSERT INTO tbladmins (last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,admin_department_id) VALUES ('$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$admin_profile','$admin_department_id')";
+         	$query_insert_admins = "INSERT INTO tbladmins (last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,admin_department_id,isActive) VALUES ('$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$admin_profile','$admin_department_id',1)";
 
          	$run_insert_admin = mysqli_query($connection,$query_insert_admins)or die(mysqli_error($connection));
 
