@@ -24,6 +24,62 @@
 
            }
 
+           if(isset($_POST['action']) or isset($_GET['view'])) //show all events
+            {
+                if(isset($_GET['view']))
+                {
+                    header('Content-Type: application/json');
+                    $start = mysqli_real_escape_string($connection,$_GET["start"]);
+                    $end = mysqli_real_escape_string($connection,$_GET["end"]);
+                    
+                    $result = mysqli_query($connection,"SELECT id, start ,end ,title FROM  fc_events_table where (date(start) >= '$start' AND date(start) <= '$end')");
+                    while($row = mysqli_fetch_assoc($result))
+                    {
+                        $events[] = $row; 
+                    }
+                    echo json_encode($events); 
+                    exit;
+                }
+                elseif($_POST['action'] == "add") // add new event
+                {   
+                    mysqli_query($connection,"INSERT INTO fc_events_table(
+                                title ,
+                                start ,
+                                end 
+                                )
+                                VALUES (
+                                '".mysqli_real_escape_string($connection,$_POST["title"])."',
+                                '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["start"])))."',
+                                '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["end"])))."'
+                                )");
+
+                    $log_header = "Add Event";
+                    $date=date("l jS \of F Y ");
+                    $log_message = "Add event about " . $_POST["title"] . " at " . $date;
+                    insert_log($admin_id,$log_header,$log_message);
+                    header('Content-Type: application/json');
+                    echo '{"id":"'.mysqli_insert_id($connection).'"}';
+                    exit;
+                }
+                elseif($_POST['action'] == "update")  // update event
+                {   $id = $_POST["id"];
+                    mysqli_query($connection,"UPDATE fc_events_table set 
+                        start = '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["start"])))."', 
+                        end = '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["end"])))."' 
+                        where id = '".mysqli_real_escape_string($connection,$_POST["id"])."'");
+                    exit;
+                }
+                elseif($_POST['action'] == "delete")  // remove event
+                {
+                    mysqli_query($connection,"DELETE from fc_events_table where id = '".mysqli_real_escape_string($connection,$_POST["id"])."'");
+                    if (mysqli_affected_rows($connection) > 0) {
+                        echo "1";
+                    }
+                    exit;
+                }
+            }
+
+
   ?>
        
 
@@ -357,6 +413,27 @@ desired effect
                 </div>
               </div>
             </div>
+
+            <!--  Modal to Event Details -->
+<div id="calendarModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Event Details</h4>
+      </div>
+      <div id="modalBody" class="modal-body">
+        <h4 id="modalTitle" class="modal-title"></h4>
+        <div id="modalWhen" style="margin-top:5px;"></div>
+      </div>
+      <input type="hidden" id="eventID"/>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria–hidden="true">Cancel</button>
+        <button type="submit" class="btn btn-danger" id="deleteButton">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
       </div> <!-- /.end row -->
 
 

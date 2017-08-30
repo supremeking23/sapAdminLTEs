@@ -298,7 +298,7 @@ function get_all_admins($department_id){
   $department_id = mysql_prep($department_id);
 
   if($department_id==1){
-    $query = "SELECT  * FROM tbladmins WHERE isActive = 1";
+    $query = "SELECT  *,date_format(date_birth, ' %M %e, %Y') AS date_of_birth FROM tbladmins WHERE isActive = 1";
   }else{
     $query = "SELECT * FROM tbladmins INNER JOIN tbldepartments ON tbladmins.admin_department_id  = tbldepartments.department_id WHERE isActive = 1 AND tbladmins.admin_department_id = $department_id";
   }
@@ -591,6 +591,22 @@ function get_all_programs_by_department($department_id){
       $get_log_details = $connection->query($query) or die(mysqli_error($connection));
 
       return $get_log_details;
+  }
+
+
+
+
+  //testings
+
+  function get_events_by_id($event_id){
+      global $connection;
+      $event_id = mysql_prep($event_id);
+
+      $query = "SELECT * FROM fc_events_table WHERE id = '$event_id'";
+
+      $get_event_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_event_details;
   }
 
 ?>

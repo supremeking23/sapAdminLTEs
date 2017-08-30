@@ -43,3 +43,18 @@ ng: date_format() expects parameter 1 to be DateTimeInterface, string given in C
                     <input type="text"  required="" class="form-control" placeholder="Professor ID" name="prof_id" disabled="" value="<?php echo  $num_str = 'A'. sprintf('%07d', mt_rand(1, 999999));?>">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                   </div>
+
+
+
+dagdagan ng log pag mag add ng event sa bawat admin                  
+
+
+
+ $get_event = get_events_by_id($_POST["id"]);
+                      if($get_event){
+                        $event_title = $get_event['title'];
+                      }
+                      $log_header = "Delete Event";
+                      $date=date("l jS \of F Y ");
+                      $log_message = "Delete event about " . $event_title . " at " . $date;
+                      insert_log($admin_id,$log_header,$log_message);

@@ -263,7 +263,7 @@ desired effect
           <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-            
+         
               <li class="active"><a href="#timeline" data-toggle="tab">Log History</a></li>
               
             </ul>
@@ -293,7 +293,11 @@ desired effect
                      <i class="glyphicon glyphicon-log-in bg-blue"></i>
                     <?php }elseif($log_details['log_header'] == "Success Logout"){ ?>
                     <i class="glyphicon glyphicon-log-out bg-red"></i>
-                    <?php  } ?>
+                    <?php  }elseif($log_details['log_header'] == "Add Event"){ ?>
+                    <i class="glyphicon glyphicon-calendar bg-blue"></i>
+                    <?php }elseif($log_details['log_header'] == "Delete Event"){ ?>
+                    <i class="glyphicon glyphicon-calendar bg-red"></i>
+                     <?php  } ?>
                     <div class="timeline-item">
                       <span class="time"><i class="fa fa-clock-o"></i> <?php $date =date_create($log_details['log_time']);
                           $asof= date_format($date,"g:i:s A");

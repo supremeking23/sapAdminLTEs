@@ -290,7 +290,7 @@ desired effect
 
 
                       <div class="form-group has-feedback">
-                        <input type="date" class="form-control" required="" name="date_birth" placeholder="Date of Birth" value="<?php echo $total_admin['date_birth']; ?>">
+                        <input type="date" class="form-control" required="" name="date_birth"  value="<?php echo date($total_admin['date_birth']); ?>">
                         <span class="glyphicon glyphicon-calendar form-control-feedback" ></span>
                       </div>
 

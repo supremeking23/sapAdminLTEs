@@ -108,10 +108,6 @@ desired effect
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-
-
-
-
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->
@@ -164,33 +160,9 @@ desired effect
     <section class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-    
-
-            <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?php echo $first_name . " " . $last_name;?></p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> <?php echo $admin_department; ?></a>
-        </div>
-      </div>
-
-
-
+      <!-- Sidebar user panel (optional) -->
       <!-- Sidebar Menu -->
-          <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">Control Panel</li>
-            <!-- Optionally, you can add icons to the links -->
-            <li><a href="index.php"><i class="fa fa-link"></i> <span>Overview</span></a></li>
-            <li ><a href="admins.php"><i class="fa fa-link"></i> <span>Admins</span></a></li>
-            <li class="active"><a href="departments.php"><i class="fa fa-link"></i> <span>Departments</span></a></li>
-            <li><a href="professors.php"><i class="fa fa-link"></i> <span>Professors</span></a></li>
-            <li><a href="guidance_councilor.php"><i class="fa fa-link"></i> <span>Guidance Councilors</span></a></li>
-            <li><a href="students.php"><i class="fa fa-link"></i> <span>Students</span></a></li>
-         </ul>
+        <?php include('layouts/navigation.php'); ?>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -203,16 +175,16 @@ desired effect
 
 
       <h1>
-        Departments
+        Admins
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li class="active">Departments</li>
+        <li class="active">Admins</li>
       </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content container-fluid">
+        <section class="content container-fluid">
       <!--------------------------
         | Your Page Content Here -->
 
@@ -244,7 +216,7 @@ desired effect
                 </thead>
                 <tbody>
                  <?php //display all department
-                  $get_departments = get_all_department();
+                  $get_departments = get_all_department($admin_department_id);
                   while ($total_departments = mysqli_fetch_assoc($get_departments)) {
                       ?> 
                   <tr>
@@ -314,7 +286,7 @@ desired effect
                             <div class="form-group">
                               <label>All Departments</label>
                               <select multiple class="form-control" name="departments">
-                              <?php $all_departments = get_all_department();
+                              <?php $all_departments = get_all_department($admin_department_id);
                                     while($departments = mysqli_fetch_assoc($all_departments)){
                                       ?>
                                       <option><?php echo $departments['department_name'] . "(".$departments['department_code'] . ")"?></option>
@@ -393,7 +365,7 @@ desired effect
                             <div class="form-group has-feedback">
                               <select class="form-control" name="department">
                                 <?php //departments?>
-                                 <?php $all_departments = get_all_department();
+                                 <?php $all_departments = get_all_department($admin_department_id);
                                               while($departments = mysqli_fetch_assoc($all_departments)){
                                                 ?>
                                              <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
@@ -432,8 +404,8 @@ desired effect
         <!-- end col 6 -->
       </div>
       <!-- end row -->
-         <!--|
-        -------------------------->
+         <!--| -->
+       
 
     </section>
     <!-- /.content -->
@@ -472,12 +444,9 @@ $connection->close();
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
 
-<!-- page script -->
 <!-- self script -->
 <script src="additional_styling/additional.js"></script>
-<script>
- 
-</script>
+<script src="additional_styling/navigation.js"></script>
 
 
 
