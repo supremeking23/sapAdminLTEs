@@ -8,7 +8,7 @@
 
 <?php 
 		if(isset($_POST['register_student'])){
-			$student_id = $_POST['student_id'];
+			$student_id = 'A'. sprintf('%07d', mt_rand(1, 999999)); //auto 
 			$last_name = $_POST['last_name'];
 			$first_name = $_POST['first_name'];
 			$middle_name = $_POST['middle_name'];
@@ -29,10 +29,10 @@
 
 	         		$students_profile = $_FILES['upload_image']['name'];
 			        $students_profile_tmp =$_FILES['upload_image']['tmp_name'];
-			        move_uploaded_file($professor_profile_tmp, "student_images/$students_profile");
+			        move_uploaded_file($students_profile_tmp, "student_images/$students_profile");
 
 
-			        $query_insert_students = "INSERT INTO tblstudentinfo (student_id,last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,department) VALUES ('$student_id','$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$professor_profile','$department')";
+			        $query_insert_students = "INSERT INTO tblstudentinfo (student_id,last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,department,isActive) VALUES ('$student_id','$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$professor_profile','$department',1)";
 
 			        $run_insert_students = mysqli_query($connection,$query_insert_students)or die(mysqli_error($connection));
 

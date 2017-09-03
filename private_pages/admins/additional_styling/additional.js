@@ -1,7 +1,7 @@
 
 //for navigations
 
-
+         
 
 
 
@@ -20,6 +20,18 @@
   $(function () {
     $('#example1').DataTable()
     $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+
+    $(function () {
+    $('.datatable').DataTable()
+    $('.example3').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : false,

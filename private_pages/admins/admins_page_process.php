@@ -34,7 +34,7 @@
 			  redirect_to('admins.php');         	  
             exit;
          }else{
-         	$admin_profile = $_FILES['upload_image']['name'];
+         	  $admin_profile = $_FILES['upload_image']['name'];
             $admin_profile_tmp =$_FILES['upload_image']['tmp_name'];
             move_uploaded_file($admin_profile_tmp, "admin_images/$admin_profile");
 

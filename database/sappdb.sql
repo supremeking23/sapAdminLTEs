@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2017 at 04:58 PM
+-- Generation Time: Sep 04, 2017 at 12:30 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `fc_events_table` (
   `end` datetime DEFAULT NULL,
   `title` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `fc_events_table`
@@ -43,10 +43,14 @@ INSERT INTO `fc_events_table` (`id`, `start`, `end`, `title`) VALUES
 (3, '2017-08-30 00:00:00', '2017-09-01 00:00:00', 'preparation'),
 (4, '2017-08-31 11:00:00', '2017-08-31 14:00:00', 'pista sa nayon'),
 (5, '2017-09-01 00:00:00', '2017-09-02 00:00:00', 'edil fitr'),
-(12, '2017-08-16 00:00:00', '2017-08-17 00:00:00', 'dsds'),
-(13, '2017-08-11 00:00:00', '2017-08-12 00:00:00', 'ayaw'),
-(15, '2017-08-10 00:00:00', '2017-08-11 00:00:00', 'dsdsdads'),
-(16, '2017-08-09 00:00:00', '2017-08-10 00:00:00', 'sdsds');
+(12, '2017-08-17 00:00:00', '2017-08-18 00:00:00', 'dsds'),
+(13, '2017-08-04 00:00:00', '2017-08-05 00:00:00', 'ayaw'),
+(15, '2017-08-11 00:00:00', '2017-08-12 00:00:00', 'dsdsdads'),
+(16, '2017-08-09 00:00:00', '2017-08-10 00:00:00', 'sdsds'),
+(17, '2017-08-24 00:00:00', '2017-08-25 00:00:00', 'na trade si airforce ellis :('),
+(18, '2017-08-13 00:00:00', '2017-08-14 00:00:00', 'dsds'),
+(19, '2017-08-14 00:00:00', '2017-08-15 00:00:00', 'dsds'),
+(20, '2017-08-01 00:00:00', '2017-08-05 00:00:00', 'dsadas hahahahha');
 
 -- --------------------------------------------------------
 
@@ -85,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `tbladmins` (
   `isActive` int(11) NOT NULL,
   `date_added` date NOT NULL,
   PRIMARY KEY (`admin_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `tbladmins`
@@ -96,7 +100,8 @@ INSERT INTO `tbladmins` (`admin_id`, `admin_department_id`, `last_name`, `first_
 (2, 3, 'Allen', 'Bartholomew Henry', 'East', 'Central City', 'Aristotle_Color.jpg', '434', '1995-11-23', 'barryallen@gmail.com', 'barry', 'Male', 1, '2015-11-23'),
 (3, 2, 'West', 'Irish', 'West', 'Central City', 'apple david.jpg', '09687231212', '1993-06-22', 'iriswestallen@gmail.com', 'iris', 'Female', 1, '2015-11-23'),
 (4, 7, 'Queen', 'Oliver', 'Robert', 'Starling City', '15267837_1235855576472004_2196598368222274648_n.jpg', '09831238768', '1980-11-10', 'oliverqueen@gmail.com', 'arrow', 'Male', 1, '2015-11-23'),
-(5, 3, 'David', 'Apple', 'Mansanas', 'Central City', 'bee.jpg', '09831238768', '1990-06-19', 'appledavid@gmail.com', 'apple', 'Female', 1, '0000-00-00');
+(5, 3, 'David', 'Apple', 'Mansanas', 'Central City', 'bee.jpg', '09831238768', '1990-06-19', 'appledavid@gmail.com', 'apple', 'Female', 1, '0000-00-00'),
+(6, 2, 'Stark', 'Sansa', 'Ten', 'Central City', 'Breakfast-Sandwich-2.jpg', '09831238768', '1996-01-15', 'sansastark@gmail.com', 'sansa', 'Female', 1, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -180,6 +185,38 @@ INSERT INTO `tbldepartments` (`department_id`, `department_code`, `department_na
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tblevents`
+--
+
+CREATE TABLE IF NOT EXISTS `tblevents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `start` date DEFAULT NULL,
+  `end` date DEFAULT NULL,
+  `title` text,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `admin_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+
+--
+-- Dumping data for table `tblevents`
+--
+
+INSERT INTO `tblevents` (`id`, `start`, `end`, `title`, `start_time`, `end_time`, `department_id`, `type`, `admin_id`) VALUES
+(29, '2017-09-03', NULL, 'manila classico', '18:30:00', NULL, NULL, 'Single day event', NULL),
+(30, '2017-09-08', NULL, 'barangay ginebra vs blackwater elite', '18:30:00', NULL, 1, 'Single day event', 1),
+(31, '2017-09-06', '2017-09-07', 'accounting quiz bee', '13:00:00', '17:00:00', 3, 'Multiple Day Event', 1),
+(32, '2017-09-12', NULL, 'birthday ni jialeng aleng', '21:00:00', NULL, 1, 'Single day event', 1),
+(33, '2017-09-06', NULL, 'walang pasok', '12:01:00', NULL, 1, 'Single day event', 1),
+(34, '2017-09-10', NULL, 'barangay ginebra vs san miguel', '18:40:00', NULL, 1, 'Single day event', 1),
+(35, '2017-09-14', NULL, 'reverse valentines day', '03:59:00', NULL, 3, 'Single day event', 2);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tblguidance`
 --
 
@@ -245,71 +282,45 @@ CREATE TABLE IF NOT EXISTS `tbllogs` (
   `log_user_id` int(11) NOT NULL,
   `log_header` text NOT NULL,
   `log_message` text NOT NULL,
-  `log_time` datetime NOT NULL,
-  `event_id` int(11) NOT NULL,
+  `log_time` time NOT NULL,
+  `log_date` date NOT NULL,
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=86 ;
 
 --
 -- Dumping data for table `tbllogs`
 --
 
-INSERT INTO `tbllogs` (`log_id`, `log_user_id`, `log_header`, `log_message`, `log_time`, `event_id`) VALUES
-(1, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 0', '2017-08-27 02:04:39', 0),
-(2, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 0', '2017-08-27 02:04:39', 0),
-(3, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 0', '2017-08-27 02:04:39', 0),
-(4, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 02:07:03', 0),
-(5, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 02:09:06', 0),
-(6, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 02:17:46', 0),
-(7, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 11:14:32', 0),
-(8, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 15:53:42', 0),
-(9, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 15:53:50', 0),
-(10, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 15:54:38', 0),
-(11, 2, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 15:54:44', 0),
-(12, 2, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 17:10:05', 0),
-(13, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 17:10:11', 0),
-(14, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 18:28:53', 0),
-(15, 2, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 18:28:57', 0),
-(16, 2, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 18:30:05', 0),
-(17, 2, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 18:30:12', 0),
-(18, 2, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 19:04:18', 0),
-(19, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 19:04:23', 0),
-(20, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 20:25:00', 0),
-(21, 2, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 20:25:07', 0),
-(22, 2, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 21:00:13', 0),
-(23, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 21:00:17', 0),
-(24, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 21:01:30', 0),
-(25, 2, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 21:01:37', 0),
-(26, 2, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 21:12:08', 0),
-(27, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 21:12:42', 0),
-(28, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 21:13:02', 0),
-(29, 3, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 21:13:05', 0),
-(30, 3, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 21:31:44', 0),
-(31, 1, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 21:31:49', 0),
-(32, 1, 'Success Logout', 'Success Logout at Sunday 27th of August 2017 ', '2017-08-27 21:34:48', 0),
-(33, 3, 'Success Login', 'Success Login at Sunday 27th of August 2017 ', '2017-08-27 21:34:55', 0),
-(34, 1, 'Success Login', 'Success Login at Monday 28th of August 2017 ', '2017-08-28 09:01:56', 0),
-(35, 1, 'Success Login', 'Success Login at Monday 28th of August 2017 ', '2017-08-28 20:36:59', 0),
-(36, 1, 'Success Logout', 'Success Logout at Monday 28th of August 2017 ', '2017-08-28 21:18:16', 0),
-(37, 1, 'Success Login', 'Success Login at Monday 28th of August 2017 ', '2017-08-28 21:18:28', 0),
-(38, 1, 'Success Login', 'Success Login at Tuesday 29th of August 2017 ', '2017-08-29 23:19:14', 0),
-(39, 1, 'Success Login', 'Success Login at Wednesday 30th of August 201', '2017-08-30 16:09:30', 0),
-(40, 1, 'Add Event', 'Add event about edil fitr at Wednesday 30th o', '2017-08-30 16:09:59', 0),
-(41, 1, 'Success Logout', 'Success Logout at Wednesday 30th of August 2017 ', '2017-08-30 16:13:56', 0),
-(42, 1, 'Success Login', 'Success Login at Wednesday 30th of August 2017 ', '2017-08-30 16:14:03', 0),
-(43, 1, 'Add Event', 'Add event about basketball sched at Wednesday 30th of August 2017 ', '2017-08-30 16:14:57', 0),
-(44, 1, 'Delete Event', 'Delete event about  at Wednesday 30th of August 2017 ', '2017-08-30 16:20:19', 0),
-(45, 1, 'Add Event', 'Add event about wala at Wednesday 30th of August 2017 ', '2017-08-30 16:26:33', 0),
-(46, 1, 'Delete Event', 'Delete event about  at Wednesday 30th of August 2017 ', '2017-08-30 16:29:21', 0),
-(47, 1, 'Add Event', 'Add event about testing ulot at Wednesday 30th of August 2017 ', '2017-08-30 16:34:37', 0),
-(48, 1, 'Add Event', 'Add event about dsds at Wednesday 30th of August 2017 ', '2017-08-30 16:37:41', 0),
-(49, 1, 'Delete Event', 'Delete event about 48 at Wednesday 30th of August 2017 ', '2017-08-30 16:37:42', 0),
-(50, 1, 'Add Event', 'Add event about dsds at Wednesday 30th of August 2017 ', '2017-08-30 16:38:52', 0),
-(51, 1, 'Delete Event', 'Delete event about  at Wednesday 30th of August 2017 ', '2017-08-30 16:43:56', 0),
-(52, 1, 'Delete Event', 'Delete event about  at Wednesday 30th of August 2017 ', '2017-08-30 16:43:58', 0),
-(53, 1, 'Delete Event', 'Delete event about  at Wednesday 30th of August 2017 ', '2017-08-30 16:44:08', 0),
-(54, 1, 'Delete Event', 'Delete event about  at Wednesday 30th of August 2017 ', '2017-08-30 16:44:34', 0),
-(55, 1, 'Add Event', 'Add event about sdsds at Wednesday 30th of August 2017 ', '2017-08-30 16:56:06', 0);
+INSERT INTO `tbllogs` (`log_id`, `log_user_id`, `log_header`, `log_message`, `log_time`, `log_date`) VALUES
+(57, 1, 'Success Logout', 'Success Logout at Thursday 31st of August 2017 ', '20:34:12', '2017-08-31'),
+(58, 1, 'Success Login', 'Success Login at Thursday 31st of August 2017 ', '20:34:19', '2017-08-31'),
+(59, 1, 'Add Event', 'Add event about na trade si airforce ellis :( at Thursday 31st of August 2017 ', '20:59:03', '2017-08-31'),
+(60, 1, 'Add Event', 'Add event about dsds at Thursday 31st of August 2017 ', '21:07:32', '2017-08-12'),
+(61, 1, 'Success Logout', 'Success Logout at Thursday 31st of August 2017 ', '21:43:14', '2017-08-31'),
+(62, 1, 'Success Login', 'Success Login at Thursday 31st of August 2017 ', '21:43:24', '2017-08-31'),
+(63, 1, 'Success Logout', 'Success Logout at Thursday 31st of August 2017 ', '21:50:09', '2017-08-31'),
+(64, 2, 'Success Login', 'Success Login at Thursday 31st of August 2017 ', '21:50:13', '2017-08-31'),
+(65, 2, 'Success Logout', 'Success Logout at Thursday 31st of August 2017 ', '21:50:28', '2017-08-31'),
+(66, 1, 'Success Login', 'Success Login at Thursday 31st of August 2017 ', '21:50:34', '2017-08-31'),
+(67, 1, 'Success Login', 'Success Login at Friday 1st of September 2017 ', '08:07:35', '2017-09-01'),
+(68, 1, 'Success Logout', 'Success Logout at Friday 1st of September 2017 ', '08:08:00', '2017-09-01'),
+(69, 1, 'Success Login', 'Success Login at Friday 1st of September 2017 ', '20:57:02', '2017-09-01'),
+(70, 1, 'Success Login', 'Success Login at Saturday 2nd of September 2017 ', '08:28:20', '2017-09-02'),
+(71, 1, 'Success Logout', 'Success Logout at Saturday 2nd of September 2017 ', '13:12:32', '2017-09-02'),
+(72, 1, 'Success Login', 'Success Login at Saturday 2nd of September 2017 ', '13:12:39', '2017-09-02'),
+(73, 1, 'Success Login', 'Success Login at Saturday 2nd of September 2017 ', '18:42:47', '2017-09-02'),
+(74, 1, 'Success Login', 'Success Login at Sunday 3rd of September 2017 ', '11:27:00', '2017-09-03'),
+(75, 0, 'Add Event', 'Add Event at Sunday 3rd of September 2017 ', '14:48:34', '2017-09-03'),
+(76, 1, 'Success Login', 'Success Login at Sunday 3rd of September 2017 ', '16:32:01', '2017-09-03'),
+(77, 1, 'Add Event', 'Add Event at Sunday 3rd of September 2017 ', '16:56:43', '2017-09-03'),
+(78, 1, 'Add Event', 'Add Event at Sunday 3rd of September 2017 ', '16:59:40', '2017-09-03'),
+(79, 1, 'Add Event', 'Add Event at Sunday 3rd of September 2017 ', '17:19:29', '2017-09-03'),
+(80, 1, 'Success Login', 'Success Login at Sunday 3rd of September 2017 ', '23:44:39', '2017-09-03'),
+(81, 1, 'Add Event', 'Add Event at Monday 4th of September 2017 ', '00:09:50', '2017-09-04'),
+(82, 1, 'Add Event', 'Add Event at Monday 4th of September 2017 ', '00:10:52', '2017-09-04'),
+(83, 1, 'Success Logout', 'Success Logout at Monday 4th of September 2017 ', '00:12:24', '2017-09-04'),
+(84, 2, 'Success Login', 'Success Login at Monday 4th of September 2017 ', '00:12:30', '2017-09-04'),
+(85, 2, 'Add Event', 'Add Event at Monday 4th of September 2017 ', '00:18:18', '2017-09-04');
 
 -- --------------------------------------------------------
 
@@ -416,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `tblstudentinfo` (
   `section` int(11) NOT NULL,
   `yearlevel` int(11) NOT NULL,
   PRIMARY KEY (`tbl_student_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `tblstudentinfo`
@@ -424,7 +435,10 @@ CREATE TABLE IF NOT EXISTS `tblstudentinfo` (
 
 INSERT INTO `tblstudentinfo` (`tbl_student_id`, `student_id`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, `image`, `date_birth`, `email`, `password`, `gender`, `program_major`, `department`, `guardian_name`, `isActive`, `section`, `yearlevel`) VALUES
 (1, 'K1122115', 'Snow', 'John', 'Hernandez', 'New Found Glory Taguig City', '09831238768', '', '1994-07-13 00:00:00', 'johnv@gmail.com', 'john', 'Male', 0, 3, '', 1, 0, 0),
-(2, 'K1122112', 'Hernandez', 'Jhoana Marie', 'Elionor', 'New Manila', '09831238768', '', '2017-08-22 00:00:00', 'jmfernandez@gmail.com', 'jmfernandez', 'Female', 0, 3, '', 1, 0, 0);
+(2, 'K1122112', 'Hernandez', 'Jhoana Marie', 'Elionor', 'New Manila', '09831238768', '', '2017-08-22 00:00:00', 'jmfernandez@gmail.com', 'jmfernandez', 'Female', 0, 3, '', 1, 0, 0),
+(3, 'K1122114', 'domingo', 'christine', 'batacan', 'New Found Glory Taguig City', '09479888749', '', '1995-09-19 00:00:00', 'tinedomingo@gmail.com', 'tine', 'Female', 0, 3, '', 1, 0, 0),
+(4, 'A0986733', 'Tan', 'Leo', 'Man', '520-B 16th ISU Village Barangay 31 South Side', '09831238768', '', '2001-05-22 00:00:00', 'leomantan@gmail.com', 'leo', 'Male', 0, 6, '', 1, 0, 0),
+(5, 'A0918143', 'Queen', 'Isabella', 'Nena', 'New Manila', '09479888749', '', '1998-01-06 00:00:00', 'lala@gmail.com', 'lala', 'Female', 0, 6, '', 1, 0, 0);
 
 -- --------------------------------------------------------
 

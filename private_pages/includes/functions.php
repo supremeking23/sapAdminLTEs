@@ -266,7 +266,7 @@ function get_all_department($department_id){
   $department_id = mysql_prep($department_id);
 
   if($department_id == 1){
-    $query = "SELECT  * FROM tbldepartments WHERE department_id != 1";
+    $query = "SELECT  * FROM tbldepartments";
   }else{
     $query = "SELECT  * FROM tbldepartments WHERE  department_id = $department_id";
   }
@@ -557,7 +557,30 @@ function get_all_programs_by_department($department_id){
 
 
 
+//get all events single
+  function get_all_single_day_events(){
+      global $connection;
+     
 
+      $query = "SELECT * FROM tblevents WHERE type = 'Single day event'";
+
+      $get_event_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_event_details;
+  }
+
+
+  //get all events multiple
+  function get_all_multiple_day_events(){
+      global $connection;
+     
+
+      $query = "SELECT * FROM tblevents WHERE type = 'Multiple day event'";
+
+      $get_event_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_event_details;
+  }
 
 
 
@@ -570,9 +593,10 @@ function get_all_programs_by_department($department_id){
     $log_user_id = mysql_prep($log_user_id);
     $log_message =  mysql_prep($log_message);
     $log_haeder = mysql_prep($log_header);
+
     //$log_time = mysql_prep($log_time);
 
-    $query = "INSERT INTO tbllogs(log_user_id,log_header,log_message,log_time) VALUES ('$log_user_id','$log_header','$log_message', now())";
+    $query = "INSERT INTO tbllogs(log_user_id,log_header,log_message,log_time,log_date) VALUES ('$log_user_id','$log_header','$log_message', now(),now())";
 
     $run_log = $connection->query($query) && mysqli_affected_rows($connection) == 1 or die(mysqli_error($connection));
 
@@ -582,16 +606,29 @@ function get_all_programs_by_department($department_id){
 
   //for getting logs
 
-  function get_all_logs_by_admin_id($admin_id){
+  function get_all_logs_by_date_and_admin_id($admin_id,$date){
       global $connection;
       $department_id = mysql_prep($admin_id);
-
-      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$department_id' ORDER BY log_time DESC";
+      $date = mysql_prep($date);
+      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$department_id' AND log_date ='$date' ORDER BY log_time DESC";
 
       $get_log_details = $connection->query($query) or die(mysqli_error($connection));
 
       return $get_log_details;
   }
+
+  //distinct date
+    function get_all_log_dates_by_admin_id($admin_id){
+      global $connection;
+      $department_id = mysql_prep($admin_id);
+
+      $query = "SELECT DISTINCT log_date FROM tbllogs WHERE log_user_id = '$department_id' ORDER BY log_date DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
+  }
+
 
 
 
@@ -602,7 +639,7 @@ function get_all_programs_by_department($department_id){
       global $connection;
       $event_id = mysql_prep($event_id);
 
-      $query = "SELECT * FROM fc_events_table WHERE id = '$event_id'";
+      $query = "SELECT * FROM tblevents WHERE id = '$event_id'";
 
       $get_event_details = $connection->query($query) or die(mysqli_error($connection));
 

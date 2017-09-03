@@ -84,7 +84,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini " id="admins">
+<body class="hold-transition skin-blue sidebar-mini " id="overview">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -160,9 +160,7 @@ desired effect
     <section class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-    
-
-            <!-- Sidebar user panel (optional) -->
+      <!-- Sidebar user panel (optional) -->
       <!-- Sidebar Menu -->
         <?php include('layouts/navigation.php'); ?>
       <!-- /.sidebar-menu -->
@@ -177,11 +175,11 @@ desired effect
 
 
       <h1>
-        Admin Profile
+        Events
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li class="active">Admin Profile</li>
+        <li class="active">Events</li>
       </ol>
     </section>
 
@@ -196,153 +194,101 @@ desired effect
           echo message_success();
           //failed message for updating profile picture wrong password
          echo  failed_message();
-         //echo $num_str = "A". sprintf("%07d", mt_rand(1, 999999));
         ?>
 
+        
         <div class="row">
-          <div class="col-md-3">
-            <!-- Profile Image -->
-                <div class="box box-primary">
-                  <div class="box-body box-profile">
-
-                  <?php 
-                    //search for admins info
-                    $get_admin_info = get_admin_by_id($_GET['admin_id']);
-                    if($get_admin_info){
-                      $admin_name = $get_admin_info['first_name'] . ' ' . $get_admin_info['last_name'];
-                      $admin_image = $get_admin_info['image'];
-                      $admin_dept_id = $get_admin_info['admin_department_id'];
-                      $admin_added = $get_admin_info['date_added'];
-                      $gender = $get_admin_info['gender'];
-                      $admin_date_birth = $get_admin_info['date_birth'];
-
-                    }
-
-                   $get_admin_dept = get_department_details_by_department_id($admin_dept_id);
-                   while($admin_dept = mysqli_fetch_assoc($get_admin_dept)){
-                     $admin_dept_code = $admin_dept['department_code'];
-                   }
-                   
-
-                  ?>
-
-                    <img class="profile-user-img img-responsive img-circle" src="admin_images/<?php echo $admin_image;?>" alt="User profile picture">
-
-                    <h3 class="profile-username text-center"><?php echo $admin_name;?></h3>
-
-                    <p class="text-muted text-center">Department: <?php echo $admin_dept_code; ?></p>
-
-                    <ul class="list-group list-group-unbordered">
-                      <li class="list-group-item">
-                        <?php $date =date_create($admin_added);
-                         $admin_since= date_format($date,"F  Y ");?>
-                        <b>Admin since:</b> <a class="pull-right"><?php echo $admin_since?></a>
-                      </li>
-                      <li class="list-group-item">
-                        <b>Gender</b> <a class="pull-right"><?php echo $gender;?></a>
-                      </li>
-                      <li class="list-group-item">
-                      <?php $date =date_create($admin_date_birth);
-                         $birthdate= date_format($date,"F d Y");?>
-                        <b>Birthdate:</b> <a class="pull-right"><?php echo $birthdate;?></a>
-                      </li>
-                      <li class="list-group-item">
-                       <?php $age = floor((time() - strtotime($birthdate)) / 31556926);?>
-                        <b>Age:</b> <a class="pull-right"><?php echo $age;?></a>
-                      </li>
-                    </ul>
-
-                    <!--<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+            <div class="col-md-6">
+               <div class="box">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Event(Single Day)</h3>
+                    <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  
+                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                   </div>
-                  <!-- /.box-body -->
                 </div>
-                <!-- /.box -->
-          </div> <!-- /.cols -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table  class="table table-bordered table-striped datatable">
+                    <thead>
+                    <tr>
+                      <th>Event ID</th>
+                      <th>Event Title</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                      
+                    </tr>
+                    </thead>
 
-
-          <div class="col-md-9">
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-         
-              <li class="active"><a href="#timeline" data-toggle="tab">Log History</a></li>
-              
-            </ul>
-            <div class="tab-content">
-             
-              <?php  $get_logs = get_all_log_dates_by_admin_id($_GET['admin_id']);  
-                      if(mysqli_num_rows($get_logs) > 0){
-                      while($log_details = mysqli_fetch_assoc($get_logs)):
-              ?>
-              <div class="active tab-pane" id="timeline">
-                <!-- The timeline -->
-                <ul class="timeline timeline-inverse">
-                  <!-- timeline time label -->
-                  <li class="time-label">
-                        <span class="bg-green">
-                          <?php $date =date_create($log_details['log_date']);
-                          $log_date= date_format($date," F d Y");
-                          echo $log_date;
-                          ?>
-                        </span>
-                  </li>
-                  <!-- /.timeline-label -->
-                  <!-- timeline item -->
-
-
-                  <?php 
-                    //log items by date
-                  $get_logs_by_date = get_all_logs_by_date_and_admin_id($_GET['admin_id'],$log_details['log_date']);
-                  while($log_by_date = mysqli_fetch_assoc($get_logs_by_date)):   
-                  ?>
-
-                  <li>
-                    
-                    <?php if($log_by_date['log_header'] == "Success Login"){ ?>
-                     <i class="glyphicon glyphicon-log-in bg-blue"></i>
-                    <?php }elseif($log_by_date['log_header'] == "Success Logout"){ ?>
-                    <i class="glyphicon glyphicon-log-out bg-red"></i>
-                    <?php  }elseif($log_by_date['log_header'] == "Add Event"){ ?>
-                    <i class="glyphicon glyphicon-calendar bg-blue"></i>
-                    <?php }elseif($log_by_date['log_header'] == "Delete Event"){ ?>
-                    <i class="glyphicon glyphicon-calendar bg-red"></i>
-                     <?php  } ?>
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> <?php $date =date_create($log_by_date['log_time']);
-                          $log_date= date_format($date,"g:i:s A");
-                          echo $log_date;
-                          ?></span>
-
-                        <h3 class="timeline-header no-border"><a href="#"><?php echo $log_by_date['log_header'];?></a> <?php echo $log_by_date['log_message']; ?>
-                      </h3>
-                    </div>
-                  </li>
-                  <!-- END timeline item -->
-                  <!-- timeline item -->
-
-                  <?php endwhile; // log_by_date ?>
-
-                </ul>
+                    <tbody>
+                    <?php //get all events
+                        $all_events = get_all_single_day_events();
+                        while($events = mysqli_fetch_assoc($all_events)):
+                    ?>
+                    <tr>
+                      <td><?php echo $events['id']; ?></td>
+                      <td><?php echo $events['title']; ?></td>
+                      <td><?php echo $events['start']; ?></td>
+                      <td><a href="" class="btn btn-info">Edit</a></td>
+                    </tr>
+                      <?php endwhile;?>
+                    </tbody>
+                   
+                  </table>
+                </div>
+                <!-- /.box-body -->
               </div>
-
-
-
-            <?php endwhile;
-                 
-                  }else{
-                    echo "nothing to show";
-                  }
-            ?>
-              <!-- /.tab-pane -->
-
-
+              <!-- /.box -->
             </div>
-            <!-- /.tab-content -->
-          </div>
-          <!-- /.nav-tabs-custom -->
-        </div>
-        </div> <!-- /.row -->
+            <!-- /.col -->
 
-    
+          <div class="col-md-6">
+             <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Event(Multiple Day)</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table  class="table table-bordered table-striped datatable">
+                  <thead>
+                   <tr>
+                      <th>Event ID</th>
+                      <th>Event Title</th>
+                      <th>Date Start</th>
+                      <th>Date Finish</th>
+                      <th>Action</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <?php //get all events
+                        $all_events = get_all_multiple_day_events();
+                        while($events = mysqli_fetch_assoc($all_events)):
+                    ?>
+                  <tr>
+                      <td><?php echo $events['id']; ?></td>
+                      <td><?php echo $events['title']; ?></td>
+                      <td><?php echo $events['start']; ?></td>
+                      <td><?php echo $events['end']; ?></td>
+                      <td><a href="" class="btn btn-info">Edit</a></td>
+                    </tr>
+                      <?php endwhile;?>
+                  </tbody>
+                 
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+      </div>
+
+
+
+
          <!--|
         -------------------------->
 

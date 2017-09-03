@@ -175,11 +175,11 @@ desired effect
 
 
       <h1>
-        Admins
+        Departments
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li class="active">Admins</li>
+        <li class="active">Departments</li>
       </ol>
     </section>
 

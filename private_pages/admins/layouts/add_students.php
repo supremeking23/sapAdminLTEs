@@ -11,10 +11,7 @@
                 <p class="login-box-msg">Register a New Student</p>
                 <form action="students_page_process.php" method="post" enctype="multipart/form-data">
 
-                  <div class="form-group has-feedback">
-                    <input type="text"  required="" class="form-control" placeholder="Student ID" name="student_id" disabled="" value="<?php echo  $num_str = 'A'. sprintf('%07d', mt_rand(1, 999999));?>">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  </div>
+                 
                  
                   <div class="form-group has-feedback">
                     <input type="text"  title="Letters only!" required="" class="form-control" placeholder="First Name" onkeypress = "return lettersonly(event)" name="first_name">

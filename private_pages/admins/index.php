@@ -24,60 +24,6 @@
 
            }
 
-           if(isset($_POST['action']) or isset($_GET['view'])) //show all events
-            {
-                if(isset($_GET['view']))
-                {
-                    header('Content-Type: application/json');
-                    $start = mysqli_real_escape_string($connection,$_GET["start"]);
-                    $end = mysqli_real_escape_string($connection,$_GET["end"]);
-                    
-                    $result = mysqli_query($connection,"SELECT id, start ,end ,title FROM  fc_events_table where (date(start) >= '$start' AND date(start) <= '$end')");
-                    while($row = mysqli_fetch_assoc($result))
-                    {
-                        $events[] = $row; 
-                    }
-                    echo json_encode($events); 
-                    exit;
-                }
-                elseif($_POST['action'] == "add") // add new event
-                {   
-                    mysqli_query($connection,"INSERT INTO fc_events_table(
-                                title ,
-                                start ,
-                                end 
-                                )
-                                VALUES (
-                                '".mysqli_real_escape_string($connection,$_POST["title"])."',
-                                '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["start"])))."',
-                                '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["end"])))."'
-                                )");
-
-                    $log_header = "Add Event";
-                    $date=date("l jS \of F Y ");
-                    $log_message = "Add event about " . $_POST["title"] . " at " . $date;
-                    insert_log($admin_id,$log_header,$log_message);
-                    header('Content-Type: application/json');
-                    echo '{"id":"'.mysqli_insert_id($connection).'"}';
-                    exit;
-                }
-                elseif($_POST['action'] == "update")  // update event
-                {   $id = $_POST["id"];
-                    mysqli_query($connection,"UPDATE fc_events_table set 
-                        start = '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["start"])))."', 
-                        end = '".mysqli_real_escape_string($connection,date('Y-m-d H:i:s',strtotime($_POST["end"])))."' 
-                        where id = '".mysqli_real_escape_string($connection,$_POST["id"])."'");
-                    exit;
-                }
-                elseif($_POST['action'] == "delete")  // remove event
-                {
-                    mysqli_query($connection,"DELETE from fc_events_table where id = '".mysqli_real_escape_string($connection,$_POST["id"])."'");
-                    if (mysqli_affected_rows($connection) > 0) {
-                        echo "1";
-                    }
-                    exit;
-                }
-            }
 
 
   ?>
@@ -116,10 +62,18 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  
+
+
  <style type="text/css">
    .colors{
     color: red;
    }
+
+   .fc-time{
+   display : none;
+}
  </style> 
 
 
@@ -294,7 +248,7 @@ desired effect
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="admins.php" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -311,7 +265,7 @@ desired effect
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="professors.php" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -335,7 +289,7 @@ desired effect
           </div>
         </div>
 
-                <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
@@ -346,7 +300,7 @@ desired effect
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="students.php" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -354,6 +308,14 @@ desired effect
 
       </div> <!--/.row-->
 
+      <div class="row">
+        <?php 
+          //success message for updating profile picture
+          echo message_success();
+          //failed message for updating profile picture wrong password
+         echo  failed_message();
+        ?>
+      </div>
     
       <div class="row">
                     <!--  -->
@@ -366,8 +328,6 @@ desired effect
                     <div class="box-header with-border">
                       <h3 class="box-title">Calendar</h3>
                       <div class="box-tools pull-right">
-                      
-                      </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     
                
@@ -377,63 +337,160 @@ desired effect
                           </div><!-- /.box-body -->
                          
                           <div class="box-footer">
-                             
+                            <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-add-event">Add Event</button>
+                            <a href="all_events.php" class="btn btn-warning pull-right">All Events</a>
+
+                          <div class="modal fade" id="modal-add-event">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                  <h4 class="modal-title">Add Event</h4>
+                                </div>
+                                        
+                                        <!-- form for updating of admin profile  -->
+                                    <form id="event_form">
+                                        <div class="modal-body">
+
+                                                <p><label for="event_name">Please enter the event name.</label></p>
+                            
+                                                <div class="form-group has-feedback">
+                                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
+                                                  <input  required  type="text" class="form-control" placeholder="Event Name" required="" name="event_name" id="event_name">
+                                                  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                                                </div>
+
+
+                                                  <?php if($admin_department_id== 1) {?>
+                                                    <div class="form-group has-feedback">
+                                                    <select class="form-control" name="department">
+                                                    
+                                                      <?php //departments?>
+                                                       <?php $all_departments = get_all_department($admin_department_id);
+                                                                    while($departments = mysqli_fetch_assoc($all_departments)){
+                                                                      ?>
+                                                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
+
+                                                        <?php }?>
+                                                    </select>
+                                                  </div>
+                                                  <?php }else{?>
+
+                                                   <input type="hidden" name="department" value="<?php echo $admin_department_id ?>">
+                                                
+                                                  <?php } ?>
+                                                 
+                                                <center>
+                                                  <button type="button" id="single_day">Single day event</button>
+                                                  <button type="button"  id="multiple_day">Multiple day event</button>
+                                                </center>
+
+                                                <div id="single_reservation">
+                                                    <!-- Date -->
+                                                    <div class="form-group">
+                                                      <label for="single_event">Date:</label>
+                                                      <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                          <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="date" class="form-control pull-right " id="" name="single_day">
+                                                      </div>
+                                                      <!-- /.input group -->
+                                                    </div>
+                                                    <!-- /.form group -->
+
+
+                                                     <div class="form-group">
+                                                      <label for="single_event">Time:</label>
+                                                      <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                          <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="time" class="form-control pull-right " id="" name="single_time">
+                                                      </div>
+                                                      <!-- /.input group -->
+                                                    </div>
+                                                    <!-- /.form group -->
+                                                </div> <!-- ./single_reservation -->
+
+                                               
+                                              <div class="row">
+                                                <div id="multiple_reservation">
+                                                    <div class="col-sm-6">
+                                                           <!-- Date -->
+                                                         <div class="form-group">
+                                                          <label for="date_from">Date From:</label>
+                                                          <div class="input-group date">
+                                                            <div class="input-group-addon">
+                                                              <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input type="date" class="form-control pull-right " id="date_from" name="date_from">
+                                                          </div>
+                                                          <!-- /.input group -->
+                                                        </div>
+                                                        <!-- /.form group -->
+                                                        <div class="form-group">
+                                                          <label for="time_from">Time From:</label>
+                                                          <div class="input-group date">
+                                                            <div class="input-group-addon">
+                                                              <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input type="time" class="form-control pull-right " id="time_from" name="time_from">
+                                                          </div>
+                                                          <!-- /.input group -->
+                                                        </div>
+                                                        <!-- /.form group -->
+                                                      </div> <!-- /.cols sm -->
+                                                    <div class="col-sm-6">
+                                                       <!-- Date -->
+                                                         <div class="form-group">
+                                                          <label for="date_to">Date To:</label>
+                                                          <div class="input-group date">
+                                                            <div class="input-group-addon">
+                                                              <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input type="date" class="form-control pull-right " id="date_to" name="date_to">
+                                                          </div>
+                                                          <!-- /.input group -->
+                                                        </div>
+                                                        <!-- /.form group -->
+                                                        <div class="form-group">
+                                                          <label for="time_to">Time To:</label>
+                                                          <div class="input-group date">
+                                                            <div class="input-group-addon">
+                                                              <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input type="time" class="form-control pull-right " id="time_to" name="time_to">
+                                                          </div>
+                                                          <!-- /.input group -->
+                                                        </div>
+                                                        <!-- /.form group -->
+                                                      </div> <!-- /.cols sm -->
+
+                                                </div> <!-- /.multiple_reservation -->
+                                              </div><!-- /.row -->
+
+                                        
+                                        <div class="modal-footer">
+                                            <input type="submit" id="submit_event" name="submit_event" value="Schedule this event now">
+                                        </div>
+
+                                      </form>
+
+                                      </div>
+                                      <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                  </div>
+                                  <!-- /.modal -->
                           </div><!-- box-footer -->
                 
 
              </div><!-- /.box -->
            </div>  <!-- /. col for calendar -->
-            <!--  Modal  to Add Event -->
-            <div id="createEventModal" class="modal fade" role="dialog">
-              <div class="modal-dialog">
-                <!--  Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Event</h4>
-                  </div>
-                  <div class="modal-body">
-                    <div class="control-group">
-                      <label class="control-label" for="inputPatient">Event:</label>
-                      <div class="field desc">
-                        <input class="form-control" id="title" name="title" placeholder="Event" type="text" value="">
-                      </div>
-                    </div>
-                    <input type="hidden" id="startTime"/>
-                    <input type="hidden" id="endTime"/>
-                    <div class="control-group">
-                      <label class="control-label" for="when">When:</label>
-                      <div class="controls controls-row" id="when" style="margin-top:5px;"> </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+           
 
-            <!--  Modal to Event Details -->
-<div id="calendarModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Event Details</h4>
-      </div>
-      <div id="modalBody" class="modal-body">
-        <h4 id="modalTitle" class="modal-title"></h4>
-        <div id="modalWhen" style="margin-top:5px;"></div>
-      </div>
-      <input type="hidden" id="eventID"/>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria–hidden="true">Cancel</button>
-        <button type="submit" class="btn btn-danger" id="deleteButton">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
       </div> <!-- /.end row -->
 
 
@@ -485,9 +542,12 @@ $connection->close();
 <script src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <script src="additional_styling/additional.js"></script>
 <script src="additional_styling/navigation.js"></script>
+
+
+
+
 <script>
  $(document).ready(function() {
-        
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -495,118 +555,83 @@ $connection->close();
                 right: 'month,agendaWeek,agendaDay'
             },
             defaultDate: '<?php echo date('m-d-y')?>',
-            selectable: true,
+            selectable: false,
             selectHelper: true,
-              editable: true,
+            editable: false,
             eventLimit: true, 
-        
-             events: "index.php?view=1",  // request to load current events
-                eventClick:  function(event, jsEvent, view) {  // when some one click on any event
-                endtime = $.fullCalendar.moment(event.end).format('h:mm');
-                starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
-                var mywhen = starttime + ' - ' + endtime;
-                $('#modalTitle').html(event.title);
-                $('#modalWhen').text('');
-                $('#eventID').val(event.id);
-                $('#calendarModal').modal();
-            },
+            allDay:true,
+         
+          events: {
+            url: 'process_pages/getEvents.php',
+            type: 'POST', // Send post data
+            error: function() {
+                alert('There was an error while fetching events.');
+            }
+        }
+            
 
-            select: function(start, end, jsEvent) {  // click on empty time slot
-                endtime = $.fullCalendar.moment(end).format('h:mm');
-                starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
-                var mywhen = starttime + ' - ' + endtime;
-                start = moment(start).format();
-                end = moment(end).format();
-                $('#createEventModal #startTime').val(start);
-                $('#createEventModal #endTime').val(end);
-                $('#createEventModal #when').text('');
-                $('#createEventModal').modal('toggle');
-           },
-
-           eventDrop: function(event, delta){ // event drag and drop
-               $.ajax({
-                   url: 'index.php',
-                   data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id ,
-                   type: "POST",
-                   success: function(json) {
-                   //alert(json);
-                   }
-               });
-           },
+        }); //events
 
 
-           eventResize: function(event) {  // resize to increase or decrease time of event
-               $.ajax({
-                   url: 'index.php',
-                   data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id,
-                   type: "POST",
-                   success: function(json) {
-                       //alert(json);
-                   }
-               });
-           }
+            //Date picker
+  
+
+    $("div#single_reservation").hide();
+        $("div#multiple_reservation").hide();
+  
+    $("#single_day").click(function(){
+        $("div#single_reservation").show();
+        $("div#multiple_reservation").hide();
+    });
+    
+    
+    $("#multiple_day").click(function(){
+        $("div#single_reservation").hide();
+        $("div#multiple_reservation").show();
+    });
+
+    var event_name = $('#event_name').val();
+         
+   
+
+     
+    $("#single_day").click(function(){ 
+      $('#submit_event').click(function(){
+          
+          $.ajax({
+            url:"process_pages/input_event_single_date_process.php",
+            method:"POST",
+
+            data:$('#event_form').serialize(),
+            success:function(data){
+              $('form').trigger('reset');
+              console.log(data);
+              console.log(event_name);
+            }
+          });
+      });
+    });
 
 
-        });
+    $("#multiple_day").click(function(){ 
+      $('#submit_event').click(function(){
+          
+          $.ajax({
+            url:"process_pages/input_event_multiple_date_process.php",
+            method:"POST",
 
-        $('#submitButton').on('click', function(e){ // add event submit
-           // We don't want this to act as a link so cancel the link action
-           e.preventDefault();
-           doSubmit(); // send to form submit function
-       });
-       
-       $('#deleteButton').on('click', function(e){ // delete event clicked
-           // We don't want this to act as a link so cancel the link action
-           e.preventDefault();
-           doDelete(); //send data to delete function
-       });
-
-         function doDelete(){  // delete event 
-           $("#calendarModal").modal('hide');
-           var eventID = $('#eventID').val();
-           $.ajax({
-               url: 'index.php',
-               data: 'action=delete&id='+eventID,
-               type: "POST",
-               success: function(json) {
-                   if(json == 1)
-                        $("#calendar").fullCalendar('removeEvents',eventID);
-                   else
-                        return false;
-                    
-                   
-               }
-           });
-       }
+            data:$('#event_form').serialize(),
+            success:function(data){
+              $('form').trigger('reset');
+              console.log(data);
+              console.log(event_name);
+            }
+          });
+      });
+    });
 
 
-              function doSubmit(){ // add event
-           $("#createEventModal").modal('hide');
-           var title = $('#title').val();
-           var startTime = $('#startTime').val();
-           var endTime = $('#endTime').val();
-           
-           $.ajax({
-               url: 'index.php',
-               data: 'action=add&title='+title+'&start='+startTime+'&end='+endTime,
-               type: "POST",
-               success: function(json) {
-                   $("#calendar").fullCalendar('renderEvent',
-                   {
-                       id: json.id,
-                       title: title,
-                       start: startTime,
-                       end: endTime,
-                   },
-                   true);
-               }
-           });
-           
-       }
-
-          // allow "more" link when too many events
-           
-        
+   
         
     });
 

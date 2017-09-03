@@ -58,3 +58,70 @@ dagdagan ng log pag mag add ng event sa bawat admin
                       $date=date("l jS \of F Y ");
                       $log_message = "Delete event about " . $event_title . " at " . $date;
                       insert_log($admin_id,$log_header,$log_message);
+
+
+
+
+
+              <li>
+                    
+                    <?php if($log_details['log_header'] == "Success Login"){ ?>
+                     <i class="glyphicon glyphicon-log-in bg-blue"></i>
+                    <?php }elseif($log_details['log_header'] == "Success Logout"){ ?>
+                    <i class="glyphicon glyphicon-log-out bg-red"></i>
+                    <?php  }elseif($log_details['log_header'] == "Add Event"){ ?>
+                    <i class="glyphicon glyphicon-calendar bg-blue"></i>
+                    <?php }elseif($log_details['log_header'] == "Delete Event"){ ?>
+                    <i class="glyphicon glyphicon-calendar bg-red"></i>
+                     <?php  } ?>
+                    <div class="timeline-item">
+                      <span class="time"><i class="fa fa-clock-o"></i> <?php $date =date_create($log_details['log_time']);
+                          $asof= date_format($date,"g:i:s A");
+                          echo $asof;
+                          ?></span>
+
+                        <h3 class="timeline-header no-border"><a href="#"><?php echo $log_details['log_header'];?></a> <?php echo $log_details['log_message']; ?>
+                      </h3>
+                    </div>
+                  </li>
+                  <!-- END timeline item -->
+                  <!-- timeline item -->
+
+
+
+
+                          <?php 
+                    //log items by date
+                  $get_logs_by_date = get_all_logs_by_date_and_admin_id($_GET['admin_id'],$log_details['log_date']);
+                  while($log_by_date = mysqli_fetch_assoc($get_logs_by_date)){
+                    echo $log_by_date['log_header'];
+                  }
+                  ?>
+                  
+
+
+                  admin side
+                  ibahin nalang ung calendar
+                  my own version // use date and time inputa
+
+                 //admin tanggalin ung edit modal... ilagay nalang dun sa tab
+                 overview.... lagay na tayo ng announcement
+
+                 departments
+                 boxes nalang instead of data tables // dagdag ng isang field sa department db for department image
+                 add department
+
+
+
+                 add prof using csv excluding his department/subject 
+
+                 add student using csv excluding his/her department/program enrolled and subject taken
+
+
+                 add guidance councilor... kahit adding lang muna
+
+       https://www.youtube.com/watch?v=bzyqfoDd9a0
+       https://www.youtube.com/watch?v=GrycH6F-ksY
+
+
+
