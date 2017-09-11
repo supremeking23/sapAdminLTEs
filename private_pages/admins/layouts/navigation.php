@@ -16,11 +16,29 @@
           <li><a href="index.php"><i class="glyphicon glyphicon-home"></i> <span>Overview</span></a></li>
           <li><a href="admins.php"><i class="glyphicon glyphicon-user"></i> <span>Admins</span></a></li>
           <?php if($admin_department_id == 1){ ?>
-          <li><a href="departments.php"><i class="glyphicon glyphicon-th-list"></i> <span>Departments</span></a></li>
+          <li class="treeview">
+          <a href="#">
+            <span class="glyphicon glyphicon-th-list"></span>
+            <span>Departments</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="departments.php"><i class="fa fa-circle-o"></i> <span>All Departments</span></a></li>
+            <li><a href="add_department_and_programs.php"><i class="fa fa-circle-o"></i><span>Add Departments / Programs</span></a></li>
+          
+          </ul>
+        </li>
+        
            <?php }else{ ?>
            <li><a href="programs.php"><i class="glyphicon glyphicon-th-list"></i> <span>Programs</span></a></li>
            <?php } ?>
           <li><a href="professors.php"><i class="glyphicon glyphicon-user"></i> <span>Professors</span></a></li>
           <li><a href="guidance_councilor.php"><i class="glyphicon glyphicon-user"></i> <span>Guidance Councilors</span></a></li>
           <li><a href="students.php"><i class="glyphicon glyphicon-user"></i> <span>Students</span></a></li>
+           <li><a href="subjects.php"><i class="glyphicon glyphicon-book"></i> <span>Subjects</span></a></li>
        </ul>
+
+
+       <!--   <li><a href="departments.php"><i class="glyphicon glyphicon-th-list"></i> <span>Departments</span></a></li> -->

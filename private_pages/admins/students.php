@@ -63,6 +63,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <script>
+  function showUser(str) {
+  if (str == "") {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET","layouts/programs.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
+</script>
+
+
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -219,7 +245,7 @@ desired effect
                 </thead>
                 <tbody>
                  <?php //display all admins
-                  $get_students = get_all_students();
+                  $get_students = get_all_students($admin_department_id);
                   while ($total_students = mysqli_fetch_assoc($get_students)) {
                       ?> 
                   <tr>
@@ -260,7 +286,7 @@ desired effect
                               <!-- form for updating of professors profile  -->
 
                         <script src = "../js/validations.js"></script>
-                          <form action="students_page_process.php" method="post" enctype="multipart/form-data">
+                          <form action="process_pages/students_page_process.php" method="post" enctype="multipart/form-data">
                               <div class="modal-body">
                                
                                 <div class="form-group has-feedback">
@@ -355,12 +381,12 @@ desired effect
             <span class="info-box-icon bg-blue"><i class="fa fa-male"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Male</span>
-              <?php $count_male_professors = count_professor_gender_male();
-                      while($male_professors = mysqli_fetch_assoc($count_male_professors)){
-                          $total_male_professors = $male_professors['gender_male'];
+              <?php $count_male_students = count_students_gender_male($admin_department_id);
+                      while($male_students = mysqli_fetch_assoc($count_male_students)){
+                          $total_male_students = $male_students['gender_male'];
                       }
               ?>
-              <span class="info-box-number"><?php echo $total_male_professors;?></span>
+              <span class="info-box-number"><?php echo $total_male_students;?></span>
             </div>
           </div>
 
@@ -371,13 +397,13 @@ desired effect
             <div class="info-box-content">
               <span class="info-box-text">Female</span>
 
-               <?php $count_female_professors = count_professor_gender_female();
-                      while($female_professors = mysqli_fetch_assoc($count_female_professors)){
-                          $total_female_professors = $female_professors['gender_female'];
+               <?php $count_female_students = count_students_gender_female($admin_department_id);
+                      while($female_students = mysqli_fetch_assoc($count_female_students)){
+                          $total_female_students = $female_students['gender_female'];
                       }
               ?>
 
-              <span class="info-box-number"><?php echo $total_female_professors?></span>
+              <span class="info-box-number"><?php echo $total_female_students?></span>
             </div>
           </div>
           <div class="info-box">
@@ -385,15 +411,15 @@ desired effect
             <span class="info-box-icon bg-red"><i class="fa fa-users"></i></span>
             <div class="info-box-content">
 
-              <span class="info-box-text">Total Professors</span>
+              <span class="info-box-text">Total Students</span>
                <?php 
                  //count total number of admins
-                  $count_professors = count_total_professors();
-                  while ($total_professors = mysqli_fetch_assoc($count_professors)) {
-                     $total_number_professors =  $total_professors['total prof'];
+                  $count_students = count_total_students($admin_department_id);
+                  while ($total_students = mysqli_fetch_assoc($count_students)) {
+                     $total_number_students =  $total_students['total student'];
                   }
               ?>
-              <span class="info-box-number"><?php echo $total_number_professors?></span>
+              <span class="info-box-number"><?php echo $total_number_students?></span>
             </div>
           </div>
 
@@ -403,8 +429,93 @@ desired effect
 
         </div>
         <!-- end col 6 -->
-      </div>
-      <!-- end row -->
+
+
+            <div class="col-md-6">
+                <div class="box box-default">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Add Bulk Student</h3>
+
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <!-- /.box-header -->
+
+                <form action="process_pages/add_student_via_excel.php" method="POST" enctype="multipart/form-data">
+                    <div class="box-body">
+
+
+                       <p>Select Excel File</p>
+                        <input type="file" name="excel"  >
+
+
+                      <p>Select Department:</p>
+
+                      <div class="form-group has-feedback">
+                        <select required="" onchange="showUser(this.value)" class="form-control" name="department">
+                        <option value="">Please choose a department</option>
+                          <?php //departments for student_use?>
+                           <?php $all_departments = get_all_department_for_student_insertions($admin_department_id);
+                                        while($departments = mysqli_fetch_assoc($all_departments)){
+                                          ?>
+                                       <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_name'] ?> <?php echo $departments['department_code'] ?></option>
+
+                            <?php }?>
+                        </select>
+                      </div>
+
+
+                      
+                      <div id="txtHint"><b></b></div>
+
+
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                    <!--needs admins password before proceding -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#import_csv">Import and upload</button>
+                          <div class="modal fade modal-danger" id="import_csv">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                  <h4 class="modal-title">Access Confirmation</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id;?>">
+                                  <p>Please enter your password to continue</p>
+                                  <div class="form-group has-feedback">
+                                      <input type="password"   required="" class="form-control" placeholder="Password" name="admin_password">
+                                      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  
+                                  <input type="submit" name="add_csv" class="btn btn-primary" value="Proceed">
+                                </div>
+                              </div>
+                              <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                          </div>
+                          <!-- /.modal -->
+                    </div> <!-- /.footer -->
+               
+                </form>
+              </div>
+              <!-- /.box -->
+
+
+          </div>
+
+
+      </div> <!-- end row -->
+     
               
 
 

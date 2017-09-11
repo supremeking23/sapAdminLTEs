@@ -198,7 +198,7 @@ desired effect
 
         
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                <div class="box">
                 <div class="box-header with-border">
                   <h3 class="box-title">Event(Single Day)</h3>
@@ -217,7 +217,10 @@ desired effect
                       <th>Event ID</th>
                       <th>Event Title</th>
                       <th>Date</th>
-                      <th>Action</th>
+                      <th>Department</th>
+                      <th>Scheduled By</th>
+                      <th>Actions</th>
+
                       
                     </tr>
                     </thead>
@@ -227,12 +230,160 @@ desired effect
                         $all_events = get_all_single_day_events();
                         while($events = mysqli_fetch_assoc($all_events)):
                     ?>
-                    <tr>
+                    <tr style="background-color: <?php echo ($admin_department_id == $events['department_id'])?"rgba(0,0,0,0.2)":""; ?> "> 
                       <td><?php echo $events['id']; ?></td>
                       <td><?php echo $events['title']; ?></td>
-                      <td><?php echo $events['start']; ?></td>
-                      <td><a href="" class="btn btn-info">Edit</a></td>
+                      <?php $date_single = date_create($events['start']);
+                      $time_single =date_create($events['start_time']);
+                         
+                      ?>
+                      <td><?php echo date_format($date_single,"F d Y")." " . date_format($time_single,"g:i:s A"); ?></td>
+
+                      <?php 
+                      $query = "SELECT * FROM tbldepartments WHERE department_id = " . $events['department_id'] ;
+                        $run_query = mysqli_query($connection,$query);
+                        //for department name and code
+                        while($run = mysqli_fetch_assoc($run_query)){ ?>
+                            <td><?php echo  $run['department_name'];?> </td>
+                      <?php  
+
+                       ?>
+                    
+
+                     <?php 
+                      $query = "SELECT * FROM tbladmins WHERE admin_id = " . $events['admin_id'] ;
+                        $run_query = mysqli_query($connection,$query);
+                        //for department name and code
+                        while($runs = mysqli_fetch_assoc($run_query)){ ?>
+                      
+                      <td><?php echo  $runs['first_name'];?> <?php echo  $runs['last_name'];?> (<?php echo  $run['department_code'];?>)</td>
+
+                       <?php  } //inner
+
+                     } //outer
+
+                       ?>
+
+                       <td><a type="button" data-tooltip="tooltip" data-placement="left" data-title="Edit Event"  data-toggle="modal" data-target="#editmodal_single_day<?php echo $events['id'];?>"><span class='glyphicon glyphicon-pencil'></span>  </a> | <a type="button" data-tooltip="tooltip" data-placement="left" data-title="Edit Event"  data-toggle="modal" data-target="#deletemodal_single_day<?php echo $events['id'];?>"><span class='glyphicon glyphicon-trash'></span></a>
+              
+                      </td>
                     </tr>
+
+
+                    <!-- modal edit-->
+
+                  <div class="modal fade" id="editmodal_single_day<?php echo $events['id'];?>">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit Event(Single Day Event)</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form action="process_pages/edit_event.php" method="POST">
+                              <div id="single_reservation">
+
+                                                <input type="hidden" name="event_id"
+                                                 value="<?php echo $events['id'];?>">
+
+                                                <p><label for="event_name">Please enter the event name.</label></p>
+                                            
+                                                <div class="form-group has-feedback">
+                                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
+                                                  <input  required  type="text" class="form-control" placeholder="Event Name" required="" name="event_name" id="event_name" value="<?php echo $events['title']?>">
+                                                  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                                                </div>
+
+
+                                                  <?php if($admin_department_id== 1) {?>
+                                                    <div class="form-group has-feedback">
+                                                    <select class="form-control" name="department">
+                                                    
+                                                      <?php //departments?>
+                                                       <?php $all_departments = get_all_department($admin_department_id);
+                                                                    while($departments = mysqli_fetch_assoc($all_departments)){
+                                                                      ?>
+                                                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
+
+                                                        <?php }?>
+                                                    </select>
+                                                  </div>
+                                                  <?php }else{?>
+
+                                                   <input type="hidden" name="department" value="<?php echo $admin_department_id ?>">
+                                                
+                                                  <?php } ?>
+
+                                  <!-- Date -->
+                                  <div class="form-group">
+                                    <label for="single_event">Date:</label>
+                                    <div class="input-group date">
+                                      <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input type="date" class="form-control pull-right " id="" name="single_day" value="<?php echo $events['start']?>">
+                                    </div>
+                                    <!-- /.input group -->
+                                  </div>
+                                  <!-- /.form group -->
+
+
+                                   <div class="form-group">
+                                    <label for="single_event">Time:</label>
+                                    <div class="input-group date">
+                                      <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input type="time" class="form-control pull-right " id="" name="single_time" value="<?php echo $events['start_time']?>">
+                                    </div>
+                                    <!-- /.input group -->
+                                  </div>
+                                  <!-- /.form group -->
+                                </div> <!-- ./single_reservation -->
+
+                           
+                          </div>
+
+                          <div class="modal-footer">
+                             <input type="submit" class="btn btn-primary" id="submit_event_single" name="edit_event_single" value="Schedule this event now">
+                            </form>
+                          </div>
+                           </form>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+                 <div class="modal modal-warning fade" id="deletemodal_single_day<?php echo $events['id'];?>">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Delete Event(Single Day Event)</h4>
+                          </div>
+                          
+                          <div class="modal-body">
+                            <p>You are about to delete this event. Are you sure you want to delete this event?&hellip;</p>
+                            <form action="process_pages/delete_event.php" method="POST">
+                              <input type="hidden" name="event_id" value="<?php echo $events['id'];?>">
+                               <input type="hidden" name="admin_id" value="<?php echo $admin_id;?>">
+                              <p><input type="submit" name="delete_event_single" id="delete_event_button" class="btn btn-primary" value="Yes"> &nbsp&nbsp <input type="reset"  class="btn btn-danger" data-dismiss="modal"  value="No"></p>
+                             </form> 
+
+
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+
                       <?php endwhile;?>
                     </tbody>
                    
@@ -244,11 +395,21 @@ desired effect
             </div>
             <!-- /.col -->
 
-          <div class="col-md-6">
+            </div> <!-- /.row outer -->
+
+
+        <div class="row">
+          <div class="col-md-12">
              <div class="box">
-              <div class="box-header">
-                <h3 class="box-title">Event(Multiple Day)</h3>
-              </div>
+              <div class="box-header with-border">
+                   <h3 class="box-title">Event(Multiple Day)</h3>
+                    <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  
+                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
               <!-- /.box-header -->
               <div class="box-body">
                 <table  class="table table-bordered table-striped datatable">
@@ -258,6 +419,8 @@ desired effect
                       <th>Event Title</th>
                       <th>Date Start</th>
                       <th>Date Finish</th>
+                      <th>Department</th>
+                      <th>Scheduled By</th>
                       <th>Action</th>
                       
                     </tr>
@@ -270,9 +433,199 @@ desired effect
                   <tr>
                       <td><?php echo $events['id']; ?></td>
                       <td><?php echo $events['title']; ?></td>
-                      <td><?php echo $events['start']; ?></td>
-                      <td><?php echo $events['end']; ?></td>
-                      <td><a href="" class="btn btn-info">Edit</a></td>
+                       <?php $date_from = date_create($events['start']);
+                        $time_from =date_create($events['start_time']);
+                        $date_to = date_create($events['end']);
+                        $time_to =date_create($events['end_time']);
+                         
+                      ?>
+                     <td><?php echo date_format($date_from,"F d Y")." " . date_format($time_from,"g:i:s A"); ?></td>
+                      <td><?php echo date_format($date_to,"F d Y")." " . date_format($time_to,"g:i:s A"); ?></td>
+
+
+
+                      <?php 
+                      $query = "SELECT * FROM tbldepartments WHERE department_id = " . $events['department_id'] ;
+                        $run_query = mysqli_query($connection,$query);
+                        //for department name and code
+                        while($run = mysqli_fetch_assoc($run_query)){ ?>
+                            <td><?php echo  $run['department_name'];?> </td>
+                      <?php  
+
+                       ?>
+                    
+
+                     <?php 
+                      $query = "SELECT * FROM tbladmins WHERE admin_id = " . $events['admin_id'] ;
+                        $run_query = mysqli_query($connection,$query);
+                        //for department name and code
+                        while($runs = mysqli_fetch_assoc($run_query)){ ?>
+                      
+                      <td><?php echo  $runs['first_name'];?> <?php echo  $runs['last_name'];?> </td>
+
+                       <?php  } //inner
+
+                     } //outer
+
+                       ?>
+
+                       <td><a type="button" data-tooltip="tooltip" data-placement="left" data-title="Edit Event"  data-toggle="modal" data-target="#editmodal_multiple_day<?php echo $events['id'];?>"><span class='glyphicon glyphicon-pencil'></span>  </a> | <a type="button" data-tooltip="tooltip" data-placement="left" data-title="Edit Event"  data-toggle="modal" data-target="#deletemodal_multiple_day<?php echo $events['id'];?>"><span class='glyphicon glyphicon-trash'></span></a>
+              
+                      </td>
+
+
+                              <div class="modal fade" id="editmodal_multiple_day<?php echo $events['id'];?>">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Default Modal</h4>
+                                      </div>
+                                      <div class="modal-body">
+                              
+
+
+                              <div id="multiple_reservation">
+
+                              <form action="process_pages/edit_event.php" method="POST">
+
+                              <div class="col-sm-12">
+                               <input type="hidden" name="event_id"
+                                                 value="<?php echo $events['id'];?>">
+                                  <p><label for="event_name">Please enter the event name.</label></p>
+                                
+                                <div class="form-group has-feedback">
+                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
+                                  <input  required  type="text" class="form-control" placeholder="Event Name" required="" name="event_name" id="event_name" value="<?php echo $events['title'];?>">
+                                  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                                </div>
+
+
+                                  <?php if($admin_department_id== 1) {?>
+                                    <div class="form-group has-feedback">
+                                    <select class="form-control" name="department">
+                                    
+                                      <?php //departments?>
+                                       <?php $all_departments = get_all_department($admin_department_id);
+                                                    while($departments = mysqli_fetch_assoc($all_departments)){
+                                                      ?>
+                                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
+
+                                        <?php }?>
+                                    </select>
+                                  </div>
+                                  <?php }else{?>
+
+                                   <input type="hidden" name="department" value="<?php echo $admin_department_id ?>">
+                                
+                                  <?php } ?>
+
+                                 </div>
+
+
+                                  <div class="col-sm-6">
+                                         <!-- Date -->
+                                       <div class="form-group">
+                                        <label for="date_from">Date From:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="date" class="form-control pull-right " id="date_from" value="<?php echo $events['start']?>" name="date_from">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+                                      <div class="form-group">
+                                        <label for="time_from">Time From:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="time" class="form-control pull-right " id="time_from" name="time_from" value="<?php echo $events['start_time']?>">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+                                    </div> <!-- /.cols sm -->
+                                  <div class="col-sm-6">
+                                     <!-- Date -->
+                                       <div class="form-group">
+                                        <label for="date_to">Date To:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="date" class="form-control pull-right " id="date_to" name="date_to" value="<?php echo $events['end']?>">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+                                      <div class="form-group">
+                                        <label for="time_to">Time To:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="time" class="form-control pull-right " id="time_to" name="time_to" value="<?php echo $events['end_time']?>">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+
+                                      
+                                    </div> <!-- /.cols sm -->
+
+                                    <div class="col-sm-12">
+                                    
+                                    </div>
+                                  
+
+                               </div> <!-- /.multiple_reservation -->
+
+
+
+                               </div> <!-- /.modal body -->
+                                      <div class="modal-footer">
+                                          <input type="submit" class="btn btn-primary" id="submit_event_multiple" name="submit_event_multiple" value="Schedule this event now">
+                                      </div>
+
+                                </form>
+
+                                    </div>
+                                    <!-- /.modal-content -->
+                                  </div>
+                                  <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+
+
+
+
+                  <div class="modal modal-warning fade" id="deletemodal_multiple_day<?php echo $events['id'];?>">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Delete Event(Multiple Day Event)</h4>
+                          </div>
+                          
+                          <div class="modal-body">
+                            <p>You are about to delete this event. Are you sure you want to delete this event?&hellip;</p>
+                            <form action="process_pages/delete_event.php" method="POST">
+                              <input type="hidden" name="event_id" value="<?php echo $events['id'];?>">
+                               <input type="hidden" name="admin_id" value="<?php echo $admin_id;?>">
+                              <p><input type="submit" name="delete_event_multiple" id="delete_event_button" class="btn btn-primary" value="Yes"> &nbsp&nbsp <input type="reset"  class="btn btn-danger" data-dismiss="modal"  value="No"></p>
+                             </form> 
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
                     </tr>
                       <?php endwhile;?>
                   </tbody>
@@ -284,7 +637,7 @@ desired effect
             <!-- /.box -->
           </div>
           <!-- /.col -->
-      </div>
+      </div><!-- /.outer -->
 
 
 
@@ -332,7 +685,9 @@ $connection->close();
 <!-- self script -->
 <script src="additional_styling/additional.js"></script>
 <script src="additional_styling/navigation.js"></script>
-
+<script>
+  
+</script>
 
 
 </body>

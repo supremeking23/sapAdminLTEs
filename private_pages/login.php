@@ -22,6 +22,9 @@
               if($student_attempt_login){
                 $_SESSION["student_id"] = $student_attempt_login["student_id"];
                 redirect_to("student_pages/Sidebar.php");
+              }else{
+                $_SESSION['failed_message'] = "Wrong email / password";
+                //echo "<script>alert('sdsd')</script>";
               }
 
         }else if($identity == "professor"){
@@ -30,6 +33,8 @@
               if($professor_attempt_login){
                 $_SESSION["prof_id"] = $professor_attempt_login["prof_id"];
                 redirect_to("professors_pages/Sidebar.php");
+              }else{
+                $_SESSION['failed_message'] = "Wrong email / password";
               }
 
         }else if($identity == "councilor"){
@@ -38,7 +43,9 @@
             if($councilor_attempt_login){
               $_SESSION["gc_id"] = $councilor_attempt_login["gc_id"];
               redirect_to("councilor_pages/Sidebar.php");
-            }
+            }else{
+                $_SESSION['failed_message'] = "Wrong email / password";
+              }
         }
 
 
@@ -62,6 +69,12 @@
 	<!-- Style -->
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="all">
   <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+   <!-- Theme style -->
+  <link rel="stylesheet" href="admins/dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="admins/dist/css/skins/skin-blue.min.css">
 	<!-- Fonts --> <!--<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Quicksand:300,400,500,700"> -->
 
   <style>
@@ -85,10 +98,10 @@
 	</head>
 
 	<body>
-
+     <?php echo failed_message();?>
 		<!--<h1></h1>-->
     <div style="margin-top:70px"></div>
-    <?php echo message();?>
+   
 
 		<div class="mainContainer hidden">
 
@@ -133,6 +146,10 @@
 			$(document).ready(function () {
 				$('div.hidden').fadeIn(1300).removeClass('hidden');
 			});
+
+       $(document).ready(function(){
+      $('#errormodal').modal('show');
+    });
 		</script>
 
 	</body>

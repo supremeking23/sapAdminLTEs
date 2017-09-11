@@ -204,17 +204,20 @@ desired effect
 
       <!--------------------------
         | Your Page Content Here -->
+     <?php //messages
+      echo message_success();
+      ?>   
 
       <?php //retrieve counts
 
             //count total number of admins
-            $count_admin = count_total_admins();
+            $count_admin = count_total_admins($admin_department_id);
             while ($total_admin = mysqli_fetch_assoc($count_admin)) {
                $total_number_admin =  $total_admin['total admin'];
             }
 
             //count total number of professors
-            $count_prof = count_total_professors();
+            $count_prof = count_total_professors($admin_department_id);
             while ($total_prof = mysqli_fetch_assoc($count_prof)) {
                $total_number_prof =  $total_prof['total prof'];
             }
@@ -227,7 +230,7 @@ desired effect
 
 
              //count total number of guidance councilor
-            $count_students = count_total_students();
+            $count_students = count_total_students($admin_department_id);
             while ($total_students = mysqli_fetch_assoc($count_students)) {
                $total_number_student =  $total_students['total student'];
             }
@@ -339,160 +342,225 @@ desired effect
                           <div class="box-footer">
                             <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-add-event">Add Event</button>
                             <a href="all_events.php" class="btn btn-warning pull-right">All Events</a>
-
-                          <div class="modal fade" id="modal-add-event">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                  <h4 class="modal-title">Add Event</h4>
-                                </div>
-                                        
-                                        <!-- form for updating of admin profile  -->
-                                    <form id="event_form">
-                                        <div class="modal-body">
-
-                                                <p><label for="event_name">Please enter the event name.</label></p>
-                            
-                                                <div class="form-group has-feedback">
-                                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
-                                                  <input  required  type="text" class="form-control" placeholder="Event Name" required="" name="event_name" id="event_name">
-                                                  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
-                                                </div>
-
-
-                                                  <?php if($admin_department_id== 1) {?>
-                                                    <div class="form-group has-feedback">
-                                                    <select class="form-control" name="department">
-                                                    
-                                                      <?php //departments?>
-                                                       <?php $all_departments = get_all_department($admin_department_id);
-                                                                    while($departments = mysqli_fetch_assoc($all_departments)){
-                                                                      ?>
-                                                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
-
-                                                        <?php }?>
-                                                    </select>
-                                                  </div>
-                                                  <?php }else{?>
-
-                                                   <input type="hidden" name="department" value="<?php echo $admin_department_id ?>">
-                                                
-                                                  <?php } ?>
-                                                 
-                                                <center>
-                                                  <button type="button" id="single_day">Single day event</button>
-                                                  <button type="button"  id="multiple_day">Multiple day event</button>
-                                                </center>
-
-                                                <div id="single_reservation">
-                                                    <!-- Date -->
-                                                    <div class="form-group">
-                                                      <label for="single_event">Date:</label>
-                                                      <div class="input-group date">
-                                                        <div class="input-group-addon">
-                                                          <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                        <input type="date" class="form-control pull-right " id="" name="single_day">
-                                                      </div>
-                                                      <!-- /.input group -->
-                                                    </div>
-                                                    <!-- /.form group -->
-
-
-                                                     <div class="form-group">
-                                                      <label for="single_event">Time:</label>
-                                                      <div class="input-group date">
-                                                        <div class="input-group-addon">
-                                                          <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                        <input type="time" class="form-control pull-right " id="" name="single_time">
-                                                      </div>
-                                                      <!-- /.input group -->
-                                                    </div>
-                                                    <!-- /.form group -->
-                                                </div> <!-- ./single_reservation -->
-
-                                               
-                                              <div class="row">
-                                                <div id="multiple_reservation">
-                                                    <div class="col-sm-6">
-                                                           <!-- Date -->
-                                                         <div class="form-group">
-                                                          <label for="date_from">Date From:</label>
-                                                          <div class="input-group date">
-                                                            <div class="input-group-addon">
-                                                              <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input type="date" class="form-control pull-right " id="date_from" name="date_from">
-                                                          </div>
-                                                          <!-- /.input group -->
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                        <div class="form-group">
-                                                          <label for="time_from">Time From:</label>
-                                                          <div class="input-group date">
-                                                            <div class="input-group-addon">
-                                                              <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input type="time" class="form-control pull-right " id="time_from" name="time_from">
-                                                          </div>
-                                                          <!-- /.input group -->
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                      </div> <!-- /.cols sm -->
-                                                    <div class="col-sm-6">
-                                                       <!-- Date -->
-                                                         <div class="form-group">
-                                                          <label for="date_to">Date To:</label>
-                                                          <div class="input-group date">
-                                                            <div class="input-group-addon">
-                                                              <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input type="date" class="form-control pull-right " id="date_to" name="date_to">
-                                                          </div>
-                                                          <!-- /.input group -->
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                        <div class="form-group">
-                                                          <label for="time_to">Time To:</label>
-                                                          <div class="input-group date">
-                                                            <div class="input-group-addon">
-                                                              <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input type="time" class="form-control pull-right " id="time_to" name="time_to">
-                                                          </div>
-                                                          <!-- /.input group -->
-                                                        </div>
-                                                        <!-- /.form group -->
-                                                      </div> <!-- /.cols sm -->
-
-                                                </div> <!-- /.multiple_reservation -->
-                                              </div><!-- /.row -->
-
-                                        
-                                        <div class="modal-footer">
-                                            <input type="submit" id="submit_event" name="submit_event" value="Schedule this event now">
-                                        </div>
-
-                                      </form>
-
-                                      </div>
-                                      <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                  </div>
-                                  <!-- /.modal -->
-                          </div><!-- box-footer -->
-                
-
+                        </div>                                       
              </div><!-- /.box -->
            </div>  <!-- /. col for calendar -->
            
 
       </div> <!-- /.end row -->
 
+      <!-- modal for adding events -->
+
+       <div class="modal fade" id="modal-add-event">
+          <div class="modal-dialog">
+
+         
+
+
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add Event</h4>
+              </div>
+              
+
+               
+              <div class="modal-body">
+                   
+                    
+                             
+                            <center>
+                              <button type="button" id="single_day">Single day event</button>
+                              <button type="button"  id="multiple_day">Multiple day event</button>
+                            </center>
+
+                      
+
+                      <div id="single_reservation">
+                          <form action="process_pages/add_event.php" method="POST">
+                            <p><label for="event_name">Please enter the event name.</label></p>
+                                
+                                <div class="form-group has-feedback">
+                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
+                                  <input  required  type="text" class="form-control" placeholder="Event Name" required="" name="event_name" id="event_name">
+                                  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                                </div>
+
+
+                                  <?php if($admin_department_id== 1) {?>
+                                    <div class="form-group has-feedback">
+                                    <select class="form-control" name="department">
+                                    
+                                      <?php //departments?>
+                                       <?php $all_departments = get_all_department($admin_department_id);
+                                                    while($departments = mysqli_fetch_assoc($all_departments)){
+                                                      ?>
+                                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
+
+                                        <?php }?>
+                                    </select>
+                                  </div>
+                                  <?php }else{?>
+
+                                   <input type="hidden" name="department" value="<?php echo $admin_department_id ?>">
+                                
+                                  <?php } ?>
+
+
+
+                            <!-- Date -->
+                            <div class="form-group">
+                              <label for="single_event">Date:</label>
+                              <div class="input-group date">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="date" class="form-control pull-right " id="" name="single_day">
+                              </div>
+                              <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+
+
+                             <div class="form-group">
+                              <label for="single_event">Time:</label>
+                              <div class="input-group date">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="time" class="form-control pull-right " id="" name="single_time">
+                              </div>
+                              <!-- /.input group -->
+                            </div>
+                            <!-- /.form group -->
+
+                            <input type="submit" class="btn btn-primary" id="submit_event_single" name="submit_event_single" value="Schedule this event now">
+                            </form>
+                        </div> <!-- ./single_reservation -->
+
+
+
+                        
+
+                     <div class="row">
+                        
+                          
+                         
+
+                    
+
+                          <div id="multiple_reservation">
+
+                              <form action="process_pages/add_event.php" method="POST">
+
+                              <div class="col-sm-12">
+                                  <p><label for="event_name">Please enter the event name.</label></p>
+                                
+                                <div class="form-group has-feedback">
+                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
+                                  <input  required  type="text" class="form-control" placeholder="Event Name" required="" name="event_name" id="event_name">
+                                  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                                </div>
+
+
+                                  <?php if($admin_department_id== 1) {?>
+                                    <div class="form-group has-feedback">
+                                    <select class="form-control" name="department">
+                                    
+                                      <?php //departments?>
+                                       <?php $all_departments = get_all_department($admin_department_id);
+                                                    while($departments = mysqli_fetch_assoc($all_departments)){
+                                                      ?>
+                                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
+
+                                        <?php }?>
+                                    </select>
+                                  </div>
+                                  <?php }else{?>
+
+                                   <input type="hidden" name="department" value="<?php echo $admin_department_id ?>">
+                                
+                                  <?php } ?>
+
+                                 </div>
+
+
+                                  <div class="col-sm-6">
+                                         <!-- Date -->
+                                       <div class="form-group">
+                                        <label for="date_from">Date From:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="date" class="form-control pull-right " id="date_from" name="date_from">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+                                      <div class="form-group">
+                                        <label for="time_from">Time From:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="time" class="form-control pull-right " id="time_from" name="time_from">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+                                    </div> <!-- /.cols sm -->
+                                  <div class="col-sm-6">
+                                     <!-- Date -->
+                                       <div class="form-group">
+                                        <label for="date_to">Date To:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="date" class="form-control pull-right " id="date_to" name="date_to">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+                                      <div class="form-group">
+                                        <label for="time_to">Time To:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="time" class="form-control pull-right " id="time_to" name="time_to">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                      <!-- /.form group -->
+
+                                      
+                                    </div> <!-- /.cols sm -->
+
+                                    <div class="col-sm-12">
+                                      <input type="submit" class="btn btn-primary" id="submit_event_multiple" name="submit_event_multiple" value="Schedule this event now">
+                                    </div>
+                                  </form>
+
+                          </div> <!-- /.multiple_reservation -->
+
+                    </div><!-- /.row -->
+
+              </div>
+                <div class="modal-footer">
+                  
+              </div>
+
+              </form>
+              
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
          <!--|
         -------------------------->
@@ -560,10 +628,12 @@ $connection->close();
             editable: false,
             eventLimit: true, 
             allDay:true,
+
          
           events: {
             url: 'process_pages/getEvents.php',
             type: 'POST', // Send post data
+            //backgroundColor: '',
             error: function() {
                 alert('There was an error while fetching events.');
             }
@@ -590,7 +660,8 @@ $connection->close();
         $("div#multiple_reservation").show();
     });
 
-    var event_name = $('#event_name').val();
+    
+    /*var event_name = $('#event_name').val();
          
    
 
@@ -630,7 +701,7 @@ $connection->close();
       });
     });
 
-
+*/
    
         
     });

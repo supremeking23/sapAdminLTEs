@@ -47,8 +47,8 @@
          	if($run_insert_admin && mysqli_affected_rows($connection) == 1){
 				$_SESSION['success_message'] = "Admin has been added";
                 redirect_to('admins.php');
-			}
-         }
+			     }
+        }
 
 
 

@@ -358,7 +358,7 @@ desired effect
             <span class="info-box-icon bg-blue"><i class="fa fa-male"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Male</span>
-              <?php $count_male_professors = count_professor_gender_male();
+              <?php $count_male_professors = count_professor_gender_male($admin_department_id);
                       while($male_professors = mysqli_fetch_assoc($count_male_professors)){
                           $total_male_professors = $male_professors['gender_male'];
                       }
@@ -374,7 +374,7 @@ desired effect
             <div class="info-box-content">
               <span class="info-box-text">Female</span>
 
-               <?php $count_female_professors = count_professor_gender_female();
+               <?php $count_female_professors = count_professor_gender_female($admin_department_id);
                       while($female_professors = mysqli_fetch_assoc($count_female_professors)){
                           $total_female_professors = $female_professors['gender_female'];
                       }
@@ -391,7 +391,7 @@ desired effect
               <span class="info-box-text">Total Professors</span>
                <?php 
                  //count total number of admins
-                  $count_professors = count_total_professors();
+                  $count_professors = count_total_professors($admin_department_id);
                   while ($total_professors = mysqli_fetch_assoc($count_professors)) {
                      $total_number_professors =  $total_professors['total prof'];
                   }

@@ -120,8 +120,60 @@ dagdagan ng log pag mag add ng event sa bawat admin
 
                  add guidance councilor... kahit adding lang muna
 
+
+                 6am to 8 am continue of csv for students
+
        https://www.youtube.com/watch?v=bzyqfoDd9a0
        https://www.youtube.com/watch?v=GrycH6F-ksY
 
 
 
+if($_FILES['c_image']['name'] == "") {
+// No file was selected for upload, your (re)action goes here
+    $admin_profile = $_POST['image_name'];
+}else{
+      $admin_profile = $_FILES['c_image']['name'];
+    $admin_profile_tmp =$_FILES['c_image']['tmp_name'];
+
+    move_uploaded_file($admin_profile_tmp, "admin_images/$admin_profile");
+}
+
+
+
+
+ <tr>
+                    <td><?php echo $total_departments['department_name']?></td>
+                    <td><?php echo $total_departments['department_code']?></td>
+
+                    <?php $count_programs = count_programs_by_department($total_departments['department_id']);
+                          while($total_count = mysqli_fetch_assoc($count_programs)){
+                            $get_count_programs = $total_count['number_of_programs'];
+                          }
+                    ?>
+                    <td><?php echo $get_count_programs;?></td>
+
+                    
+
+                   
+                </tr>
+
+
+
+
+
+admin - #0073b7
+coahs - #00a65a
+
+cas	-#ff8000 
+
+coa - #ffff00
+
+cos - #ff80ff
+
+coe - #ff8080
+
+com - #ff0000
+
+cfe - #008080
+
+Comarines - #004080

@@ -252,11 +252,13 @@ desired effect
                       </li>
                     </ul>
 
-                    <!--<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+                    <a href="admin_edit_info.php?admin_id=<?php echo $_GET['admin_id']?>" class="btn btn-primary btn-block"><b>Edit Information</b></a> 
                   </div>
                   <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
+
+
           </div> <!-- /.cols -->
 
 
@@ -305,6 +307,10 @@ desired effect
                     <i class="glyphicon glyphicon-calendar bg-blue"></i>
                     <?php }elseif($log_by_date['log_header'] == "Delete Event"){ ?>
                     <i class="glyphicon glyphicon-calendar bg-red"></i>
+                    <?php }elseif($log_by_date['log_header'] == "Add College Program"){ ?>
+                    <i class="glyphicon glyphicon-list bg-green"></i>
+                    <?php }elseif($log_by_date['log_header'] == "Add Department"){ ?>
+                    <i class="glyphicon glyphicon-list bg-blue"></i>
                      <?php  } ?>
                     <div class="timeline-item">
                       <span class="time"><i class="fa fa-clock-o"></i> <?php $date =date_create($log_by_date['log_time']);
@@ -323,8 +329,6 @@ desired effect
 
                 </ul>
               </div>
-
-
 
             <?php endwhile;
                  

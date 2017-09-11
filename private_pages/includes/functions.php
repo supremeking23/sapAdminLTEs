@@ -223,6 +223,24 @@ function get_admin_by_id($admin_id){
 
 }
 
+
+function get_dean_by_department_id($department_id){
+  global $connection;
+
+  $department_id = mysql_prep($department_id);
+
+  $query = "SELECT * FROM tbldepartmentheads WHERE department_id = '$department_id' ";
+
+  $result = $connection->query($query) or die(mysqli_error());
+
+  if($dean = mysqli_fetch_assoc($result)){
+    return $dean;
+  }else{
+    return null;
+  }
+
+}
+
 function find_password($admin_id,$password){
   global $connection;
 
@@ -275,6 +293,64 @@ function get_all_department($department_id){
   $get_department = $connection->query($query) or die(mysqli_error());
 
   return $get_department;
+
+}
+
+
+function get_all_department_aside_from_school_admin($department_id){
+  global $connection;
+
+  $department_id = mysql_prep($department_id);
+
+  if($department_id == 1){
+    $query = "SELECT  * FROM tbldepartments WHERE department_id != 1 ";
+  }else{
+    $query = "SELECT  * FROM tbldepartments WHERE  department_id = $department_id";
+  }
+  
+
+  $get_department = $connection->query($query) or die(mysqli_error());
+
+  return $get_department;
+}
+
+
+//for bulk student
+function get_all_department_for_student_insertions($department_id){
+   global $connection;
+
+  $department_id = mysql_prep($department_id);
+
+  if($department_id == 1){
+    $query = "SELECT  * FROM tbldepartments WHERE department_id != 1";
+  }else{
+    $query = "SELECT  * FROM tbldepartments WHERE  department_id = $department_id";
+  }
+  
+
+  $get_department = $connection->query($query) or die(mysqli_error());
+
+  return $get_department;
+
+}
+
+
+//for bulk student
+function get_all_programs_for_student_insertions($department_id){
+   global $connection;
+
+  $department_id = mysql_prep($department_id);
+
+  if($department_id == 1){
+    $query = "SELECT  * FROM tblcollegeprograms WHERE department_id != 1";
+  }else{
+    $query = "SELECT  * FROM tblcollegeprograms WHERE  department_id = $department_id";
+  }
+  
+
+  $get_programs = $connection->query($query) or die(mysqli_error());
+
+  return $get_programs;
 
 }
 
@@ -342,10 +418,16 @@ function get_all_professors($department_id){
   return $get_professors;
 }
 
-function get_all_students(){
+function get_all_students($department_id){
   global $connection;
 
-  $query = "SELECT  * FROM tblstudentinfo WHERE isActive = 1";
+  if($department_id == 1){
+    $query = "SELECT  * FROM tblstudentinfo WHERE isActive = 1";
+  }else{
+     //join query
+    $query = "SELECT * FROM tblstudentinfo INNER JOIN tbldepartments ON tblstudentinfo.department  = tbldepartments.department_id WHERE isActive = 1 AND tblstudentinfo.department = $department_id";
+  }
+  
 
   $get_students = $connection->query($query) or die(mysqli_error());
 
@@ -357,11 +439,20 @@ function get_all_students(){
 
 //count functions
 
-
-function count_total_admins(){
+//by department ids
+function count_total_admins($department_id){
   global $connection;
 
-  $query = "SELECT count(*) AS 'total admin' FROM tbladmins WHERE isActive = 1";
+    if($department_id == 1){
+
+    $query = "SELECT count(*) AS 'total admin' FROM tbladmins WHERE isActive = 1";
+    }else{
+
+     $query = "SELECT count(*) AS 'total admin' FROM tbladmins WHERE isActive = 1 AND admin_department_id = '$department_id'";
+    }
+
+
+  
 
   $count_admin = $connection->query($query) or die(mysqli_error());
 
@@ -369,10 +460,16 @@ function count_total_admins(){
 }
 
 
-function count_total_professors(){
+function count_total_professors($department_id){
   global $connection;
 
+  if($department_id == 1){
+
   $query = "SELECT count(*) AS 'total prof' FROM tblprofessor WHERE isActive = 1";
+
+  }else{
+     $query = "SELECT count(*) AS 'total prof' FROM tblprofessor WHERE isActive = 1 AND department = '$department_id'";
+  }
 
   $count_prof = $connection->query($query) or die(mysqli_error());
 
@@ -390,10 +487,15 @@ function count_total_guidance_councilors(){
 }
 
 
-function count_total_students(){
+function count_total_students($department_id){
   global $connection;
 
-  $query = "SELECT count(*) AS 'total student' FROM tblstudentinfo WHERE isActive = 1";
+  if($department_id == 1){
+    $query = "SELECT count(*) AS 'total student' FROM tblstudentinfo WHERE isActive = 1";
+  }else{
+    $query = "SELECT count(*) AS 'total student' FROM tblstudentinfo WHERE isActive = 1  AND department = '$department_id'";
+  }  
+  
 
   $count_student = $connection->query($query) or die(mysqli_error());
 
@@ -403,22 +505,28 @@ function count_total_students(){
 
 
 //gender admins
-function count_admin_gender_male(){
+function count_admin_gender_male($department_id){
   global $connection;
 
-  $query = "SELECT count(gender) AS 'gender_male' FROM tbladmins WHERE gender = 'Male' AND isActive = 1";
-
+  if($department_id == 1){
+    $query = "SELECT count(gender) AS 'gender_male' FROM tbladmins WHERE gender = 'Male' AND isActive = 1";
+  }else{
+    $query = "SELECT count(gender) AS 'gender_male' FROM tbladmins WHERE gender = 'Male' AND isActive = 1 AND admin_department_id = '$department_id'";
+  }
   $count_admin_male = $connection->query($query) or die(mysqli_error($connection));
 
   return $count_admin_male;
 }
 
 
-function count_admin_gender_female(){
+function count_admin_gender_female($department_id){
   global $connection;
 
-  $query = "SELECT count(gender) AS 'gender_female' FROM tbladmins WHERE gender = 'Female' AND isActive = 1";
-
+  if($department_id == 1){
+    $query = "SELECT count(gender) AS 'gender_female' FROM tbladmins WHERE gender = 'Female' AND isActive = 1";
+  }else{
+     $query = "SELECT count(gender) AS 'gender_female' FROM tbladmins WHERE gender = 'Female' AND isActive = 1 AND admin_department_id = '$department_id'";
+  }
   $count_admin_female = $connection->query($query) or die(mysqli_error($connection));
 
   return $count_admin_female;
@@ -426,18 +534,21 @@ function count_admin_gender_female(){
 
 
 //gender professors
-function count_professor_gender_male(){
+function count_professor_gender_male($department_id){
   global $connection;
 
+  if($department_id == 1){
   $query = "SELECT count(gender) AS 'gender_male' FROM tblprofessor WHERE gender = 'Male' AND isActive = 1";
-
+  }else{
+     $query = "SELECT count(gender) AS 'gender_male' FROM tblprofessor WHERE gender = 'Male' AND isActive = 1 AND department = '$department_id'";
+  }
   $count_professors_male = $connection->query($query) or die(mysqli_error($connection));
 
   return $count_professors_male;
 }
 
 
-function count_professor_gender_female(){
+function count_professor_gender_female($department_id){
   global $connection;
 
   $query = "SELECT count(gender) AS 'gender_female' FROM tblprofessor WHERE gender = 'Female' AND isActive = 1";
@@ -447,6 +558,35 @@ function count_professor_gender_female(){
   return $count_professor_female;
 }
 
+
+//gender students
+function count_students_gender_male($department_id){
+  global $connection;
+
+  if($department_id == 1){
+    $query = "SELECT count(gender) AS 'gender_male' FROM tblstudentinfo WHERE gender = 'Male' AND isActive = 1";
+  }else{
+    $query = "SELECT count(gender) AS 'gender_male' FROM tblstudentinfo WHERE gender = 'Male' AND isActive = 1 AND department = '$department_id'"  ;
+  }
+
+  $count_professors_male = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_professors_male;
+}
+
+
+function count_students_gender_female($department_id){
+  global $connection;
+
+  if($department_id == 1){
+  $query = "SELECT count(gender) AS 'gender_female' FROM tblstudentinfo WHERE gender = 'Female' AND isActive = 1";
+  }else{
+    $query = "SELECT count(gender) AS 'gender_female' FROM tblstudentinfo WHERE gender = 'Female' AND isActive = 1 AND department = '$department_id'";
+  }
+  $count_professor_female = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_professor_female;
+}
 
 //with id parameters
 //count programs for eache department
@@ -561,6 +701,8 @@ function get_all_programs_by_department($department_id){
   function get_all_single_day_events(){
       global $connection;
      
+
+     // $query = "SELECT * FROM tblevents FULL OUTER JOIN tbldepartments  ON (tblevents.department_id = tbldepartments.department_id) FULL OUTER JOIN tbladmins ON (tbldepartments.department_id = tbladmins.admin_department_id)  WHERE type = 'Single day event' ORDER BY start desc";
 
       $query = "SELECT * FROM tblevents WHERE type = 'Single day event'";
 

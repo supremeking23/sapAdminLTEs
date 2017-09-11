@@ -9,7 +9,7 @@
             <div class="box-body">
               <div class="register-box-body">
                 <p class="login-box-msg">Register a New Student</p>
-                <form action="students_page_process.php" method="post" enctype="multipart/form-data">
+                <form action="process_pages/students_page_process.php" method="post" enctype="multipart/form-data">
 
                  
                  
@@ -35,10 +35,11 @@
                     <input type="date" required="" class="form-control" name="date_birth" placeholder="Date of Birth">
                     <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
                   </div>
-                  <div class="form-group has-feedback">
+                 
+                 <!-- <div class="form-group has-feedback">
                     <input type="email" required="" class="form-control" placeholder="Email" required="" name="email">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                  </div>
+                  </div> -->
 
                   <div class="form-group has-feedback">
                       <input title="Number only!" type="text" class="form-control" required="" placeholder="Contact" name="contact" onkeypress = "return numbersonly(event)" >
@@ -50,10 +51,16 @@
                                 <span class="glyphicon glyphicon-globe form-control-feedback"></span>
                       </div>
 
+                       <div class="form-group has-feedback">
+                                <input type="text" class="form-control" required="" placeholder="Guardian's Name" name="guardian" value="">
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                      </div>
+
                     <div class="form-group has-feedback">
                     <select class="form-control" name="department">
-                      <?php //departments?>
-                       <?php $all_departments = get_all_department($admin_department_id);
+
+                      <?php //departments for student_use?>
+                       <?php $all_departments = get_all_department_for_student_insertions($admin_department_id);
                                     while($departments = mysqli_fetch_assoc($all_departments)){
                                       ?>
                                    <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
@@ -62,14 +69,14 @@
                     </select>
                   </div>
                   
-                  <div class="form-group has-feedback">
+                 <!-- <div class="form-group has-feedback">
                     <input type="password"   required="" class="form-control" placeholder="Password" name="password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                   </div>
                   <div class="form-group has-feedback">
                     <input type="password" required="" class="form-control" placeholder="Retype password" name="confirm_password">
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                  </div>
+                  </div> -->
                   <input type="file" name="upload_image" class="input-group">
 
                   <div class="row">

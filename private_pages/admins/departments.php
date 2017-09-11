@@ -63,6 +63,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+   
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -196,216 +198,101 @@ desired effect
          echo  failed_message();
         ?>
 
-     <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Departments</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>Department Name</th>
-                  <th>Department Code</th>
-                  <th>Number of Programs</th>
-                  <th>Number of Admins</th>
-                  <th>Number of Professors</th>
-                  <th>Number of Studens</th>
-                  <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                 <?php //display all department
-                  $get_departments = get_all_department($admin_department_id);
-                  while ($total_departments = mysqli_fetch_assoc($get_departments)) {
-                      ?> 
-                  <tr>
-                    <td><?php echo $total_departments['department_code']?></td>
-                    <td><?php echo $total_departments['department_name']?>
-                    </td>
-                    <?php 
-                      //count number of programs
-                      $count_programs = count_programs_by_department($total_departments['department_id']);
-                      while($programs_by_department = mysqli_fetch_assoc($count_programs)){
-                    ?>
-                    <td><?php echo $programs_by_department['number_of_programs']; }?></td>
+        
+        <div class="row">
+                 <?php //get all departments //for admin only
+                      $get_department = get_all_department_aside_from_school_admin($admin_department_id);
 
-                    <?php 
-                      //number of admins for each departments
-                      $count_admin_department = count_admins_by_department($total_departments['department_id']);
-                      while($admins_by_department = mysqli_fetch_assoc($count_admin_department)){
-                      ?>
+                      while($department = mysqli_fetch_assoc($get_department)):
+                 ?> 
+                  <div class="col-md-4">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user">
+                      <!-- Add the bg color to the header using any of the bg-* classes -->
+                      <div class="widget-user-header bg-aqua-active" style="background: url('department logos/<?php echo $department['department_banner']?>') center center;">
+                        <h2 class="widget-user-username" style="background:rgba(0,0,0,0.3);"><?php echo $department['department_name']?></h2>
+                       
+                      </div>
+                      <div class="widget-user-image">
+                        <img class="img-circle" src="department logos/<?php echo $department['department_logo']?>" alt="User Avatar">
 
-                    <td><?php echo $admins_by_department['number_of_admins']; }?></td>
-
-                    <?php //number of professors for each departments
-                       $count_professor_department = count_professors_by_department($total_departments['department_id']);
-                      while($professors_by_department = mysqli_fetch_assoc($count_professor_department)){
-                    ?>
-                    <td><?php echo $professors_by_department['number_of_professors']; }?></td>
-                    <?php //number of student for each department
-                        $count_student_department = count_students_by_department($total_departments['department_id']);
-                          while($students_by_department = mysqli_fetch_assoc($count_student_department)){
-                        ?>
-                    
-                   <td><?php echo $students_by_department['number_of_students']; } ?></td>
-                  
-                   <td><a data-toggle='modal' data-tooltip="tooltip" title="View Details" href='department_details.php?department_id=<?php echo $total_departments['department_id'];?>'> <span class='glyphicon glyphicon-list-alt'></span></a> | <a  data-toggle='modal' data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a></td>
-                </tr>
-
-
-               <?php       
+                      </div>
+                      <div class="box-footer">
+                        <div class="row">
+                          <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                            <?php 
+                 //count total number of admins
+                  $count_professors = count_total_professors($department['department_id']);
+                  while ($total_professors = mysqli_fetch_assoc($count_professors)) {
+                     $total_number_professors =  $total_professors['total prof'];
                   }
-                  //end datatable
               ?>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-
-
-
-
-      <div class="row">
-          <!-- add new Department -->
-       
-       <div class="col-md-6">
-          <div class="box box-success">
-              <div class="box-header with-border">
-                <h3 class="box-title">Add Department</h3>
-                  <div class="box-tools pull-right">
-                      
-                  </div><!-- /.box-tools -->
-              </div><!-- /.box-header -->
-                    
-                    
-                    <form action="departments_page_process.php" method="post" enctype="multipart/form-data">
-                          <div class="box-body">
-                           
-                            <div class="form-group">
-                              <label>All Departments</label>
-                              <select multiple class="form-control" name="departments">
-                              <?php $all_departments = get_all_department($admin_department_id);
-                                    while($departments = mysqli_fetch_assoc($all_departments)){
-                                      ?>
-                                      <option><?php echo $departments['department_name'] . "(".$departments['department_code'] . ")"?></option>
-                                      <?php
-                                    }
-                              ?>
-                                
-                              </select>
+                              <h5 class="description-header"><?php echo  $total_number_professors?></h5>
+                              <span class="description-text">Professors</span>
                             </div>
+                            <!-- /.description-block -->
+                          </div>
+                          <!-- /.col -->
 
-                            <p>Department Code</p>
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Department Code" required="" name="department_code" value="<?php ?>">
-                                <span class="glyphicon glyphicon-book form-control-feedback"></span>
-                              </div>
-                               <p>Department Name</p>
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Department Name" required="" name="department_name" value="<?php ?>">
-                                <span class="glyphicon glyphicon-book form-control-feedback"></span>
-                              </div>
-
-                            <p>Enter password to continue</p>
-                            <div class="form-group has-feedback">
-                              <input  required  type="password" class="form-control" placeholder="Password" required="" name="password">
-                              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                           <?php 
+                 //count total number of admins
+                  $count_students = count_total_students($department['department_id']);
+                  while ($total_students = mysqli_fetch_assoc($count_students)) {
+                     $total_number_students =  $total_students['total student'];
+                  }
+              ?>
+                          <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                              <h5 class="description-header"><?php echo $total_number_students;?></h5>
+                              <span class="description-text">Students</span>
                             </div>
-                          </div><!-- /.box-body -->
-                         
-                          <div class="box-footer">
-                              <input type="submit" name="add_department" value="Add Department" class="btn btn-primary pull-right">
-                          </div><!-- box-footer -->
-                    </form>
-
-                </div><!-- /.box add department-->
-       </div>
-
-
-        <div class="col-md-6">
-                      <!-- add new Department -->
-                      <div class="box box-success">
-              <div class="box-header with-border">
-                <h3 class="box-title">Add Programs</h3>
-                  <div class="box-tools pull-right">
-                      
-                  </div><!-- /.box-tools -->
-              </div><!-- /.box-header -->
-                    
-                    
-                    <form action="departments_page_process.php" method="post" enctype="multipart/form-data">
-                          <div class="box-body">
-                           
-                            <div class="form-group">
-                              <label>All Programs</label>
-                              <select multiple class="form-control" name="departments">
-                              <?php $all_programs = get_all_programs();
-                                    while($programs = mysqli_fetch_assoc($all_programs)){
-                                      //get the departments for each programs
-                                      $get_department_from_program_query = "SELECT * FROM tbldepartments WHERE department_id = '".$programs['department_id']."'";
-                                      $run_depatment_from_program = mysqli_query($connection,$get_department_from_program_query);
-
-                                      while($get_department_code = mysqli_fetch_assoc($run_depatment_from_program)){
-
-
-                                      ?>
-
-                                      <option><?php echo $programs['program_name']."(".$programs['program_code'].")". " OF (".$get_department_code['department_code'].")";?></option>
-                                      <?php
-                                      }
-                                    }
-                              ?>
-                                
-                              </select>
+                            <!-- /.description-block -->
+                          </div>
+                          <!-- /.col -->
+                          <div class="col-sm-4">
+                            <div class="description-block">
+                              <a href="department_info.php?department_id=<?php echo $department['department_id']?>" class="btn btn-info btn-sm">View Info</a>
                             </div>
+                            <!-- /.description-block -->
+                          </div>
+                          <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                      </div>
+                    </div>
+                    <!-- /.widget-user -->
+                  </div>
+                  <!-- /.col -->
+              
+                <?php endwhile;?>
 
-                            <p>Department</p>
-                            <div class="form-group has-feedback">
-                              <select class="form-control" name="department">
-                                <?php //departments?>
-                                 <?php $all_departments = get_all_department($admin_department_id);
-                                              while($departments = mysqli_fetch_assoc($all_departments)){
-                                                ?>
-                                             <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
 
-                                  <?php }?>
-                              </select>
-                            </div>
-
-                            <p>Program Code</p>
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Program Code" required="" name="program_code" value="<?php ?>">
-                                <span class="glyphicon glyphicon-book form-control-feedback"></span>
-                              </div>
-                               <p>Program Name</p>
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Program Name" required="" name="program_name" value="<?php ?>">
-                                <span class="glyphicon glyphicon-book form-control-feedback"></span>
-                              </div>
-
-                            <p>Enter password to continue</p>
-                            <div class="form-group has-feedback">
-                              <input  required  type="password" class="form-control" placeholder="Password" required="" name="password">
-                              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                            </div>
-                          </div><!-- /.box-body -->
-                         
-                          <div class="box-footer">
-                              <input type="submit" name="add_program" value="Add Program" class="btn btn-primary pull-right">
-                          </div><!-- box-footer -->
-                    </form>
-
-                </div><!-- /.box add department-->
-       
-     
         </div>
-        <!-- end col 6 -->
-      </div>
-      <!-- end row -->
+
+
+
+
+      
          <!--| -->
        
+       <!--<div id="container-floating">
+
+             
+              <div class="nd4 nds" data-toggle="tooltip" data-placement="left" data-original-title="contract@gmail.com"><img class="reminder">
+                <p class="letter"><span class="glyphicon glyphicon-th-list"></span></p>
+              </div>
+              <div class="nd3 nds" data-toggle="tooltip" data-placement="left" data-original-title="Reminder"><img class="reminder" src="//ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/1x/ic_reminders_speeddial_white_24dp.png" /></div>
+              <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="Edoardo@live.it"><img class="reminder">
+                <p class="letter">E</p>
+              </div>
+
+              <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" onclick="newmail()">
+                <p class="plus">+</p>
+                <img class="edit" src="https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/1x/bt_compose2_1x.png">
+              </div>
+
+      </div> -->
 
     </section>
     <!-- /.content -->
