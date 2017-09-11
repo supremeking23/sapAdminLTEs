@@ -47,21 +47,21 @@
 			    $student_id = 'A'. sprintf('%07d', mt_rand(1, 999999)); //auto 
 
 
-			    $last_name = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(0, $row)->getValue());
-			    $first_name = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(1, $row)->getValue());
-			     $middle_name = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(2, $row)->getValue());
-			    $address = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(3, $row)->getValue());
+			    $last_name = mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(0, $row)->getValue());
+			    $first_name = mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(1, $row)->getValue());
+			     $middle_name = mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(2, $row)->getValue());
+			    $address = mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(3, $row)->getValue());
 
-			     $contact = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(4, $row)->getValue());
+			     $contact = mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(4, $row)->getValue());
 
 			     //converts excel date to php date
      			 $newformat = date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($worksheet->getCellByColumnAndRow(2, $row)->getValue()));
 
-			     $date_birth = mysqli_real_escape_string($connect, $newformat);
+			     $date_birth = mysqli_real_escape_string($connection, $newformat);
 
 
-			    $query = "INSERT INTO tblstudentinfo(student_id,last_name,first_name,middle_name,address,contact,date_birth,department) VALUES ('$student_id','$last_name','$first_name','$middle_name','$address','$contact','$date_birth','$department')";
-			    	mysqli_query($connect, $query);
+			    $query = "INSERT INTO tblstudentinfo(student_id,last_name,first_name,middle_name,address,contact,date_birth,department,isActive) VALUES ('$student_id','$last_name','$first_name','$middle_name','$address','$contact','$date_birth','$department',1)";
+			    	$success = mysqli_query($connection, $query)or die(mysqli_error($connection));
 
 
 			   
@@ -69,12 +69,15 @@
 			  }//foreach 
 			 	
 			  	//success message
-			  $_SESSION['message_message'] = "Bulk student has been added";
-  				redirect_to("../students.php");
+			 
 
 			 }//array
 
-		
+			 	if($success){
+			 		 $_SESSION['success_message'] = "Bulk student has been added";
+  			     	redirect_to("../students.php");
+			 	}
+				
   		}else{
   			//echo "wrong pass";
   			$_SESSION['failed_message'] = "Wrong Password";
