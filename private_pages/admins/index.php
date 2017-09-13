@@ -71,6 +71,7 @@
     color: red;
    }
 
+   /*for calendar*/
    .fc-time{
    display : none;
 }
@@ -322,7 +323,91 @@ desired effect
     
       <div class="row">
                     <!--  -->
-           <div class="col-xs-6"></div>
+           <div class="col-xs-6">
+              <div class="box box-success">
+            <div class="box-header">
+              <i class="fa fa-comments-o"></i>
+              <h3 class="box-title">Announcement</h3>
+            </div>
+            <div class="box-body chat" id="chat-box">
+              <form action="process_pages/announcement_process.php" method="POST">
+                <div class="input-group">
+
+                  <input type="hidden" name="admin_id" value="<?php echo $admin_id;?>">
+                  <input type="hidden" name="department_id" value="<?php echo $admin_department_id;?>">
+
+                  <input required=""   class="form-control" placeholder="Type announcement..." name="post_content">
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-success" name="postnew"><i class="fa fa-plus"></i></button>
+                  </div>
+                </div>
+              </form>
+              <hr>
+              <?php //print announcement  here
+                  $get_announcements = get_all_announcement($admin_department_id);
+                  if(mysqli_num_rows($get_announcements) > 0){
+                  while($announcement = mysqli_fetch_assoc($get_announcements)):   
+                  $date =date_create($announcement["post_date"]);
+                  $date_posted = date_format($date,"F j, Y, g:i a");
+                  //date("F j, Y, g:i a", $announcement["date_added"]);    
+              ?>
+
+                         
+                <div class="item">
+                  <img src="admin_images/<?php echo $announcement['image']?>" alt="" class="offline">
+                  
+                  <p class="message">
+                    <a href="" class="name"> 
+                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i><?php echo $date_posted; ?></small>
+                     <?php echo $announcement['first_name'].' '. $announcement['last_name'];?> 
+                    </a>
+                    <?php echo $announcement['content'];?>
+                    <br />
+
+                  </p>
+                    <button class="btn btn-default btn-small pull-right" data-toggle="modal" data-target="#modal-danger">Delete</button>
+                  </div>
+
+                   <div class="modal modal-danger fade" id="modal-danger">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Access Confirmation</h4>
+                          </div>
+                          <div class="modal-body">
+                            <p>Please enter your password to continue.</p>
+                            <form action="process_pages/announcement_process.php" method="POST">
+                                  <input type="hidden" name="announcement_id" value="<?php echo $announcement['announcement_id'];?>">
+                                  <input type="hidden" name="admin_id" value="<?php echo $admin_id;?>">
+                                  <input type="hidden" name="department_id" value="<?php echo $admin_department_id;?>">
+                                  <input type="text" class="form-control" name="password"><br />
+                                 <button type="submit" class="btn btn-danger pull-right" name="delete_announcement">Delete</button>
+                                 <div style="clear: both;"></div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                    </div>
+
+
+            <?php endwhile; //endwhile
+                  }else{
+                    echo "<p>no announcement have been post</p>";
+                  }
+             ?>
+            </div>
+            <!-- /.chat -->
+            <div class="box-footer">
+            </div>
+          </div>
+           </div>
 
            <div class="col-xs-6">
 
@@ -371,8 +456,8 @@ desired effect
                     
                              
                             <center>
-                              <button type="button" id="single_day">Single day event</button>
-                              <button type="button"  id="multiple_day">Multiple day event</button>
+                              <button type="button" class="btn btn-warning"  id="single_day">Single day event</button>
+                              <button type="button" class="btn btn-success" id="multiple_day">Multiple day event</button>
                             </center>
 
                       
@@ -444,12 +529,6 @@ desired effect
                         
 
                      <div class="row">
-                        
-                          
-                         
-
-                    
-
                           <div id="multiple_reservation">
 
                               <form action="process_pages/add_event.php" method="POST">

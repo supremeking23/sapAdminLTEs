@@ -27,7 +27,7 @@ return $escaped_string;
 }
 
 
-// check if the id number exist in the database
+// check if the id number exist in the database/// will not use any time soon
 function check_id_presence($idnumber){
   global $connection;
   $idnumber = mysql_prep($idnumber);
@@ -43,7 +43,7 @@ function check_id_presence($idnumber){
   }
 }
 
-//after the id has been verified... checked if the id has an email and a password
+//after the id has been verified... checked if the id has an email and a password /// will not use any time soon
 function check_student_id($idnumber){
   global $connection;
   $idnumber = mysql_prep($idnumber);
@@ -59,7 +59,7 @@ function check_student_id($idnumber){
   }
 }
 
-// check if the email has a match in any account
+// check if the email has a match in any account /// will not use any time soon
 function  check_email_exist($email){
   global $connection;
   $email = mysql_prep($email);
@@ -72,7 +72,7 @@ function  check_email_exist($email){
   }
 }
 
-//student registration function
+//student registration function /// will not use any time soon
 function register($idnumber,$email,$password){
   global $connection;
   $idnumber = mysql_prep($idnumber);
@@ -772,7 +772,21 @@ function get_all_programs_by_department($department_id){
   }
 
 
+  function get_all_announcement($department_id){
+     global $connection;
+      $department_id = mysql_prep($department_id);
+      if($department_id == 1){
+      // all announcement will be retrieve 
+      $query = "SELECT * FROM tblannouncements INNER JOIN tbladmins ON tblannouncements.user_id = tbladmins.admin_id ORDER by announcement_id desc";
+    }else{
 
+        //only does announcement from that department will be retrieve including the post of the admin
+       $query = "SELECT * FROM tblannouncements INNER JOIN tbladmins ON tblannouncements.user_id = tbladmins.admin_id WHERE tblannouncements.department_id = '$department_id' OR tblannouncements.department_id = 1 ORDER by announcement_id desc";
+    }
+      $get_announcement = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_announcement;
+  }
 
 
   //testings
