@@ -1,6 +1,6 @@
 <?php
 
-//redirect to new page
+//redirect to new page http://your-bestsex-here.com/?u=4arkte4&o=8qmpfz2&t=  https://www.istripper.com/?
 function redirect_to($new_location){
   header("Location: " . $new_location);
   exit;
@@ -223,6 +223,59 @@ function get_admin_by_id($admin_id){
 
 }
 
+function get_professor_by_id($professor_id){
+  global $connection;
+
+  $professor_id = mysql_prep($professor_id);
+
+  $query = "SELECT * FROM tblprofessor WHERE tbl_prof_id = '$professor_id' AND isActive = 1";
+
+  $result = $connection->query($query) or die(mysqli_error());
+
+  if($prof = mysqli_fetch_assoc($result)){
+    return $prof;
+  }else{
+    return null;
+  }
+
+}
+
+
+
+function get_student_by_id($student_id){
+  global $connection;
+
+  $student_id = mysql_prep($student_id);
+
+  $query = "SELECT * FROM tblstudentinfo WHERE tbl_student_id = '$student_id' AND isActive = 1";
+
+  $result = $connection->query($query) or die(mysqli_error());
+
+  if($student = mysqli_fetch_assoc($result)){
+    return $student;
+  }else{
+    return null;
+  }
+
+}
+
+function get_gc_by_id($gc_id){
+  global $connection;
+
+  $gc_id = mysql_prep($gc_id);
+
+  $query = "SELECT * FROM tblguidancecouncilor WHERE tbl_gc_id = '$gc_id' AND isActive = 1";
+
+  $result = $connection->query($query) or die(mysqli_error());
+
+  if($gc = mysqli_fetch_assoc($result)){
+    return $gc;
+  }else{
+    return null;
+  }
+
+}
+
 
 function get_dean_by_department_id($department_id){
   global $connection;
@@ -309,7 +362,7 @@ function get_all_department_aside_from_school_admin($department_id){
   }
   
 
-  $get_department = $connection->query($query) or die(mysqli_error());
+  $get_department = $connection->query($query) or die(mysqli_error($connection));
 
   return $get_department;
 }
@@ -324,7 +377,7 @@ function get_all_department_for_student_insertions($department_id){
   if($department_id == 1){
     $query = "SELECT  * FROM tbldepartments WHERE department_id != 1";
   }else{
-    $query = "SELECT  * FROM tbldepartments WHERE  department_id = $department_id";
+    $query = "SELECT  * FROM tbldepartments WHERE  department_id = $department_id ";
   }
   
 
@@ -418,6 +471,18 @@ function get_all_professors($department_id){
   return $get_professors;
 }
 
+
+function get_all_guidance_councilor(){
+  global $connection;
+  $query = "SELECT  * FROM tblguidancecouncilor WHERE isActive = 1";
+
+
+  
+  $get_guidance_councilor = $connection->query($query) or die(mysqli_error());
+
+  return $get_guidance_councilor;
+}
+
 function get_all_students($department_id){
   global $connection;
 
@@ -434,6 +499,19 @@ function get_all_students($department_id){
   return $get_students;
 }
 
+
+function get_all_student(){
+  global $connection;
+
+
+    $query = "SELECT  * FROM tblstudentinfo WHERE isActive = 1";
+
+   
+
+  $get_students = $connection->query($query) or die(mysqli_error());
+
+  return $get_students;
+}
 
 
 
@@ -476,10 +554,32 @@ function count_total_professors($department_id){
   return $count_prof;
 }
 
+
+
 function count_total_guidance_councilors(){
   global $connection;
 
   $query = "SELECT count(*) AS 'total gc' FROM tblguidancecouncilor WHERE isActive = 1";
+
+  $count_gc = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_gc;
+}
+
+function count_guidance_councilors_male(){
+  global $connection;
+
+  $query = "SELECT count(*) AS 'male gc' FROM tblguidancecouncilor WHERE isActive = 1 AND gender='Male'";
+
+  $count_gc = $connection->query($query) or die(mysqli_error($connection));
+
+  return $count_gc;
+}
+
+function count_guidance_councilors_female(){
+  global $connection;
+
+  $query = "SELECT count(*) AS 'female gc' FROM tblguidancecouncilor WHERE isActive = 1 AND gender='Female'";
 
   $count_gc = $connection->query($query) or die(mysqli_error($connection));
 
@@ -697,7 +797,7 @@ function get_all_programs_by_department($department_id){
 
 
 
-//get all events single
+//get all events single  /// must have a parameter of  admin department id
   function get_all_single_day_events(){
       global $connection;
      
@@ -712,7 +812,7 @@ function get_all_programs_by_department($department_id){
   }
 
 
-  //get all events multiple
+  //get all events multiple  must have a parameter of  admin department id
   function get_all_multiple_day_events(){
       global $connection;
      
@@ -729,16 +829,17 @@ function get_all_programs_by_department($department_id){
   //with parameters
   //insert into log table
 
-  function insert_log($log_user_id,$log_header,$log_message){
+  function insert_log($log_user_id,$log_header,$log_message,$userlevel){
     global $connection;
 
     $log_user_id = mysql_prep($log_user_id);
     $log_message =  mysql_prep($log_message);
     $log_haeder = mysql_prep($log_header);
+    $userlevel = mysql_prep($userlevel);
 
     //$log_time = mysql_prep($log_time);
 
-    $query = "INSERT INTO tbllogs(log_user_id,log_header,log_message,log_time,log_date) VALUES ('$log_user_id','$log_header','$log_message', now(),now())";
+    $query = "INSERT INTO tbllogs(log_user_id,log_header,log_message,log_time,log_date,log_user_level) VALUES ('$log_user_id','$log_header','$log_message', now(),now(),'$userlevel')";
 
     $run_log = $connection->query($query) && mysqli_affected_rows($connection) == 1 or die(mysqli_error($connection));
 
@@ -746,13 +847,14 @@ function get_all_programs_by_department($department_id){
   }
 
 
-  //for getting logs
+  //for getting logs admins
 
   function get_all_logs_by_date_and_admin_id($admin_id,$date){
       global $connection;
-      $department_id = mysql_prep($admin_id);
+      $admin_id = mysql_prep($admin_id);
       $date = mysql_prep($date);
-      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$department_id' AND log_date ='$date' ORDER BY log_time DESC";
+      $userlevel = "admin";
+      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$admin_id' AND log_date ='$date' AND log_user_level ='$userlevel' ORDER BY log_time DESC";
 
       $get_log_details = $connection->query($query) or die(mysqli_error($connection));
 
@@ -762,9 +864,9 @@ function get_all_programs_by_department($department_id){
   //distinct date
     function get_all_log_dates_by_admin_id($admin_id){
       global $connection;
-      $department_id = mysql_prep($admin_id);
-
-      $query = "SELECT DISTINCT log_date FROM tbllogs WHERE log_user_id = '$department_id' ORDER BY log_date DESC";
+      $admin_id = mysql_prep($admin_id);
+      $userlevel = "admin";
+      $query = "SELECT DISTINCT log_date FROM tbllogs WHERE log_user_id = '$admin_id' AND log_user_level ='$userlevel' ORDER BY log_date DESC";
 
       $get_log_details = $connection->query($query) or die(mysqli_error($connection));
 
@@ -772,7 +874,100 @@ function get_all_programs_by_department($department_id){
   }
 
 
-  function get_all_announcement($department_id){
+  //for getting logs prof
+
+  function get_all_logs_by_date_and_prof_id($professor_id,$date){
+      global $connection;
+      $professor_id = mysql_prep($professor_id);
+      $date = mysql_prep($date);
+      $userlevel = "prof";
+      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$professor_id' AND log_date ='$date' AND log_user_level = '$userlevel' ORDER BY log_time DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
+  }
+
+    //distinct date
+    function get_all_log_dates_by_prof_id($professor_id){
+      global $connection;
+      $professor_id = mysql_prep($professor_id);
+      $userlevel = "prof";
+      $query = "SELECT DISTINCT log_date FROM tbllogs WHERE log_user_id = '$professor_id' AND log_user_level = '$userlevel' ORDER BY log_date DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
+  }
+
+
+
+
+
+
+
+
+
+  //distinct date gc's
+    function get_all_log_dates_by_gc_id($gc_id){
+      global $connection;
+      $gc_id = mysql_prep($gc_id);
+      $userlevel = "gc";
+      $query = "SELECT DISTINCT log_date FROM tbllogs WHERE log_user_id = '$gc_id' AND log_user_level ='$userlevel' ORDER BY log_date DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
+  }
+
+
+
+    function get_all_logs_by_date_and_gc_id($gc_id,$date){
+      global $connection;
+      $gc_id = mysql_prep($gc_id);
+      $date = mysql_prep($date);
+      $userlevel = "gc";
+      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$department_id' AND log_date ='$date' AND log_user_level ='$userlevel' ORDER BY log_time DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
+  }
+
+
+
+
+  //for getting logs prof
+
+  function get_all_logs_by_date_and_student_id($student_id,$date){
+      global $connection;
+      $student_id = mysql_prep($student_id);
+      $date = mysql_prep($date);
+      $userlevel = "student";
+      $query = "SELECT * FROM tbllogs WHERE log_user_id = '$student_id' AND log_date ='$date' AND log_user_level = '$userlevel' ORDER BY log_time DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
+  }
+
+    //distinct date
+    function get_all_log_dates_by_student_id($student_id){
+      global $connection;
+      $student_id = mysql_prep($student_id);
+      $userlevel = "student";
+      $query = "SELECT DISTINCT log_date FROM tbllogs WHERE log_user_id = '$student_id' AND log_user_level = '$userlevel' ORDER BY log_date DESC";
+
+      $get_log_details = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_log_details;
+  }
+
+
+
+
+
+  /*function get_all_announcement($department_id){
      global $connection;
       $department_id = mysql_prep($department_id);
       if($department_id == 1){
@@ -780,14 +975,65 @@ function get_all_programs_by_department($department_id){
       $query = "SELECT * FROM tblannouncements INNER JOIN tbladmins ON tblannouncements.user_id = tbladmins.admin_id ORDER by announcement_id desc";
     }else{
 
-        //only does announcement from that department will be retrieve including the post of the admin
+        //only those announcement from that department will be retrieve including the post of the admin
        $query = "SELECT * FROM tblannouncements INNER JOIN tbladmins ON tblannouncements.user_id = tbladmins.admin_id WHERE tblannouncements.department_id = '$department_id' OR tblannouncements.department_id = 1 ORDER by announcement_id desc";
     }
       $get_announcement = $connection->query($query) or die(mysqli_error($connection));
 
       return $get_announcement;
+  }*/
+
+
+function get_all_announcement($department_id){
+     global $connection;
+      $department_id = mysql_prep($department_id);
+      
+      // all announcement will be retrieve 
+      $query = "SELECT * FROM tblannouncements INNER JOIN tbladmins ON (tblannouncements.user_id = tbladmins.admin_id) INNER JOIN tbldepartments ON (tbladmins.admin_department_id = tbldepartments.department_id) ORDER by announcement_id desc";
+    
+      $get_announcement = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_announcement;
   }
 
+function get_all_announcement_by_department_id($department_id){
+   global $connection;
+      $department_id = mysql_prep($department_id);
+      
+      // all announcement will be retrieve 
+      $query = "SELECT * FROM tblannouncements INNER JOIN tbladmins ON (tblannouncements.user_id = tbladmins.admin_id) INNER JOIN tbldepartments ON (tbladmins.admin_department_id = tbldepartments.department_id) WHERE tbldepartments.department_id = '$department_id' ORDER by announcement_id desc";
+    
+      $get_announcement = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_announcement;
+}
+
+function get_all_event_by_department_id($department_id){
+   global $connection;
+      $department_id = mysql_prep($department_id);
+      
+      
+      $query = "SELECT * FROM tblevents INNER JOIN tbldepartments ON (tblevents.department_id = tbldepartments.department_id)  ORDER by id desc";
+    
+      $get_events = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_events;
+}
+
+
+  function get_all_events_by_date_and_department_id($department_id,$date){
+      global $connection;
+      $department_id = mysql_prep($admin_id);
+      $date = mysql_prep($date);
+
+      $query = "SELECT * FROM tblevents INNER JOIN tbldepartments ON (tblevents.department_id = tbldepartments.department_id) WHERE tbldepartments.department_id = '$department_id' AND tblevents.start = '$date'  ORDER by id desc";
+     
+     
+
+      $ $get_events = $connection->query($query) or die(mysqli_error($connection));
+
+      return $ $get_events;
+  }
 
   //testings
 
@@ -801,5 +1047,170 @@ function get_all_programs_by_department($department_id){
 
       return $get_event_details;
   }
+
+
+
+
+  //for section and year
+
+  function get_all_year(){
+     global $connection;
+    
+
+      $query = "SELECT * FROM tblyearlevel ";
+
+      $get_yearlevel = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_yearlevel;
+  }
+
+
+    function get_all_section($department_id,$program_id){
+     global $connection;
+    
+     $program_id = mysql_prep($program_id);
+     $department_id =mysql_prep($department_id);
+      $query = "SELECT * FROM tblsection WHERE program_id = '$program_id' AND '$department_id' ";
+
+      $get_section = $connection->query($query) or die(mysqli_error($connection));
+
+      return $get_section;
+  }
+
+
+
+
+  //get all departments
+function get_all_subjects(){
+   global $connection;
+
+ 
+
+    $query = "SELECT  * FROM tblsubjects WHERE isActive = '1' ";
+
+  
+
+  $get_subjects = $connection->query($query) or die(mysqli_error());
+
+  return $get_subjects;
+
+}
+
+
+function get_all_sections(){
+   global $connection;
+
+ 
+
+    $query = "SELECT  * FROM tblsection ";
+
+  
+
+  $get_section = $connection->query($query) or die(mysqli_error());
+
+  return $get_section;
+}
+
+
+#for class section
+function get_program_by_section_id($program_id){
+    global $connection;
+
+    $program_id = mysql_prep($program_id);
+
+    $query = "SELECT  * FROM tblcollegeprograms WHERE program_id = '$program_id'";
+
+  
+
+    $get_data = $connection->query($query) or die(mysqli_error());
+
+  return $get_data;
+}
+
+
+function get_department_by_section_id($department_id){
+    global $connection;
+
+    $department_id = mysql_prep($department_id);
+
+    $query = "SELECT  * FROM tbldepartments WHERE department_id = '$department_id'";
+
+  
+
+    $get_data = $connection->query($query) or die(mysqli_error());
+
+  return $get_data;
+}
+
+function get_year_by_section_id($yearlevel){
+    global $connection;
+
+    $yearlevel = mysql_prep($yearlevel);
+
+    $query = "SELECT  * FROM tblyearlevel WHERE tbl_yearlevel_id = '$yearlevel'";
+
+  
+
+    $get_data = $connection->query($query) or die(mysqli_error());
+
+  return $get_data;
+}
+
+
+#for class section
+
+
+
+
+function get_count_student_by_section_id($section_id,$yearlevel,$department_id,$program_id){
+
+  global $connection;
+  $section_id = mysql_prep($section_id);
+  $yearlevel = mysql_prep($yearlevel);
+  $department_id = mysql_prep($department_id);
+  $program_id = mysql_prep($program_id);
+
+  $query = "SELECT count(*) AS 'number_of_students_in_this_section_year' FROM tblstudentinfo WHERE program_major = '$program_id' AND section = '$section_id' AND department = '$department_id' AND yearlevel = '$yearlevel' AND isActive = 1";
+
+  $get_data= $connection->query($query) or die(mysqli_error($connection));
+
+  return $get_data;
+
+}
+
+function get_all_year_level(){
+  global $connection;
+
+   $query = "SELECT * FROM tblyearlevel";
+   $yearlevel = mysqli_query($connection,$query) or die(mysqli_error($connection));
+
+  return $yearlevel;
+}
+
+
+
+function get_program_by_department_id($department_id){
+    global $connection;
+
+    $department_id = mysql_prep($department_id);
+
+    $query = "SELECT  * FROM tblcollegeprograms WHERE department_id = '$department_id'";
+
+  
+
+    $get_data = $connection->query($query) or die(mysqli_error());
+
+  return $get_data;
+}
+
+
+function open_encode_of_grade(){
+   global $connection;
+
+   $query = "SELECT * FROM tblprevileges WHERE tbl_previleges_id = 1";
+    $isStateActive = mysqli_query($connection,$query) or die(mysqli_error($connection));
+
+    return $isStateActive;
+}
 
 ?>

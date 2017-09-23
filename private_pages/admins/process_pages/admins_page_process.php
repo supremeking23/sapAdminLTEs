@@ -1,9 +1,10 @@
  <?php
-  include("../includes/sessions.php");
-  include("../includes/connection.php");
-  include("../includes/functions.php");
+  include("../../includes/sessions.php");
+  include("../../includes/connection.php");
+  include("../../includes/functions.php");
 
   ?> 
+
 
 
 
@@ -15,8 +16,8 @@
 
  	if(isset($_POST['register_admin'])){
 
-
-
+    //'A'. sprintf('%07d', mt_rand(1, 999999)); //auto 
+    //$gc_id = 
  		$last_name = $_POST['last_name'];
  		$first_name= $_POST['first_name'];
  		$middle_name =$_POST['middle_name'];
@@ -36,17 +37,17 @@
          }else{
          	  $admin_profile = $_FILES['upload_image']['name'];
             $admin_profile_tmp =$_FILES['upload_image']['tmp_name'];
-            move_uploaded_file($admin_profile_tmp, "admin_images/$admin_profile");
+            move_uploaded_file($admin_profile_tmp, "../admin_images/$admin_profile");
 
 
-         	$query_insert_admins = "INSERT INTO tbladmins (last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,admin_department_id,isActive) VALUES ('$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$admin_profile','$admin_department_id',1)";
+        $query_insert_admins = "INSERT INTO tbladmins (last_name,first_name,middle_name,gender,address,contact,date_birth,email,password,image,admin_department_id,isActive) VALUES ('$last_name','$first_name','$middle_name','$gender','$address','$contact','$date_birth','$email','$confirm_password','$admin_profile','$admin_department_id',1)";
 
          	$run_insert_admin = mysqli_query($connection,$query_insert_admins)or die(mysqli_error($connection));
 
 
          	if($run_insert_admin && mysqli_affected_rows($connection) == 1){
 				$_SESSION['success_message'] = "Admin has been added";
-                redirect_to('admins.php');
+                redirect_to('../admins.php');
 			     }
         }
 

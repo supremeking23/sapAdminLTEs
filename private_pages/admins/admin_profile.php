@@ -99,64 +99,8 @@ desired effect
       <span class="logo-lg"><b>S-APP</b> Admin Panel</span>
     </a>
 
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-
-
-
-
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="admin_images/<?php echo $image;?>" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $first_name . " " . $last_name?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-
-                <p>
-                 <?php echo $first_name . " " . $last_name;?>
-                 <?php 
-                  //admin department
-                  $find_admin_department = admin_department($admin_department_id);
-                  if($find_admin_department){
-                    $admin_department = $find_admin_department['department_code'];
-                  }
-                 ?>
-                  <small><?php echo $admin_department; ?></small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="admin_profile.php?admin_id=<?php echo $admin_id;?>" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
+   <!-- Header Navbar -->
+     <?php include('layouts/header_nav.php'); ?>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -277,7 +221,7 @@ desired effect
                               <!-- form for updating of admin profile  -->
 
                         <script src = "../js/validations.js"></script>
-                          <form action="admin_edit_credential.php" method="post" enctype="multipart/form-data">
+                          <form action="process_pages/admin_edit_credential.php" method="post" enctype="multipart/form-data">
                               <div class="modal-body">
                                
                                 <div class="form-group has-feedback">
@@ -362,7 +306,7 @@ desired effect
                     </div><!-- /.box-header -->
                     
                     
-                    <form action="admin_edit_credential.php" method="post" enctype="multipart/form-data">
+                    <form action="process_pages/admin_edit_credential.php" method="post" enctype="multipart/form-data">
                           <div class="box-body">
                             <p>New Email</p>
                               <div class="form-group has-feedback">
@@ -397,7 +341,7 @@ desired effect
                     </div><!-- /.box-header -->
                     
                     
-                    <form action="admin_edit_credential.php" method="post" enctype="multipart/form-data">
+                    <form action="process_pages/admin_edit_credential.php" method="post" enctype="multipart/form-data">
                           <div class="box-body">
                             
                             <div class="form-group has-feedback">

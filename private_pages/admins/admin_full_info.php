@@ -98,60 +98,8 @@ desired effect
       <span class="logo-lg"><b>S-APP</b> Admin Panel</span>
     </a>
 
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="admin_images/<?php echo $image;?>" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $first_name . " " . $last_name?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-
-                <p>
-                 <?php echo $first_name . " " . $last_name;?>
-                 <?php 
-                  //admin department
-                  $find_admin_department = admin_department($admin_department_id);
-                  if($find_admin_department){
-                    $admin_department = $find_admin_department['department_code'];
-                  }
-                 ?>
-                  <small><?php echo $admin_department; ?></small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="admin_profile.php?admin_id=<?php echo $admin_id;?>" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
+   <!-- Header Navbar -->
+     <?php include('layouts/header_nav.php'); ?>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -305,10 +253,16 @@ desired effect
                     <i class="glyphicon glyphicon-log-out bg-red"></i>
                     <?php  }elseif($log_by_date['log_header'] == "Add Event"){ ?>
                     <i class="glyphicon glyphicon-calendar bg-blue"></i>
+                    <?php  }elseif($log_by_date['log_header'] == "Update Event"){ ?>
+                    <i class="glyphicon glyphicon-calendar bg-yellow"></i>
                     <?php }elseif($log_by_date['log_header'] == "Delete Event"){ ?>
                     <i class="glyphicon glyphicon-calendar bg-red"></i>
                     <?php }elseif($log_by_date['log_header'] == "Add College Program"){ ?>
                     <i class="glyphicon glyphicon-list bg-green"></i>
+                    <?php }elseif($log_by_date['log_header'] == "Add Announcement"){ ?>
+                    <i class="fa fa-comments-o bg-blue"></i>
+                    <?php }elseif($log_by_date['log_header'] == "Delete Announcement"){ ?>
+                    <i class="fa fa-comments-o bg-red"></i>
                     <?php }elseif($log_by_date['log_header'] == "Add Department"){ ?>
                     <i class="glyphicon glyphicon-list bg-blue"></i>
                      <?php  } ?>

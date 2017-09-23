@@ -13,9 +13,9 @@
     $post_content = $_POST['post_content'];
 
 
-    $query = "INSERT INTO tblannouncements(department_id,user_id,content,date_added) VALUES('$department_id','$admin_id','$post_content',now())";
+    $query = "INSERT INTO tblannouncements(department_id,user_id,content,post_date) VALUES('$department_id','$admin_id','$post_content',now())";
 
-    $post_query = mysqli_query($connection,$query);
+    $post_query = mysqli_query($connection,$query) or die(mysqli_error($connection));
      if($post_query && mysqli_affected_rows($connection) == 1){
         $_SESSION['success_message'] = "Announcement has been successfully posted";
 
@@ -27,6 +27,8 @@
          $log_header = "Add Announcement";
          insert_log($log_user_id,$log_header,$log_message);
          redirect_to("../index.php");
+     }else{
+      echo "wala";
      }
 
   }

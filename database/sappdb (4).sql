@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2017 at 01:25 PM
+-- Generation Time: Sep 14, 2017 at 11:42 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -102,6 +102,34 @@ INSERT INTO `tbladmins` (`admin_id`, `admin_department_id`, `last_name`, `first_
 (4, 7, 'Queen', 'Oliver', 'Robert', 'Starling City', '15267837_1235855576472004_2196598368222274648_n.jpg', '09831238768', '1980-11-10', 'oliverqueen@gmail.com', 'arrow', 'Male', 1, '2015-11-23'),
 (5, 3, 'David', 'Apple', 'Mansanas', 'Central City', 'bee.jpg', '09831238768', '1990-06-19', 'appledavid@gmail.com', 'apple', 'Female', 1, '0000-00-00'),
 (6, 2, 'Stark', 'Sansa', 'Ten', 'Central City', 'Breakfast-Sandwich-2.jpg', '09831238768', '1996-01-15', 'sansastark@gmail.com', 'sansa', 'Female', 1, '0000-00-00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblannouncements`
+--
+
+CREATE TABLE IF NOT EXISTS `tblannouncements` (
+  `announcement_id` int(11) NOT NULL AUTO_INCREMENT,
+  `department_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `post_date` datetime NOT NULL,
+  PRIMARY KEY (`announcement_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `tblannouncements`
+--
+
+INSERT INTO `tblannouncements` (`announcement_id`, `department_id`, `user_id`, `content`, `post_date`) VALUES
+(1, 1, 1, 'binati ko si jialengaleng kanina', '2017-09-12 23:37:10'),
+(2, 1, 1, 'dadasdads', '2017-09-14 09:49:38'),
+(3, 1, 1, 'october fest na next month', '2017-09-14 09:50:13'),
+(4, 1, 1, 'ccs infotect will be on sep 27 next week wednesday', '2017-09-14 09:51:00'),
+(5, 3, 2, 'hahahhah tuuut  ""cong""', '2017-09-14 10:06:14'),
+(6, 2, 3, 'ang ingay nyo oi', '2017-09-14 10:10:13'),
+(7, 3, 2, 'oi wag ka maki alam dito ah', '2017-09-14 10:18:40');
 
 -- --------------------------------------------------------
 
@@ -223,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `tbldepartments` (
 INSERT INTO `tbldepartments` (`department_id`, `department_code`, `department_name`, `department_logo`, `department_banner`, `department_color`, `mission`, `vision`) VALUES
 (1, 'SCHOOL-ADMIN', 'University Of Makati Admin', '', '', '#0073b7', '', ''),
 (2, 'COAHS', 'COLLEGE OF ALLIED HEALTH STUDIES', 'Logo.png', 'ccs banner.jpg', '#00a65a', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).'),
-(3, 'CAS', 'COLLEGE OF ARTS AND SCIENCES', 'Logo.png', 'ccs banner.jpg', '#ff8000', '', ''),
+(3, 'CAS', 'COLLEGE OF ARTS AND SCIENCES', 'Logo.png', 'ccs banner.jpg', '#ff8000', 'Once a table is created in the database, there are many occasions where one may wish to change the structure of the table. Typical cases include the following:  \r\n- Add a column  - Drop a column  - Change a column name  - Change the data type for a column  \r\nPlease note that the above is not an exhaustive list. There are other instances where ALTER TABLE is used to change the table structure, such as changing the primary key specification or adding a unique constraint to a column.  \r\nThe \r\n', 'Once a table is created in the database, there are many occasions where one may wish to change the structure of the table. Typical cases include the following:  \r\n- Add a column  - Drop a column  - Change a column name  - Change the data type for a column  \r\nPlease note that the above is not an exhaustive list. There are other instances where ALTER TABLE is used to change the table structure, such as changing the primary key specification or adding a unique constraint to a column.  \r\nThe '),
 (4, 'COA', 'COLLEGE OF AERONAUTICS', 'Logo.png', 'ccs banner.jpg', '#ffff00', '', ''),
 (5, 'COS', 'COLLEGE OF SNIPERS ', 'Logo.png', 'ccs banner.jpg', '#ff80ff', '', ''),
 (6, 'COE', 'COLLEGE OF EDUCATION', 'Logo.png', 'ccs banner.jpg', '#ff8080', '', ''),
@@ -248,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `tblevents` (
   `type` varchar(45) DEFAULT NULL,
   `admin_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
 
 --
 -- Dumping data for table `tblevents`
@@ -265,7 +293,9 @@ INSERT INTO `tblevents` (`id`, `start`, `end`, `title`, `start_time`, `end_time`
 (51, '2017-09-11', NULL, 'walang ulam', '00:03:00', NULL, 1, 'Single day event', 1),
 (52, '2017-10-13', NULL, '53rd marine exercise ', '13:00:00', NULL, 11, 'Single day event', 1),
 (53, '2017-09-25', NULL, 'debriefing ', '12:56:00', NULL, 11, 'Single day event', 1),
-(54, '2017-09-26', NULL, 'cas day', '00:12:00', NULL, 3, 'Single day event', 2);
+(54, '2017-09-26', NULL, 'cas day', '00:12:00', NULL, 3, 'Single day event', 2),
+(55, '2017-09-12', NULL, 'birthday ni jialeng aleng', '12:15:00', NULL, 1, 'Single day event', 1),
+(56, '2017-09-27', NULL, 'info tect 2017', '14:15:00', NULL, 1, 'Single day event', 1);
 
 -- --------------------------------------------------------
 
@@ -338,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `tbllogs` (
   `log_time` time NOT NULL,
   `log_date` date NOT NULL,
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=172 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=206 ;
 
 --
 -- Dumping data for table `tbllogs`
@@ -459,7 +489,41 @@ INSERT INTO `tbllogs` (`log_id`, `log_user_id`, `log_header`, `log_message`, `lo
 (168, 1, 'Success Login', 'Success Login at Sunday 10th of September 2017 ', '16:45:14', '2017-09-10'),
 (169, 1, 'Add College Program', 'Add College Program at Sunday 10th of September 2017 ', '16:46:25', '2017-09-10'),
 (170, 1, 'Success Login', 'Success Login at Sunday 10th of September 2017 ', '22:10:19', '2017-09-10'),
-(171, 1, 'Success Login', 'Success Login at Monday 11th of September 2017 ', '09:50:01', '2017-09-11');
+(171, 1, 'Success Login', 'Success Login at Monday 11th of September 2017 ', '09:50:01', '2017-09-11'),
+(172, 1, 'Success Login', 'Success Login at Tuesday 12th of September 2017 ', '00:24:50', '2017-09-12'),
+(173, 1, 'Success Login', 'Success Login at Tuesday 12th of September 2017 ', '10:29:19', '2017-09-12'),
+(174, 1, 'Success Login', 'Success Login at Tuesday 12th of September 2017 ', '22:42:36', '2017-09-12'),
+(175, 1, 'Success Login', 'Success Login at Tuesday 12th of September 2017 ', '23:02:01', '2017-09-12'),
+(176, 1, 'Add Announcement', 'Add Announcement at Tuesday 12th of September 2017 ', '23:37:10', '2017-09-12'),
+(177, 1, 'Add Event', 'Add Event at Tuesday 12th of September 2017 ', '23:42:48', '2017-09-12'),
+(178, 1, 'Add Announcement', 'Add Announcement at Tuesday 12th of September 2017 ', '23:57:19', '2017-09-12'),
+(179, 1, 'Success Login', 'Success Login at Wednesday 13th of September 2017 ', '00:05:42', '2017-09-13'),
+(180, 1, 'Success Logout', 'Success Logout at Wednesday 13th of September 2017 ', '00:16:03', '2017-09-13'),
+(181, 2, 'Success Login', 'Success Login at Wednesday 13th of September 2017 ', '00:16:09', '2017-09-13'),
+(182, 2, 'Success Logout', 'Success Logout at Wednesday 13th of September 2017 ', '00:18:44', '2017-09-13'),
+(183, 1, 'Success Login', 'Success Login at Wednesday 13th of September 2017 ', '00:18:49', '2017-09-13'),
+(184, 1, 'Delete Announcement', 'Delete Announcement at Wednesday 13th of September 2017 ', '01:09:12', '2017-09-13'),
+(185, 1, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '09:46:48', '2017-09-14'),
+(186, 1, 'Add Announcement', 'Add Announcement at Thursday 14th of September 2017 ', '09:50:13', '2017-09-14'),
+(187, 1, 'Add Announcement', 'Add Announcement at Thursday 14th of September 2017 ', '09:51:00', '2017-09-14'),
+(188, 1, 'Add Event', 'Add Event at Thursday 14th of September 2017 ', '09:51:30', '2017-09-14'),
+(189, 1, 'Success Logout', 'Success Logout at Thursday 14th of September 2017 ', '10:03:45', '2017-09-14'),
+(190, 2, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '10:03:49', '2017-09-14'),
+(191, 2, 'Add Announcement', 'Add Announcement at Thursday 14th of September 2017 ', '10:06:14', '2017-09-14'),
+(192, 2, 'Success Logout', 'Success Logout at Thursday 14th of September 2017 ', '10:09:22', '2017-09-14'),
+(193, 3, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '10:09:39', '2017-09-14'),
+(194, 3, 'Add Announcement', 'Add Announcement at Thursday 14th of September 2017 ', '10:10:13', '2017-09-14'),
+(195, 3, 'Success Logout', 'Success Logout at Thursday 14th of September 2017 ', '10:11:27', '2017-09-14'),
+(196, 1, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '10:11:34', '2017-09-14'),
+(197, 1, 'Success Logout', 'Success Logout at Thursday 14th of September 2017 ', '10:18:12', '2017-09-14'),
+(198, 2, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '10:18:17', '2017-09-14'),
+(199, 2, 'Add Announcement', 'Add Announcement at Thursday 14th of September 2017 ', '10:18:40', '2017-09-14'),
+(200, 2, 'Success Logout', 'Success Logout at Thursday 14th of September 2017 ', '10:32:45', '2017-09-14'),
+(201, 1, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '10:32:49', '2017-09-14'),
+(202, 1, 'Success Logout', 'Success Logout at Thursday 14th of September 2017 ', '10:34:01', '2017-09-14'),
+(203, 2, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '10:34:09', '2017-09-14'),
+(204, 2, 'Success Logout', 'Success Logout at Thursday 14th of September 2017 ', '10:43:20', '2017-09-14'),
+(205, 3, 'Success Login', 'Success Login at Thursday 14th of September 2017 ', '10:43:25', '2017-09-14');
 
 -- --------------------------------------------------------
 
@@ -566,7 +630,7 @@ CREATE TABLE IF NOT EXISTS `tblstudentinfo` (
   `section` int(11) NOT NULL,
   `yearlevel` int(11) NOT NULL,
   PRIMARY KEY (`tbl_student_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `tblstudentinfo`
@@ -578,7 +642,24 @@ INSERT INTO `tblstudentinfo` (`tbl_student_id`, `student_id`, `last_name`, `firs
 (3, 'K1122114', 'domingo', 'christine', 'batacan', 'New Found Glory Taguig City', '09479888749', '', '1995-09-19', 'tinedomingo@gmail.com', 'tine', 'Female', 0, 3, '', 1, 0, 0),
 (4, 'A0986733', 'Tan', 'Leo', 'Man', '520-B 16th ISU Village Barangay 31 South Side', '09831238768', '', '2001-05-22', 'leomantan@gmail.com', 'leo', 'Male', 0, 6, '', 1, 0, 0),
 (5, 'A0918143', 'Queen', 'Isabella', 'Nena', 'New Manila', '09479888749', '', '1998-01-06', 'lala@gmail.com', 'lala', 'Female', 0, 6, '', 1, 0, 0),
-(6, 'A0029642', 'Fonacier', 'Larra', 'Lim', 'New Found Glory Taguig City', '09831238768', '20170207_103535.jpg', '1999-06-23', '', '', 'Female', 0, 2, 'Larry Fonacier', 1, 0, 0);
+(6, 'A0029642', 'Fonacier', 'Larra', 'Lim', 'New Found Glory Taguig City', '09831238768', '20170207_103535.jpg', '1999-06-23', '', '', 'Female', 0, 2, 'Larry Fonacier', 1, 0, 0),
+(7, 'A0328900', 'barry allen', 'barr@gmail.com', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(8, 'A0664638', 'diana prince', 'barr@gmail.com', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(9, 'A0478644', 'oliver queen', 'arrowbarr@gmail.com', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(10, 'A0520563', 'joh diggle', 'spartanbarr@gmail.com', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(11, 'A0289949', 'bruce wayne', 'batmanbarr@gmail.com', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(12, 'A0695844', 'clark kent', 'supermanbarr@gmail.com', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(13, 'A0525171', 'kara zor-el', 'barr@gmail.com', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(14, 'A0146273', '', '', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(15, 'A0630187', 'ivan', '', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(16, 'A0654253', '', 'icjfuncion', '', '', '', '', '2017-09-11', '', '', '', 0, 5, '', 0, 0, 0),
+(17, 'A0491094', 'Funcion', 'Christine Mae', 'Brayant', 'Los Angeles Pampanga', '090823122', '', '2017-09-11', '', '', '', 0, 11, '', 0, 0, 0),
+(18, 'A0912384', 'Funcion', 'Christine Mae', 'Brayant', 'Los Angeles Pampanga', '090823122', '', '2017-09-11', '', '', '', 0, 3, '', 0, 0, 0),
+(19, 'A0821523', 'Funcion', 'Christine Mae', 'Brayant', 'Los Angeles Pampanga', '090823122', '', '2017-09-11', '', '', '', 0, 2, '', 1, 0, 0),
+(20, 'A0623032', 'Funcion', 'Christine Mae', 'Brayant', 'Los Angeles Pampanga', '090823122', '', '2017-09-11', '', '', '', 0, 3, '', 1, 0, 0),
+(21, 'A0279364', 'Funcion', 'King Arthur', 'Dallas', 'Los Angeles Pampanga', '090823123', '', '2017-09-11', '', '', '', 0, 3, '', 1, 0, 0),
+(22, 'A0246289', 'Funcion', 'Christine Mae', 'Brayant', 'Los Angeles Pampanga', '090823122', '', '2017-09-11', '', '', '', 0, 11, '', 1, 0, 0),
+(23, 'A0045209', 'Funcion', 'King Arthur', 'Dallas', 'Los Angeles Pampanga', '090823123', '', '2017-09-11', '', '', '', 0, 11, '', 1, 0, 0);
 
 -- --------------------------------------------------------
 

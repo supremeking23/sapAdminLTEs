@@ -53,14 +53,6 @@
  }
 
   if(isset($_POST['update_dean'])){
-  
-   
-
-
-
-
-  
-
       $first_name = $_POST['first_name'];
       $middle_name = $_POST['middle_name'];
       $last_name = $_POST['last_name'];
@@ -97,12 +89,80 @@
             redirect_to('../department_info.php?department_id=' . $department_id);
           }
 
-
-    
-
+ }
 
 
-      // stop... remaining mission and vission student add via excel
+ 
+
+if(isset($_POST['modify_banner'])){
+
+    $department_id =  mysql_prep($_POST['department_id']);
+    $admin_id =  mysql_prep($_POST['admin_id']);
+    $password = mysql_prep($_POST['password']);
+
+    $verify_by_password = find_password($admin_id,$password);
+
+    if($verify_by_password){  
+
+        if($_FILES['upload-logo']['name'] == "") { // no data in the input type file
+
+              $department_logo = $_POST['logo_name'];
+        }else{
+
+             $department_logo = mysql_prep($_FILES['upload-logo']['name']);
+             $department_logo_tmp =$_FILES['upload-logo']['tmp_name'];
+             move_uploaded_file($department_logo_tmp, "../department logos/$department_logo");
+        }
+
+
+        if($_FILES['upload-banner']['name'] == "") { // no data in the input type file
+
+              $department_banner = $_POST['banner_name'];
+
+        }else{
+
+             $department_banner = mysql_prep($_FILES['upload-banner']['name']);
+             $department_banner_tmp =$_FILES['upload-banner']['tmp_name'];
+             move_uploaded_file($department_banner_tmp, "../department logos/$department_banner");
+        }
+       
+
+        
+
+        $query = "UPDATE tbldepartments SET department_logo = '$department_logo', department_banner = '$department_banner' WHERE department_id = '$department_id'";
+
+        $run_query =  mysqli_query($connection,$query)or die(mysqli_error($connection));
+
+
+         if($run_query && mysqli_affected_rows($connection) == 1){
+                $_SESSION['success_message'] = "Department logo and banner has been successfully updated";
+                redirect_to('../department_info.php?department_id='. $department_id);
+                echo  $department_id;
+              }
+
+            else{
+                $_SESSION['failed_message'] = "Cannot update";
+               redirect_to('../department_info.php?department_id=' . $department_id);
+                 echo  $department_id;
+              }
+
+     }//end password verify
+     
+     else{
+            $_SESSION['failed_message'] = "Incorrect Password";
+            redirect_to('../department_info.php?department_id=' . $department_id);
+     }         
+
+}
+
+
+
+
+
+
+
+
+     // stop... remaining mission and vission student add via excel
 
       /*
         It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
@@ -110,10 +170,8 @@
 
       */
 
- }
 
 
- 
 
 
 

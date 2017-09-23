@@ -1,7 +1,7 @@
  <?php
-  include("../includes/sessions.php");
-  include("../includes/connection.php");
-  include("../includes/functions.php");
+  include("../../includes/sessions.php");
+  include("../../includes/connection.php");
+  include("../../includes/functions.php");
 
   ?>                            
 <?php //date_default_timezone_set('Asia/Taipei');
@@ -23,12 +23,12 @@
 
 			if($run_query_change_email && mysqli_affected_rows($connection) == 1){
 				$_SESSION['success_message'] = "Email has been updated";
-                redirect_to('admin_profile.php');
+                redirect_to('../admin_profile.php');
 			}
 
 		}else{
 				$_SESSION['failed_message'] = "wrong password";
-				redirect_to('admin_profile.php');
+				redirect_to('../admin_profile.php');
 			}
 	}
 
@@ -51,16 +51,16 @@
 
 					if($run_query_change_password && mysqli_affected_rows($connection) == 1){
 							$_SESSION['success_message'] = "Password has been updated";
-			                redirect_to('admin_profile.php');
+			                redirect_to('../admin_profile.php');
 						}
 
 			}else{
 				$_SESSION['failed_message'] = "new password and confirm password doesnt match";
-				redirect_to('admin_profile.php');
+				redirect_to('../admin_profile.php');
 			}
 		}else{
 				$_SESSION['failed_message'] = "wrong password";
-				redirect_to('admin_profile.php');
+				redirect_to('../admin_profile.php');
 			}
 
 
@@ -89,13 +89,13 @@
 
 					if($run_query_change_admin_info && mysqli_affected_rows($connection) == 1){
 							$_SESSION['success_message'] = "Admin Info has been updated";
-			                redirect_to('admin_profile.php');
+			               redirect_to('../admin_profile.php');
 						}
 
 
 		}else{
 			$_SESSION['failed_message'] = "wrong password";
-				redirect_to('admin_profile.php');
+				redirect_to('../admin_profile.php');
 		}
 
 		

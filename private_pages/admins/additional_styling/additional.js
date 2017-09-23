@@ -29,6 +29,9 @@
     })
   })
 
+
+
+
     $(function () {
     $('.datatable').DataTable()
     $('.example3').DataTable({

@@ -19,7 +19,8 @@
             $date=date("l jS \of F Y ");
             $log_message = "Success Login at " . $date;
             $log_header = "Success Login";
-            insert_log($log_user_id,$log_header,$log_message);
+            $userlevel = "admin";
+            insert_log($log_user_id,$log_header,$log_message,$userlevel);
             redirect_to('index.php');
 
 

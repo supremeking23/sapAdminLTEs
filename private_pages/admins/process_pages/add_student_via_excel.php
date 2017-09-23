@@ -55,12 +55,19 @@
 			     $contact = mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(4, $row)->getValue());
 
 			     //converts excel date to php date
-     			 $newformat = date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($worksheet->getCellByColumnAndRow(2, $row)->getValue()));
+     			 $newformat = date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($worksheet->getCellByColumnAndRow(5, $row)->getValue()));
 
 			     $date_birth = mysqli_real_escape_string($connection, $newformat);
 
 
-			    $query = "INSERT INTO tblstudentinfo(student_id,last_name,first_name,middle_name,address,contact,date_birth,department,isActive) VALUES ('$student_id','$last_name','$first_name','$middle_name','$address','$contact','$date_birth','$department',1)";
+			     $guardian_name =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(6, $row)->getValue()); 
+			     $email =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(7, $row)->getValue()); 
+			     $password =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(8, $row)->getValue()); 
+
+			     $gender  =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(9, $row)->getValue()); 
+
+
+			    $query = "INSERT INTO tblstudentinfo(student_id,last_name,first_name,middle_name,address,contact,date_birth,department,isActive,program_major,guardian_name,email,password,gender) VALUES ('$student_id','$last_name','$first_name','$middle_name','$address','$contact','$date_birth','$department',1,'$program','$guardian_name','$email','$password','$gender')";
 			    	$success = mysqli_query($connection, $query)or die(mysqli_error($connection));
 
 

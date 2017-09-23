@@ -1,3 +1,4 @@
+        <script src = "../js/validations.js"></script>
         <div class="col-md-6">
           <div class="box">
             <div class="box-header">
@@ -9,7 +10,7 @@
             <div class="box-body">
               <div class="register-box-body">
                 <p class="login-box-msg">Register a New admin</p>
-                <form action="admins_page_process.php" method="post" enctype="multipart/form-data">
+                <form action="process_pages/admins_page_process.php" method="post" enctype="multipart/form-data">
                  
                   <div class="form-group has-feedback">
                     <input type="text" data-tooltip="tooltip"  title="Letters only!" required="" class="form-control" placeholder="First Name" onkeypress = "return lettersonly(event)" name="first_name">

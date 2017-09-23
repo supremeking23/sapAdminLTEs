@@ -46,6 +46,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
    <!-- DataTables -->
   <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+   <!-- fullCalendar -->
+  <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.min.css">
+  <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -104,60 +107,8 @@ desired effect
       <span class="logo-lg"><b>S-APP</b> Admin Panel</span>
     </a>
 
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="admin_images/<?php echo $image;?>" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $first_name . " " . $last_name?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-
-                <p>
-                 <?php echo $first_name . " " . $last_name;?>
-                 <?php 
-                  //admin department
-                  $find_admin_department = admin_department($admin_department_id);
-                  if($find_admin_department){
-                    $admin_department = $find_admin_department['department_code'];
-                  }
-                 ?>
-                  <small><?php echo $admin_department; ?></small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="admin_profile.php?admin_id=<?php echo $admin_id;?>" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
+   <!-- Header Navbar -->
+     <?php include('layouts/header_nav.php'); ?>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -214,13 +165,65 @@ desired effect
                   <div class="col-md-12">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user">
+                      <div class="box-tools pull-right" style="background-color: ">
+                        <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#editbanners">
+                         <i class="fa fa-wrench" style="color: white"></i>
+                        </button>
+
+                       <div class="modal fade" id="editbanners">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Change Logo And Banner</h4>
+                              </div>
+                              
+
+                                  <!-- form for updating of profile picture -->
+                                    <form action="process_pages/department_edit_process.php" method="post" enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                          <label>Logo</label>
+                                          <input  type="file" name="upload-logo" class="input-group" ><br>
+                                           <label>Banner</label>
+                                          <input   type="file" name="upload-banner" class="input-group" ><br>
+                                          <p>Enter your password to continue.</p>
+                                          <div class="form-group has-feedback">
+
+                                          <input type="hidden" name="department_id" value="<?php echo $_GET['department_id']?>">
+                                           <input type="hidden" name="admin_id" value="<?php echo $admin_id?>">
+                                          <input type="hidden" name="banner_name" value="<?php echo $department['department_banner']?>">
+                                          <input type="hidden" name="logo_name" value="<?php echo $department['department_logo']?>">
+                                            <input required=""  type="password" class="form-control" placeholder="Password" required="" name="password">
+                                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                          </div>
+                                        </div>
+
+                                    
+
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                          <input type="submit" name="modify_banner" value="Save Changes"  class="btn btn-primary pull-right">
+                                        </div>
+
+                                </form>
+
+                            </div>
+                            <!-- /.modal-content -->
+                          </div>
+                          <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+                       
+                      </div>
                       <!-- Add the bg color to the header using any of the bg-* classes -->
-                      <div class="widget-user-header bg-aqua-active" style="background: url('department logos/<?php echo $department['department_banner']?>') center center;">
+                      <div class="widget-user-header bg-aqua-active" style="background: url('department logos/<?php echo $department['department_banner']?>') center center;background-color: <?php echo $department['department_color']?>?>">
                         <h2 class="widget-user-username" style="background:rgba(0,0,0,0.3);text-align: center;font-size: 50px"><?php echo $department['department_name']?></h2>
                        
                       </div>
                       <div class="widget-user-image">
-                        <img class="img-circle" src="department logos/<?php echo $department['department_logo']?>" alt="User Avatar">
+                        <img class="img-circle" src="department logos/<?php echo $department['department_logo']?>" alt="Department Logo">
 
                       </div>
                       <div class="box-footer">
@@ -510,7 +513,7 @@ desired effect
                         
                          <form action="process_pages/department_edit_process.php" method="POST" enctype="multipart/form-data">
                         <textarea class="textarea" name="mission" placeholder="Place some text here"
-                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><?php echo $mission ?></textarea>
 
                           <input type="hidden" name="department_id" value="<?php echo $_GET['department_id'] ?>">
                       </div>
@@ -577,7 +580,7 @@ desired effect
                         
                          <form action="process_pages/department_edit_process.php" method="POST" enctype="multipart/form-data">
                         <textarea class="textarea" name="vision" placeholder="Place some text here"
-                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><?php echo $vision ?></textarea>
                       </div>
                           <div class="modal-footer">
 
@@ -596,6 +599,346 @@ desired effect
 
 
             </div>
+
+
+
+
+
+
+              <div class="row">
+              <div class="col-md-12">
+                <!-- Professors in this department -->
+                 <div class="box">
+                    <div class="box-header">
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                        <h3 class="box-title">Programs</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                  <div class="box-body">
+                    <table  class="table table-bordered table-striped datatable">
+                      <thead>
+                      <tr>
+                        <th>Program Name</th>
+                        <th>Program Code</th>
+                        <th>Program Description</th>
+                        <th>Edit Detail</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+
+                      <?php $get_program = get_program_by_department_id($_GET['department_id']);
+                            while($programs = mysqli_fetch_assoc($get_program)):
+                      ?>
+                      <tr>
+                        <td><?php echo $programs['program_name']?></td>
+                        <td><?php echo $programs['program_code']?></td>
+                        <td><?php echo $programs['program_description']?></td>
+                        <td><a data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Edit Detail" data-target='#editDetail<?php echo $programs['program_id']?>' type="button" href="">Edit Detail</a></td>
+                      </tr>
+
+
+                      <div class="modal fade" id="editDetail<?php echo $programs['program_id']?>">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title">Edit Detail fro this Program</h4>
+                            </div>
+                            <div class="modal-body">
+                              <form action="process_pages/edit_program_details.php" method="POST">
+                                <input type="text" name="program_name" class="form-control" value="<?php echo $programs['program_name']?>">
+                                <br />
+                                 <input type="text" name="program_code" class="form-control" value="<?php echo $programs['program_code']?>">
+                                 <br />
+                                <textarea name="program_description" class="form-control textarea"><?php echo $programs['program_description']?></textarea>
+                             
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                              <button type="submit" name="edit_program" class="btn btn-primary">Save changes</button>
+                            </div>
+
+
+
+                             </form>
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
+
+                        <?php endwhile; /// program end?>
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /.box-body -->
+               </div>
+             </div>
+                
+
+           </div> <!-- end programs-->
+
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <!-- Professors in this department -->
+                 <div class="box">
+                    <div class="box-header">
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                        <h3 class="box-title">Professors</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                  <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>Professor ID</th>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Birthdate</th>
+                        <th>Email</th>
+                        
+                        <th>Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                       <?php //display all professor depending on the admin that is login
+                        $get_professors = get_all_professors($_GET['department_id']);
+                        while ($total_professors = mysqli_fetch_assoc($get_professors)):
+                            ?> 
+                        <tr>
+                          <td><?php echo $total_professors['prof_id']?></td>
+                          <td><?php echo $total_professors['first_name'].' '.$total_professors['middle_name'] . ' ' . $total_professors['last_name']?>
+                          </td>
+                          <td><?php echo $total_professors['gender']?></td>
+
+                          <?php $date =date_create($total_professors['date_birth']);
+                                 $date_birth = date_format($date,"F d Y");
+                            ?>
+
+                          <td><?php echo $date_birth;?></td>
+                          <td><?php echo $total_professors['email']?></td>
+                         <td>
+
+                         <a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="professor_full_info.php?professor_id=<?php echo $total_professors['tbl_prof_id'] ?>" ><span class='glyphicon glyphicon-user'></span></a>
+                         </td>
+                      </tr>
+
+                       <!-- for delete modal professor -->
+
+                     <?php       
+                            endwhile;
+                            //end
+                        ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /.box-body -->
+               </div>
+             </div>
+                
+
+           </div> <!-- end 2nd row professors-->
+
+
+              <div class="row">
+              <div class="col-md-12">
+                <!-- Professors in this department -->
+                 <div class="box">
+                    <div class="box-header">
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                        <h3 class="box-title">Students</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                  <div class="box-body">
+                    <table  class="table table-bordered table-striped datatable">
+                      <thead>
+                      <tr>
+                        <th>Student ID</th>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Birthdate</th>
+                        <th>Email</th>
+                        <th>Program Enrolled</th>
+                        <th>Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                       <?php //display all students depending on the admin that is login
+                        $get_students = get_all_students($_GET['department_id']);
+                        while ($total_students = mysqli_fetch_assoc($get_students)):
+                            ?> 
+                        <tr>
+                          <td><?php echo $total_students['student_id']?></td>
+                          <td><?php echo $total_students['first_name'].' '.$total_students['middle_name'] . ' ' . $total_students['last_name']?>
+                          </td>
+                          <td><?php echo $total_students['gender']?></td>
+
+                          <?php $date =date_create($total_students['date_birth']);
+                                 $date_birth = date_format($date,"F d Y");
+                            ?>
+
+                          <td><?php echo $date_birth;?></td>
+                          <td><?php echo $total_students['email']?></td>
+                          <?php //program belong
+                            $query_code = "SELECT * FROM tblcollegeprograms WHERE program_id = '".$total_students['program_major']."'";
+
+                              $program = mysqli_query($connection,$query_code) or die(mysqli_error($connection));
+                            if($program_code = mysqli_fetch_assoc($program)){
+                              ?>
+                          
+                         <td><?php echo $program_code['program_name']?> (<?php echo $program_code['program_code']?>)</td>
+                           <?php
+                              }//program
+                          ?>
+                         <td>
+
+                         <a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="professor_full_info.php?professor_id=<?php echo $total_professors['tbl_prof_id'] ?>" ><span class='glyphicon glyphicon-user'></span></a>
+                         </td>
+                      </tr>
+
+                       <!-- for delete modal professor -->
+
+                     <?php       
+                            endwhile;
+                            //end
+                        ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /.box-body -->
+               </div>
+             </div>
+                
+
+           </div> <!-- end 3rd row -->
+
+
+           <div class="row">
+                 
+
+                <div class="col-md-6">
+                    <div class="box box-success">
+                <div class="box-header">
+                  <i class="fa fa-comments-o"></i>
+                  <h3 class="box-title">Announcements</h3>
+                </div>
+                <div class="box-body chat" id="chat-box">
+                  <hr><br>
+                  <?php //print announcement  here
+                  $get_announcements_by_department = get_all_announcement_by_department_id($_GET['department_id']);
+                  if(mysqli_num_rows($get_announcements_by_department) > 0){
+                  while($announcement = mysqli_fetch_assoc($get_announcements_by_department)):   
+                  $date =date_create($announcement["post_date"]);
+                  $date_posted = date_format($date,"F j, Y, g:i a");
+                  //date("F j, Y, g:i a", $announcement["date_added"]);    
+              ?>
+
+                  <div class="item">
+                  <img src="admin_images/<?php echo $announcement['image']?>" alt="" class="offline">
+                  
+                  <p class="message">
+                    <a href="" class="name"> 
+                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i><?php echo $date_posted; ?></small>
+                     <?php echo $announcement['first_name'].' '. $announcement['last_name'];?> <small>(<?php echo $announcement['department_code']?>) </small>
+                    </a>
+                    <?php echo $announcement['content'];?>
+                    <br />
+
+                  </p>
+
+
+                  </div>
+
+
+                  <?php endwhile;   }else{
+                    echo "nothing to show";
+                  }
+
+               ?>
+                </div>
+                <!-- /.chat -->
+                <div class="box-footer">
+                </div>
+              </div>
+              </div>
+
+
+
+               <div class="col-xs-6">
+
+                          <!-- calendar -->
+            <div class="box box-danger">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Calendar</h3>
+                      <div class="box-tools pull-right">
+                    </div><!-- /.box-header -->
+                    
+               
+                          <div class="box-body">
+                              <div id='calendar' style="max-width: 900px; margin: 0 auto;"></div>
+
+                          </div><!-- /.box-body -->
+                         
+                          <div class="box-footer">
+                          
+                        </div>                                       
+             </div>
+           </div>  <!-- /.box -->
+           
+
+
+                   <!--  Modal to Event Details -->
+        <div id="calendarModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Event Details</h4>
+              </div>
+              <div id="modalBody" class="modal-body">
+                <h4 id="modalTitle" class="modal-title"></h4>
+                <div id="modalWhen" style="margin-top:5px;">
+               
+                </div>
+              </div>
+              <input type="hidden" id="eventID"/>
+              <div class="modal-footer">
+              
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal-->
+
+
+          </div>  <!-- /. col for calendar -->
+
+
+
+           </div> <!-- end 4th row -->
 
 
 
@@ -640,8 +983,65 @@ $connection->close();
 <script src="additional_styling/additional.js"></script>
 <script src="additional_styling/navigation.js"></script>
 
+<!-- fullCalendar -->
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+
+<!-- CK Editor -->
+<script src="bower_components/ckeditor/ckeditor.js"></script>
 
 <!-- Bootstrap WYSIHTML5 -->
 <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+
+
+<script>
+  $(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    //CKEDITOR.replace('editor1')
+    //bootstrap WYSIHTML5 - text editor
+    $('.textarea').wysihtml5()
+
+
+
+     $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: '<?php echo date('m-d-y')?>',
+            selectable: false,
+            selectHelper: true,
+            editable: false,
+            eventLimit: true, 
+            allDay:true,
+
+         
+          events: {
+            url: 'process_pages/getEventsByDepartmentId.php?department_id=<?php echo $_GET['department_id']?>',
+            type: 'GET', // Send post data
+            //backgroundColor: '',
+            error: function() {
+                alert('There was an error while fetching events.');
+            }
+        },
+
+        eventClick:  function(event, jsEvent, view) {  // when some one click on any event
+               // endtime = $.fullCalendar.moment(event.end).format('h:mm');
+                //starttime = $.fullCalendar.moment(event.start_time).format('dddd, MMMM Do YYYY, h:mm');
+                var mywhen = event.start + ' - ' + event.end;
+                $('#modalTitle').html(event.title);
+                $('#modalWhen').text();
+                $('#eventID').val(event.id);
+                $('#calendarModal').modal();
+            },
+            
+
+        }); //events
+
+
+  })
+</script>
 </body>
 </html>

@@ -98,64 +98,8 @@ desired effect
       <span class="logo-lg"><b>S-APP</b> Admin Panel</span>
     </a>
 
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-
-
-
-
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="admin_images/<?php echo $image;?>" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $first_name . " " . $last_name?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-
-                <p>
-                 <?php echo $first_name . " " . $last_name;?>
-                 <?php 
-                  //admin department
-                  $find_admin_department = admin_department($admin_department_id);
-                  if($find_admin_department){
-                    $admin_department = $find_admin_department['department_code'];
-                  }
-                 ?>
-                  <small><?php echo $admin_department; ?></small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="admin_profile.php?admin_id=<?php echo $admin_id;?>" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
+  <!-- Header Navbar -->
+     <?php include('layouts/header_nav.php'); ?>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -246,91 +190,44 @@ desired effect
                      <?php
                         }//department code
                     ?>
-                   <td><a data-toggle='modal' data-target='#editmodal<?php echo $total_professors['tbl_prof_id'] ?>'> <span class='glyphicon glyphicon-pencil'></span></a> | <a  data-toggle='modal' data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a></td>
+                  
+
+                    <td><a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal<?php echo $total_professors['tbl_prof_id'] ?>' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="professor_full_info.php?professor_id=<?php echo $total_professors['tbl_prof_id']; ?>" ><span class='glyphicon glyphicon-user'></span></a></td>
                 </tr>
 
-                        <div class="modal fade" id="editmodal<?php echo $total_professors['tbl_prof_id'] ?>">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Edit Profile</h4>
-                              </div>
-                              
-                              <!-- form for updating of professors profile  -->
 
-                        <script src = "../js/validations.js"></script>
-                          <form action="professors_page_process.php" method="post" enctype="multipart/form-data">
-                              <div class="modal-body">
+                  <!-- for delete modal prof -->
+                
+                        <div class="modal modal-danger fade" id="deletemodal<?php echo $total_professors['tbl_prof_id'] ?>">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title">Access Confirmation</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p>Please Enter Your Password to continue</p>
+                               <form action="process_pages/delete_professor_process.php" method="POST">
+
+                                 <input type="hidden" name="admin_id" value="<?php echo $admin_id ?>">  
+                                 <input type="hidden" name="delete_prof" value="<?php echo $total_professors['tbl_prof_id'] ?>">
+                                <div class="form-group has-feedback">
+                                      <input type="password"   required="" class="form-control" placeholder="Password" name="admin_password">
+                                      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                </div>
                                
-                                <div class="form-group has-feedback">
-                                  <input data-tooltip="tooltip"" title="Letters only!" type="text" class="form-control" required="" placeholder="First Name" name="first_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_professors['first_name'] ?>">
-                                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                </div>
-
-                                <div class="form-group has-feedback">
-                                  <input data-tooltip="tooltip" title="Letters only!" type="text" class="form-control" required="" placeholder="Middle Name" name="middle_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_professors['middle_name'] ?>">
-                                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                </div>
-
-                              <div class="form-group has-feedback">
-                                <input data-tooltip="tooltip" title="Letters only!" type="text" class="form-control" required="" placeholder="Last Name" name="last_name" onkeypress = "return lettersonly(event)" value="<?php echo $total_professors['last_name'] ?>">
-                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                              </div>
-
-                              <div class="form-group has-feedback">
-                                <select class="form-control" name="gender">
-                                  <option value="Male" <?php if($total_professors['gender'] == 'Male') echo "selected=''"; ?>>Male</option>
-                                  <option value="Female" <?php if($total_professors['gender'] == 'Female') echo "selected=''"; ?>>Female</option>
-                                </select>
-                              </div>
-
-
-                              <div class="form-group has-feedback">
-                                <input type="text" class="form-control" required="" placeholder="Address" name="address" value="<?php echo $total_professors['address'] ;?>">
-                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
-                              </div>
-
-
-                              <div class="form-group has-feedback">
-                                <input type="date" class="form-control" required="" name="date_birth" placeholder="Date of Birth" value="<?php echo $total_professors['date_birth']; ?>">
-                                <span class="glyphicon glyphicon-calendar form-control-feedback" ></span>
-
-                              </div>
-
-
-                              <div class="form-group has-feedback">
-                                <input data-tooltip="tooltip" title="Number only!" type="text" class="form-control" required="" placeholder="Contact" name="contact" onkeypress = "return numbersonly(event)" value="<?php echo $total_professors['contact'] ?>">
-                                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
-                              </div>
-
-
-                            <p>Enter your password to edit.</p>
-                            
-                            <div class="form-group has-feedback">
-                              <input  required  type="password" class="form-control" placeholder="Password" required="" name="password">
-                              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                             </div>
-
-
-                              </div>
-                              
-                              <div class="modal-footer">
-                                <input type="hidden" name="edit_prof_id" value="<?php echo $total_professors['tbl_prof_id']?>">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                <input type="submit" name="edit_professor" value="Update Info" class="btn btn-primary pull-right">
-                              </div>
-
-                            </form>
-
+                            <div class="modal-footer">
+                              <button type="submit" name="prof_delete" class="btn btn-outline">Save changes</button>
+                              </form>
                             </div>
-                            <!-- /.modal-content -->
                           </div>
-                          <!-- /.modal-dialog -->
+                          <!-- /.modal-content -->
                         </div>
-                        <!-- /.modal -->
-
+                        <!-- /.modal-dialog -->
+                      </div>
+    
 
                <?php       
                   }
@@ -340,7 +237,7 @@ desired effect
               </table>
             </div>
             <!-- /.box-body -->
-          </div>
+     </div>
 
 
 

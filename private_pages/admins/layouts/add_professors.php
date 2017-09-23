@@ -1,7 +1,7 @@
        
 
 
-
+        <script src = "../js/validations.js"></script>
         <div class="col-md-6">
           <div class="box">
             <div class="box-header">
@@ -13,7 +13,7 @@
             <div class="box-body">
               <div class="register-box-body">
                 <p class="login-box-msg">Register a New Professor</p>
-                <form action="professors_page_process.php" method="post" enctype="multipart/form-data">
+                <form action="process_pages/professors_page_process.php" method="post" enctype="multipart/form-data">
 
 
                  
@@ -57,10 +57,10 @@
                     <div class="form-group has-feedback">
                     <select class="form-control" name="department">
                       <?php //departments?>
-                       <?php $all_departments = get_all_department($admin_department_id);
+                       <?php $all_departments = get_all_department_aside_from_school_admin($admin_department_id);
                                     while($departments = mysqli_fetch_assoc($all_departments)){
                                       ?>
-                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_code'] ?></option>
+                                   <option value="<?php echo $departments['department_id']?>"><?php echo $departments['department_name'] ?> (<?php echo $departments['department_code'] ?>)</option>
 
                         <?php }?>
                     </select>

@@ -13,7 +13,7 @@ if (!$con) {
 ?>
 
 
-<p>Select Program:</p>
+
 
 <div class="form-group has-feedback">
 <select class="form-control" name="program" required="">

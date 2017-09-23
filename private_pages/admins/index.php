@@ -112,65 +112,11 @@ desired effect
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>S-APP</b> Admin Panel</span>
     </a>
-
+    
     <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
+     <?php include('layouts/header_nav.php'); ?>
 
-
-
-
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="admin_images/<?php echo $image;?>" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $first_name . " " . $last_name?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img  src="admin_images/<?php echo $image;?>" class="img-circle" alt="User Image">
-
-                <p>
-                 <?php echo $first_name . " " . $last_name;?>
-                 <?php 
-                  //admin department
-                  $find_admin_department = admin_department($admin_department_id);
-                  if($find_admin_department){
-                    $admin_department = $find_admin_department['department_code'];
-                  }
-                 ?>
-                  <small><?php echo $admin_department; ?></small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="admin_profile.php?admin_id=<?php echo $admin_id;?>" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
+     
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -359,13 +305,18 @@ desired effect
                   <p class="message">
                     <a href="" class="name"> 
                       <small class="text-muted pull-right"><i class="fa fa-clock-o"></i><?php echo $date_posted; ?></small>
-                     <?php echo $announcement['first_name'].' '. $announcement['last_name'];?> 
+                     <?php echo $announcement['first_name'].' '. $announcement['last_name'];?> <small>(<?php echo $announcement['department_code']?>) </small>
                     </a>
                     <?php echo $announcement['content'];?>
                     <br />
 
                   </p>
+
+                    <?php //can delete if the department id of admin is = 1 and admin that is currently in the same department
+                    if($announcement['department_id'] == $admin_department_id || $admin_id == $announcement['user_id'] || $admin_department_id ==1):
+                    ?>
                     <button class="btn btn-default btn-small pull-right" data-toggle="modal" data-target="#modal-danger">Delete</button>
+                  <?php endif?>
                   </div>
 
                    <div class="modal modal-danger fade" id="modal-danger">
@@ -428,11 +379,11 @@ desired effect
                             <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-add-event">Add Event</button>
                             <a href="all_events.php" class="btn btn-warning pull-right">All Events</a>
                         </div>                                       
-             </div><!-- /.box -->
-           </div>  <!-- /. col for calendar -->
+             </div>
+           </div>  <!-- /.box -->
            
 
-      </div> <!-- /.end row -->
+      </div>  <!-- /. col for calendar -->
 
       <!-- modal for adding events -->
 
@@ -641,6 +592,11 @@ desired effect
     </div>
     <!-- /.modal -->
 
+
+     
+
+
+       
          <!--|
         -------------------------->
 

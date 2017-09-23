@@ -30,14 +30,19 @@
           
           </ul>
         </li>
+         <li><a href="guidance_councilor.php"><i class="glyphicon glyphicon-user"></i> <span>Guidance Councilors</span></a></li>
+
+         <li><a href="subjects.php"><i class="glyphicon glyphicon-book"></i> <span>Subjects</span></a></li>
+          <li><a href="class.php"><i class="fa fa-object-group"></i> <span>Class</span></a></li>
         
            <?php }else{ ?>
-           <li><a href="programs.php"><i class="glyphicon glyphicon-th-list"></i> <span>Programs</span></a></li>
+           <li><a href="department_info.php?department_id=<?php echo $admin_department_id?>"><i class="glyphicon glyphicon-th-list"></i> <span>Department</span></a></li>
            <?php } ?>
           <li><a href="professors.php"><i class="glyphicon glyphicon-user"></i> <span>Professors</span></a></li>
-          <li><a href="guidance_councilor.php"><i class="glyphicon glyphicon-user"></i> <span>Guidance Councilors</span></a></li>
+         
           <li><a href="students.php"><i class="glyphicon glyphicon-user"></i> <span>Students</span></a></li>
-           <li><a href="subjects.php"><i class="glyphicon glyphicon-book"></i> <span>Subjects</span></a></li>
+           
+           <li><a href="inbox.php"><i class="glyphicon glyphicon-inbox"></i> <span>Inbox</span></a></li>
        </ul>
 
 
