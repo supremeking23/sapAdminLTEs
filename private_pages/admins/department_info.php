@@ -305,9 +305,130 @@ desired effect
                       <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
-
+                        <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#addHead"><i class="fa fa-wrench"></i></button>
                         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                       </div>
+
+
+                      <!--add head -->
+
+
+                        <div class="modal fade" id="addHead">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Add Department Head<?php ?></h4>
+                          </div>
+                          <div class="modal-body">
+                            
+
+                <form class="form-horizontal" action="process_pages/department_edit_process.php" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="first_name" class="col-sm-2 control-label">First Name</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="middle_name" class="col-sm-2 control-label">Middle Name</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Middle Name" value="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="last_name" class="col-sm-2 control-label">Last Name</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">Email</label>
+
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" name="email" id="email" value="" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="address" class="col-sm-2 control-label">Address</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="address" value="" id="address" placeholder="Address">
+                    </div>
+                  </div>
+
+                
+
+                   <div class="form-group">
+                    <label for="gender" class="col-sm-2 control-label">Gender</label>
+
+                    <div class="col-sm-10">
+                     <select class="form-control" name="gender">
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                    </div>
+                  </div>
+
+                   
+                   <div class="form-group">
+                    <label for="contact" class="col-sm-2 control-label">Contact</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="contact" value="" id="contact" placeholder="Contact">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="date_birth" class="col-sm-2 control-label">Date of Birth</label>
+
+                    <div class="col-sm-10">
+                      <input type="date" class="form-control" name="date_birth" value="" id="date_birth" placeholder="">
+                    </div>
+                  </div>
+
+                  
+
+
+                <div class="form-group">
+                    <label for="image" class="col-sm-2 control-label">Profile Picture</label>
+
+                    <div class="col-sm-2">
+                      <input type="file" name="upload_image" onchange="document.getElementById('image').src = window.URL.createObjectURL(this.files[0])" >
+                       <input type="hidden" value="" name="image_name">
+                      <img id="image" class="profile-user-img img-responsive " src="" alt="User profile picture">
+                    </div>
+                  </div>
+
+                   <!-- for deans and department id -->
+                    <input type="hidden" name="deans_id" value="">
+                    <input type="hidden" name="department_id" value="<?php echo $_GET['department_id'] ?>">
+                
+
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" name="add_dean" class="btn btn-danger">Submit</button>
+                    </div>
+                  </div>
+                </form>
+
+                          </div>
+                          <div class="modal-footer">
+                           
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                    </div>
+
+
+
+
                     </div>
                       <div class="box-body box-profile">
 
@@ -336,6 +457,11 @@ desired effect
                           }
                       ?>
 
+                      <?php  $check_dean = check_dean_by_department_id($_GET['department_id']);
+
+
+                        if(mysqli_num_rows($check_dean) > 0){?>
+
                         <img class="profile-user-img img-responsive img-circle" src="deans image/<?php echo $deans_image?>" alt="User profile picture">
 
                         <h3 class="profile-username text-center"><?php echo  (isset($deans_name)) ? $deans_name :"";?></h3>
@@ -354,7 +480,11 @@ desired effect
                           </li>
                         </ul>
 
+                     
+
                         <a href="#" data-toggle="modal" data-target="#modal-default" class="btn btn-primary btn-block"><b>Edit</b></a>
+
+                        <?php }else{echo ""; }?>
                       </div>
                       <!-- /.box-body -->
                     </div>
@@ -661,6 +791,11 @@ desired effect
                              
                             </div>
                             <div class="modal-footer">
+
+                              <input type="hidden" name="program_id" value="<?php echo $programs['program_id']?>">
+
+                               <input type="hidden" name="department_id" value="<?php echo $_GET['department_id']?>">
+
                               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
                               <button type="submit" name="edit_program" class="btn btn-primary">Save changes</button>
                             </div>
@@ -736,11 +871,46 @@ desired effect
                           <td><?php echo $total_professors['email']?></td>
                          <td>
 
-                         <a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="professor_full_info.php?professor_id=<?php echo $total_professors['tbl_prof_id'] ?>" ><span class='glyphicon glyphicon-user'></span></a>
+                         <a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal<?php echo $total_professors['tbl_prof_id'] ?>' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="professor_full_info.php?professor_id=<?php echo $total_professors['tbl_prof_id'] ?>" ><span class='glyphicon glyphicon-user'></span></a>
                          </td>
                       </tr>
 
                        <!-- for delete modal professor -->
+
+                        <!-- for delete modal prof -->
+                
+                        <div class="modal modal-danger fade" id="deletemodal<?php echo $total_professors['tbl_prof_id'] ?>">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title">Access Confirmation</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p>Please Enter Your Password to continue</p>
+                               <form action="process_pages/delete_department_professor_process.php" method="POST">
+
+                                 <input type="hidden" name="admin_id" value="<?php echo $admin_id ?>">  
+                                 <input type="hidden" name="delete_prof" value="<?php echo $total_professors['tbl_prof_id'] ?>">
+                                <div class="form-group has-feedback">
+                                      <input type="password"   required="" class="form-control" placeholder="Password" name="admin_password">
+                                      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                </div>
+                               
+                            </div>
+                            <div class="modal-footer">
+                              <input type="hidden" name="department_id" value="<?php echo $_GET['department_id'];?>">
+                              <button type="submit" name="prof_delete" class="btn btn-outline">Save changes</button>
+                              </form>
+                            </div>
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+
+
 
                      <?php       
                             endwhile;
@@ -815,11 +985,14 @@ desired effect
                           ?>
                          <td>
 
-                         <a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="professor_full_info.php?professor_id=<?php echo $total_professors['tbl_prof_id'] ?>" ><span class='glyphicon glyphicon-user'></span></a>
+                         <a  data-toggle='modal' data-tooltip="tooltip" data-placement="left" data-title="Delete Information" data-target='#deletemodal' ><span class='glyphicon glyphicon-trash'></span></a> | <a  href="student_full_info.php?student_id=<?php echo $total_students['tbl_student_id'] ?>" ><span class='glyphicon glyphicon-user'></span></a>
                          </td>
                       </tr>
 
-                       <!-- for delete modal professor -->
+                       <!-- for delete modal student -->
+
+
+
 
                      <?php       
                             endwhile;

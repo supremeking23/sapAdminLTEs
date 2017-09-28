@@ -84,7 +84,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini " id="students">
+<body class="hold-transition skin-blue sidebar-mini " id="professors">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -98,7 +98,7 @@ desired effect
       <span class="logo-lg"><b>S-APP</b> Admin Panel</span>
     </a>
 
-    <!-- Header Navbar -->
+   <!-- Header Navbar -->
      <?php include('layouts/header_nav.php'); ?>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
@@ -125,11 +125,11 @@ desired effect
 
 
       <h1>
-        Student Profile
+        Professor Profile
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li class="active">Student Profile</li>
+        <li class="active">Professor Profile</li>
       </ol>
     </section>
 
@@ -148,61 +148,57 @@ desired effect
         ?>
 
         <div class="row">
-            <div class="col-md-3">
+          <div class="col-md-3">
             <!-- Profile Image -->
                 <div class="box box-primary">
                   <div class="box-body box-profile">
 
                   <?php 
                     //search for admins info
-                    $get_student_info = get_student_by_id($_GET['student_id']);
-                    if($get_student_info){
+                    $get_professor_info = get_professor_by_id($_GET['professor_id']);
+                    if($get_professor_info){
                       //table id
-                      $tbl_student_id = $get_student_info['tbl_student_id'];
+                      $tbl_prof_id = $get_professor_info['tbl_prof_id'];
 
-                      $student_name = $get_student_info['first_name'] . ' ' . $get_student_info['last_name'];
-                      $student_image = $get_student_info['image'];
-                      $student_dept_id = $get_student_info['department'];
+                      $professor_name = $get_professor_info['first_name'] . ' ' . $get_professor_info['last_name'];
+                      $professor_image = $get_professor_info['image'];
+                      $prof_dept_id = $get_professor_info['department'];
 
-                      //$date_added = $get_student_info['date_added'];
-                      $gender = $get_student_info['gender'];
-                      $student_date_birth = $get_student_info['date_birth'];
-                      $student_id = $get_student_info['student_id'];
+                      $date_added = $get_professor_info['date_added'];
+                      $gender = $get_professor_info['gender'];
+                      $prof_date_birth = $get_professor_info['date_birth'];
+                      $prof_id = $get_professor_info['prof_id'];
 
                     }
 
-                   $get_student_dept = get_department_details_by_department_id($student_dept_id);
-                   while($student_dept = mysqli_fetch_assoc($get_student_dept)){
-                     $student_dept_code = $student_dept['department_code'];
+                   $get_prof_dept = get_department_details_by_department_id($prof_dept_id);
+                   while($prof_dept = mysqli_fetch_assoc($get_prof_dept)){
+                     $prof_dept_code = $prof_dept['department_code'];
                    }
-
-
-                    $get_student_program = get_all_programs_by_department($student_dept_id);
-                     while($student_program= mysqli_fetch_assoc($get_student_program)){
-                     $student_program_code = $student_program['program_code'];
-                      $student_program_name = $student_program['program_name'];
-                   }
+                   
 
                   ?>
 
-                    <img class="profile-user-img img-responsive img-circle" src="../student_images/<?php echo $student_image;?>" alt="User profile picture">
+                    <img class="profile-user-img img-responsive img-circle" src="../professor_images/<?php echo $professor_image;?>" alt="User profile picture">
 
-                    <h3 class="profile-username text-center"><?php echo $student_name;?> </h3>
+                    <h3 class="profile-username text-center"><?php echo $professor_name;?></h3>
 
-                    <p class="text-muted text-center">Department: <?php echo  $student_dept_code; ?></p>
-
-                     <p class="text-muted text-center">Program: <?php echo  $student_program_code;?></p>
+                    <p class="text-muted text-center">Department: <?php echo  $prof_dept_code; ?></p>
 
                     <ul class="list-group list-group-unbordered">
                        <li class="list-group-item">
-                        <b>Student ID:</b> <a class="pull-right"><?php echo $student_id?></a>
+                        <b>Professor ID:</b> <a class="pull-right"><?php echo $prof_id?></a>
                       </li>
-                     
+                      <li class="list-group-item">
+                        <?php $date =date_create($date_added);
+                         $prof_since= date_format($date,"F  Y ");?>
+                        <b>Admin since:</b> <a class="pull-right"><?php echo $prof_since?></a>
+                      </li>
                       <li class="list-group-item">
                         <b>Gender</b> <a class="pull-right"><?php echo $gender;?></a>
                       </li>
                       <li class="list-group-item">
-                      <?php $date =date_create($student_date_birth);
+                      <?php $date =date_create($prof_date_birth);
                          $birthdate= date_format($date,"F d Y");?>
                         <b>Birthdate:</b> <a class="pull-right"><?php echo $birthdate;?></a>
                       </li>
@@ -211,9 +207,7 @@ desired effect
                         <b>Age:</b> <a class="pull-right"><?php echo $age;?></a>
                       </li>
                     </ul>
-
-                    <a href="student_full_info.php?student_id=<?php echo $_GET['student_id']?>" class="btn btn-primary btn-block"><b>Back to Log History</b></a> 
-                   
+                    <a href="professor_full_info.php?professor_id=<?php echo $_GET['professor_id']?>" class="btn btn-primary btn-block"><b>Bact to Log History</b></a> 
                   </div>
                   <!-- /.box-body -->
                 </div>
@@ -221,7 +215,6 @@ desired effect
 
 
           </div> <!-- /.cols -->
-
 
 
           <div class="col-md-9">
@@ -244,21 +237,19 @@ desired effect
                   <thead>
                   <tr>
                     
+                    <th>Year and Section</th>
                     <th>Subject</th>
-                    <th>Professor</th>
-                    <th>Midterm Grade</th>
-                    <th>Midterm Evaluation</th>
-                    <th>Final Grade</th>
-                    <th>Final Evaluation</th>
+                    <th>Department</th>
+                    <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
 
 
 
-                <?php $get_student = get_student_class_info($_GET['student_id']);
+                <?php $get_prof = get_prof_class_info($_GET['professor_id']);
 
-                      while($student = mysqli_fetch_assoc($get_student)):
+                      while($prof = mysqli_fetch_assoc($get_prof)):
                 ?>
 
                   <tr>
@@ -449,8 +440,6 @@ desired effect
 
 
           </div>
-        
-
         </div> <!-- /.row -->
 
     

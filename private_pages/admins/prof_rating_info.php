@@ -179,7 +179,7 @@ desired effect
 
                   ?>
 
-                    <img class="profile-user-img img-responsive img-circle" src="professor_images/<?php echo $professor_image;?>" alt="User profile picture">
+                    <img class="profile-user-img img-responsive img-circle" src="../professor_images/<?php echo $professor_image;?>" alt="User profile picture">
 
                     <h3 class="profile-username text-center"><?php echo $professor_name;?></h3>
 

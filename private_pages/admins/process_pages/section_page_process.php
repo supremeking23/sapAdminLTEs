@@ -11,14 +11,14 @@
 
 			$section_name = mysql_prep($_POST['section_name']);
 			$department = mysql_prep($_POST['department']);
-			$program = mysql_prep($_POST['program']);
+			 $program = mysql_prep($_POST['program']);
 			$yearlevel = mysql_prep($_POST['year']);
 			
 
 
 	         	
 
-			        $query_insert_section = "INSERT INTO tblsection(section_name,program_id,department_id,yearlevel) VALUES('$section_name','$department','$program','$yearlevel')";
+			        $query_insert_section = "INSERT INTO tblsection(section_name,program_id,department_id,yearlevel) VALUES('$section_name','$program','$department','$yearlevel')";
 
 			        $run_insert_section = mysqli_query($connection,$query_insert_section)or die(mysqli_error($connection));
 

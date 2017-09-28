@@ -89,8 +89,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-
-function showProgram(str) {
+//not use
+/*function showProgram(str) {
   if (str == "") {
         document.getElementById("txtHint2").innerHTML = "";
         return;
@@ -110,7 +110,7 @@ function showProgram(str) {
         xmlhttp.open("GET","layouts/programs2.php?q="+str,true);
         xmlhttp.send();
     }
-}
+}*/
 
 
   
@@ -370,7 +370,9 @@ desired effect
                               
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" name="add_section_year" class="btn btn-primary">Add</button>
+
+                              <input type="hidden" name="student_table_id" value="<?php echo $total_students['tbl_student_id'] ?>">
+                              <button type="submit" name="add_student_year_sec" class="btn btn-primary">Add</button>
 
 
                               </form>
@@ -472,7 +474,7 @@ desired effect
                 <form action="process_pages/add_student_via_excel.php" method="POST" enctype="multipart/form-data">
                     <div class="box-body">
 
-                    <p><a href="raw_files/blank_excel_file.xlsx" target="_blank">Download Template</a></p>
+                    <p><a href="raw_files/template_file.xls" target="_blank">Download Template</a></p>
 
                        <p>Select Excel File</p>
                         <input type="file" name="excel"  >

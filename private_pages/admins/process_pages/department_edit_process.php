@@ -8,7 +8,7 @@
 
  if(isset($_POST['update_mission'])){
       
-      $department_id = $_POST['department_id'];
+      $department_id = mysql_prep($_POST['department_id']);
       $mission = mysql_prep($_POST['mission']);
 
 
@@ -28,10 +28,16 @@
           }
  }
 
+
+
+
+
+
+
   if(isset($_POST['update_vision'])){
   
 
-    $department_id = $_POST['department_id'];
+    $department_id = mysql_prep($_POST['department_id']);
       $vision = mysql_prep($_POST['vision']);
 
 
@@ -52,16 +58,21 @@
 
  }
 
+
+
+
+
+
   if(isset($_POST['update_dean'])){
-      $first_name = $_POST['first_name'];
-      $middle_name = $_POST['middle_name'];
-      $last_name = $_POST['last_name'];
-      $email = $_POST['email'];
-      $address = $_POST['address'];
-      $contact = $_POST['contact'];
-      $date_birth = $_POST['date_birth'];
-      $department_id = $_POST['department_id'];
-      $deans_id = $_POST['deans_id'];
+      $first_name = mysql_prep($_POST['first_name']);
+      $middle_name = mysql_pre($_POST['middle_name']);
+      $last_name = mysql_prep($_POST['last_name']);
+      $email = mysql_prep($_POST['email']);
+      $address = mysql_prep($_POST['address']);
+      $contact = mysql_prep($_POST['contact']);
+      $date_birth = mysql_prep($_POST['date_birth']);
+      $department_id = mysql_prep($_POST['department_id']);
+      $deans_id = mysql_prep($_POST['deans_id']);
 
       if($_FILES['upload_image']['name'] == "") {
     // No file was selected for upload, your (re)action goes here
@@ -75,7 +86,7 @@
 
 
       //update query
-      $query = "UPDATE tbldepartmentheads SET first_name = '$first_name', middle_name = '$middle_name', last_name = '$last_name', address = '$address', contact = '$contact', date_birth = '$date_birth',image = '$dean_profile',email = '$email' WHERE id = '$deans_id' ";
+      $query = "UPDATE tbldepartmentheads SET first_name = '$first_name', middle_name = '$middle_name', last_name = '$last_name', address = '$address', contact = '$contact', date_birth = '$date_birth',image = '$dean_profile',email = '$email',dean_since=now() WHERE id = '$deans_id' ";
 
       $update_dean = mysqli_query($connection,$query)or die(mysqli_error($connection));
 
@@ -86,6 +97,44 @@
 
         else{
             $_SESSION['failed_message'] = "Cannot update";
+            redirect_to('../department_info.php?department_id=' . $department_id);
+          }
+
+ }
+
+
+ if(isset($_POST['add_dean'])){
+      $first_name = mysql_prep($_POST['first_name']);
+      $middle_name = mysql_prep($_POST['middle_name']);
+      $last_name = mysql_prep($_POST['last_name']);
+      $email = mysql_prep($_POST['email']);
+      $address = mysql_prep($_POST['address']);
+      $contact = mysql_prep($_POST['contact']);
+      $date_birth = mysql_prep($_POST['date_birth']);
+      $department_id = mysql_prep($_POST['department_id']);
+      $gender = mysql_prep($_POST['gender']);
+      //$deans_id = $_POST['deans_id'];
+
+    
+            $dean_profile = $_FILES['upload_image']['name'];
+            $dean_profile_tmp =$_FILES['upload_image']['tmp_name'];
+
+          move_uploaded_file($dean_profile_tmp, "../deans image/$dean_profile");
+      
+
+
+      //insert query
+     $query = "INSERT INTO tbldepartmentheads(first_name,middle_name,last_name,address,date_birth,image,email,contact,department_id,gender,dean_since) VALUES('$first_name','$middle_name','$last_name','$address','$date_birth','$dean_profile','$email','$contact','$department_id','$gender',now())";
+
+      $update_dean = mysqli_query($connection,$query)or die(mysqli_error($connection));
+
+      if($update_dean && mysqli_affected_rows($connection) == 1){
+            $_SESSION['success_message'] = "Dean Information has been added";
+                    redirect_to('../department_info.php?department_id='. $department_id);
+          }
+
+        else{
+            $_SESSION['failed_message'] = "Cannot add";
             redirect_to('../department_info.php?department_id=' . $department_id);
           }
 

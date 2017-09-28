@@ -180,7 +180,9 @@ desired effect
                         $get_departments = get_all_department($admin_department_id);
                         while ($total_departments = mysqli_fetch_assoc($get_departments)) {
                             ?> 
-                       
+                      <?php //desregard school admin
+                          if($total_departments['department_id'] != 1):
+                      ?>   
                       <tr>
                           <td><?php echo $total_departments['department_name']?></td>
                           <td><?php echo $total_departments['department_code']?></td>
@@ -204,7 +206,8 @@ desired effect
 
                          
                       </tr>
-                     <?php       
+                     <?php     
+                          endif;  
                         }
                         //end
                     ?>

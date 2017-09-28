@@ -84,12 +84,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 document.getElementById("txtHint").innerHTML = this.responseText;
             }
         };
-        xmlhttp.open("GET","layouts/programs.php?q="+str,true);
+        xmlhttp.open("GET","layouts/programs2.php?q="+str,true);
         xmlhttp.send();
     }
 }
-  
-
 
  
 </script>
@@ -243,10 +241,81 @@ desired effect
                 <td><?php echo $count['number_of_students_in_this_section_year']?></td>
                 <?php endwhile; // for count?>
 
-                <td><a  data-placement="left" data-tooltip ="tooltip" data-title="Add Student" href="students.php" ><span class='fa fa-user-plus'></span></a> | <a  data-placement="left" data-tooltip ="tooltip" data-title="print data" href="print_process/print_class.php" ><span class='fa  fa-print'></span></a></td>
+                <td><a  data-placement="left" data-tooltip ="tooltip" data-title="Add Student" href="students.php" ><span class='fa fa-user-plus'></span></a> |
+                <a  data-placement="left" data-tooltip ="tooltip" data-title="Add Professor" data-toggle="modal" data-target="#addProf<?php echo $section['tbl_section_id']?>"><span class='fa fa-user-plus'></span></a> |<a  data-placement="left" data-tooltip ="tooltip" data-title="print data" href="print_process/print_class.php" ><span class='fa  fa-print'></span></a></td>
 
               
                 </tr>
+
+
+
+                <!-- for adding of professor and subject -->
+                 <div class="modal fade" id="addProf<?php echo $section['tbl_section_id']?>">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Add Prof for this Class</h4>
+                      </div>
+                      <div class="modal-body">
+
+
+
+                        <h2>Class: <small><?php echo $section['yearlevel']?> - <?php echo $section['section_name']?></small></h2>
+
+
+                       
+
+
+                      <form action="process_pages/add_prof_to_class.php" method="POST">
+
+                          <div class="form-group has-feedback">
+                            <select required=""  class="form-control" name="professor_id">
+                            <option value="">Please choose a professor</option>
+                              <?php //departments for student_use?>
+                               <?php $all_professor = get_all_professors_for_subjects();
+                                            while($professor = mysqli_fetch_assoc($all_professor)){
+
+
+                                              ?>
+                              
+                                                                
+
+                                     
+                                           <option value="<?php echo $professor['tbl_prof_id']?>"><?php echo $professor['first_name'] ?> <?php echo $professor['last_name'] ?></option>
+                                          
+
+                                <?php } // prof while?>
+                            </select>
+                          </div>
+
+
+                         
+
+                          </div>
+                          <div class="modal-footer">
+
+                          <!-- data na papasukan ng prof -->
+                            <input type="hidden" name="department_id" value="<?php echo $section['department_id'] ?>">
+                            <input type="hidden" name="program_id" value="<?php echo $section['program_id'] ?>">
+                            <input type="hidden" name="section_id" value="<?php echo $section['tbl_section_id'] ?>">
+                            <input type="hidden" name="yearlevel" value="<?php echo $section['yearlevel'] ?>">
+
+                            
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="submit" name="add_prof_to_class" class="btn btn-primary">Add this Professor</button>
+                          </div>
+
+                      </form>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+
 
 
 

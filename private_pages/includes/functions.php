@@ -294,6 +294,20 @@ function get_dean_by_department_id($department_id){
 
 }
 
+//check if there is a dean
+function check_dean_by_department_id($department_id){
+  global $connection;
+
+  $department_id = mysql_prep($department_id);
+
+  $query = "SELECT * FROM tbldepartmentheads WHERE department_id = '$department_id' ";
+
+  $result = $connection->query($query) or die(mysqli_error());
+
+return $result;
+
+}
+
 function find_password($admin_id,$password){
   global $connection;
 
@@ -471,6 +485,20 @@ function get_all_professors($department_id){
   return $get_professors;
 }
 
+
+function get_all_professors_for_subjects(){
+  global $connection;
+
+ 
+
+    $query = "SELECT  * FROM tblprofessor WHERE isActive = 1";
+  
+
+  
+  $get_professors = $connection->query($query) or die(mysqli_error());
+
+  return $get_professors;
+}
 
 function get_all_guidance_councilor(){
   global $connection;
@@ -1204,6 +1232,141 @@ function get_program_by_department_id($department_id){
 }
 
 
+
+
+
+
+
+//
+function get_prof_class_info($professor_id){
+      global $connection;
+
+      $professor_id = mysql_prep($professor_id);
+
+      $query = "SELECT  * FROM tblprofessorsubject WHERE prof_id = '$professor_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
+function get_section_with_refence_id($section_id){
+      global $connection;
+
+      $section_id = mysql_prep($section_id);
+
+      $query = "SELECT  * FROM tblsection WHERE tbl_section_id = '$section_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
+function get_subject_with_refence_id($subject_id){
+      global $connection;
+
+      $subject_id = mysql_prep($subject_id);
+
+      $query = "SELECT  * FROM tblsubjects WHERE subject_id = '$subject_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
+function get_department_with_refence_id($department_id){
+      global $connection;
+
+      $department_id = mysql_prep($department_id);
+
+      $query = "SELECT  * FROM tbldepartments WHERE department_id = '$department_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
+//not official
+function get_all_subject_for_this_professor_by_department_id($department_id){
+       global $connection;
+
+      $department_id = mysql_prep($department_id);
+
+      $query = "SELECT  * FROM tblsubjects WHERE department_id = '$department_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+
+///unofficial
+function check_prof_availability($prof_id,$section_id,$yearlevel){
+    global $connection;
+    $prof_id = mysql_prep($prof_id);
+    $section_id = mysql_prep($section_id);
+    $yearlevel = mysql_prep($yearlevel);
+     $query = "SELECT * FROM tblprofessorsubject WHERE prof_id ='$prof_id' AND (section_id = '$section_id' AND yearlevel = '$yearlevel') AND profsubject_id = ''";
+
+     $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+
+
+//edit assigned subject unofficial
+function get_all_subject_for_this_professor_for_update_subject_assigned($department_id,$profsubject_id){
+       global $connection;
+
+      $department_id = mysql_prep($department_id);
+      $profsubject_id = mysql_prep($profsubject_id);
+
+      $query = "SELECT  * FROM tblsubjects INNER JOIN tblprofessorsubject ON tblsubjects.department_id = tblprofessorsubject.department_id WHERE tblprofessorsubject.department_id = '$department_id' AND tblprofessorsubject.profsubject_id != '$profsubject_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+
+function get_student_class_info($student_id){
+      global $connection;
+
+      $professor_id = mysql_prep($professor_id);
+
+      $query = "SELECT  * FROM tblprofessorsubject WHERE prof_id = '$professor_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
+
 function open_encode_of_grade(){
    global $connection;
 
@@ -1212,5 +1375,9 @@ function open_encode_of_grade(){
 
     return $isStateActive;
 }
+
+
+
+
 
 ?>

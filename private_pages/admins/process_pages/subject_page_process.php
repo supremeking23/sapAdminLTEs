@@ -17,7 +17,7 @@
 
 	         	
 
-			        $query_insert_subject = "INSERT INTO tblsubjects(cfn,subject_name,subject_code,isActive,department_id) VALUES('$cfn','$subject_code','$subject_name',1,$department)";
+			        $query_insert_subject = "INSERT INTO tblsubjects(cfn,subject_name,subject_code,isActive,department_id) VALUES('$cfn','$subject_name','$subject_code',1,$department)";
 
 			        $run_insert_subject = mysqli_query($connection,$query_insert_subject)or die(mysqli_error($connection));
 

@@ -62,12 +62,13 @@
 
 			     $guardian_name =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(6, $row)->getValue()); 
 			     $email =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(7, $row)->getValue()); 
-			     $password =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(8, $row)->getValue()); 
 
-			     $gender  =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(9, $row)->getValue()); 
+			     $gender  =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(8, $row)->getValue()); 
+
+			     // $password =mysqli_real_escape_string($connection, $worksheet->getCellByColumnAndRow(8, $row)->getValue()); 
 
 
-			    $query = "INSERT INTO tblstudentinfo(student_id,last_name,first_name,middle_name,address,contact,date_birth,department,isActive,program_major,guardian_name,email,password,gender) VALUES ('$student_id','$last_name','$first_name','$middle_name','$address','$contact','$date_birth','$department',1,'$program','$guardian_name','$email','$password','$gender')";
+			    $query = "INSERT INTO tblstudentinfo(student_id,last_name,first_name,middle_name,address,contact,date_birth,department,isActive,program_major,guardian_name,email,gender) VALUES ('$student_id','$last_name','$first_name','$middle_name','$address','$contact','$date_birth','$department',1,'$program','$guardian_name','$email','$gender')";
 			    	$success = mysqli_query($connection, $query)or die(mysqli_error($connection));
 
 
