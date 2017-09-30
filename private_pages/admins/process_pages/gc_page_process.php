@@ -31,7 +31,7 @@
 
  		 if($password != $confirm_password){
               $_SESSION['failed_message'] = "password and confirm password doesnt match";
-			  redirect_to('admins.php');         	  
+			       redirect_to('../guidance_councilor.php');         	  
             exit;
          }else{
          	  $gc_profile = $_FILES['upload_image']['name'];

@@ -65,7 +65,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <script>
-  function showUser(str) {
+  function showProgram(str) {
+  if (str == "") {
+        document.getElementById("txtHint2").innerHTML = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint2").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET","layouts/programs.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
+
+
+  function showProgram2(str) {
   if (str == "") {
         document.getElementById("txtHint").innerHTML = "";
         return;
@@ -483,7 +506,7 @@ desired effect
                       <p>Select Department:</p>
 
                       <div class="form-group has-feedback">
-                        <select required="" onchange="showUser(this.value)" class="form-control" name="department">
+                        <select required="" onchange="showProgram2(this.value)" class="form-control" name="department">
                         <option value="">Please choose a department</option>
                           <?php //departments for student_use?>
                            <?php $all_departments = get_all_department_for_student_insertions($admin_department_id);

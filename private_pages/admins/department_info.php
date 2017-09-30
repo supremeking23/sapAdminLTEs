@@ -929,7 +929,7 @@ desired effect
 
               <div class="row">
               <div class="col-md-12">
-                <!-- Professors in this department -->
+                <!-- Student in this department -->
                  <div class="box">
                     <div class="box-header">
                     <div class="box-tools pull-right">
@@ -1007,6 +1007,240 @@ desired effect
                 
 
            </div> <!-- end 3rd row -->
+
+
+
+
+             <div class="row">
+              <div class="col-md-12">
+                <!-- Tutorial in this department -->
+                 <div class="box">
+                    <div class="box-header">
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#addTutorial"><i class="fa fa-wrench"></i></button>
+
+
+                      <!--add tutorial-->
+
+                      <div class="modal fade" id="addTutorial">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Add Tutorial</h4>
+                              </div>
+                              
+                                        <div class="modal-body">
+
+                                            <center>
+                                            <button type="button" class="btn btn-warning"  id="file_tutorial">File Tutorial</button>
+                                            <button type="button" class="btn btn-success" id="link_tutorial">Link Tutorial</button>
+                                          </center>
+
+
+
+                                          <div id="upload_file">
+
+                                            <form action="process_pages/add_tutorial.php" method="post" enctype="multipart/form-data">
+
+                                               <label>Tutorial Name</label>
+                                                <input  type="text" required="" name="tutorial_name" class="form-control" ><br>
+                                              <label>Upload Tutorial File</label>
+                                               
+                                                <input  type="file" required="" name="tutorial_asset" class="input-group" ><br>
+
+
+                                                  <label>Recommendend for what Subject</label>
+                                              <div class="form-group has-feedback">
+                                                <select required=""  class="form-control" name="recomended_for">
+                                                <option value="">Please choose a subject for this tutorial</option>
+                                                <?php   $get_subject = get_subject_for_this_department_by_department_id($_GET['department_id']);
+
+                                                while($subjects = mysqli_fetch_assoc($get_subject)):
+                                                ?>
+                                                <option value="<?php echo $subjects['subject_id'] ?>"><?php echo $subjects['subject_name']?></option>
+
+                                            <?php endwhile; //subjects?>
+                                                </select>
+                                              </div>
+
+
+
+                                              <div class="form-group has-feedback">
+
+                                              <input type="hidden" name="department_id" value="<?php echo $_GET['department_id']?>">
+                                               <input type="hidden" name="admin_id" value="<?php echo $admin_id?>">
+                                        
+                                              <input type="submit" class="btn btn-primary pull-right" name="upload_tutorial_file" value="Upload Tutorial File">
+                                            </div>
+
+
+                                            </form>
+
+                                          </div><!-- upload_file -->
+
+
+
+
+
+                                              <div id="upload_link">
+
+                                            <form action="process_pages/add_tutorial.php" method="post" enctype="multipart/form-data">
+
+                                               <label>Tutorial Name</label>
+                                                <input  type="text" required="" name="tutorial_name" class="form-control" ><br>
+                                              <label>Upload Tutorial Link</label>
+                                               
+                                                <input  type="text" required="" name="tutorial_asset" class="form-control" ><br>
+
+
+                                                  <label>Recommendend for what Subject</label>
+                                              <div class="form-group has-feedback">
+                                                <select required=""  class="form-control" name="recomended_for">
+                                                <option value="">Please choose a subject for this tutorial</option>
+                                                <?php   $get_subject = get_subject_for_this_department_by_department_id($_GET['department_id']);
+
+                                                while($subjects = mysqli_fetch_assoc($get_subject)):
+                                                ?>
+                                                <option value="<?php echo $subjects['subject_id'] ?>"><?php echo $subjects['subject_name']?></option>
+
+                                            <?php endwhile; //subjects?>
+                                                </select>
+                                              </div>
+
+
+
+                                              <div class="form-group has-feedback">
+
+                                              <input type="hidden" name="department_id" value="<?php echo $_GET['department_id']?>">
+                                               <input type="hidden" name="admin_id" value="<?php echo $admin_id?>">
+                                        
+                                              <input type="submit" class="btn btn-primary pull-right" name="upload_tutorial_link" value="Upload Tutorial File">
+                                            </div>
+
+
+                                            </form>
+
+                                          </div><!-- upload_link -->
+
+
+                                        </div><!-- modal body-->
+
+                                    
+
+                                        <div class="modal-footer">
+                                         
+                                        </div>
+                            </div>
+                            <!-- /.modal-content -->
+                          </div>
+                          <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+
+
+
+
+
+                      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+
+                    </div>
+                        <h3 class="box-title">Tutorials</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                  <div class="box-body">
+                    <table  class="table table-bordered table-striped datatable">
+                      <thead>
+                      <tr>
+                        <th>Tutorial Name</th>
+                        <th>Recommended for subject</th>
+                        <th>Action</th>
+                     
+                      </tr>
+                      </thead>
+                      <tbody>
+                        
+                        <?php 
+
+
+                        $get_tutorials = get_all_tutorials_by_department_id($_GET['department_id']);
+
+                        while($fetch_tutorial = mysqli_fetch_assoc($get_tutorials)):
+                        ?>
+                        <tr>
+                            <td><?php echo $fetch_tutorial['tutorial_name']?></td>
+                            
+                            <?php //get subject details
+                                $get_subject_detail = get_subject_for_this_tutorial($fetch_tutorial['subject_id']);
+
+                                while($fetch_subject_detail = mysqli_fetch_assoc($get_subject_detail)):
+                            ?>
+                                <td><?php echo $fetch_subject_detail['subject_name']; ?></td>
+                              <?php endwhile; // get_subject_for_this_tutorial?>
+
+
+
+                            <td>
+                              <?php if($fetch_tutorial['tutorial_type'] =="video"){ ?>
+                              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#video<?php echo $fetch_tutorial['tutorial_id']?>">Watch</button>
+
+                               <div class="modal fade" id="video<?php echo $fetch_tutorial['tutorial_id']?>">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title"><?php echo $fetch_tutorial['tutorial_name']?></h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <video width="320" height="240" autoplay>
+                                              <source src="../video/<?php echo $fetch_tutorial['tutorial_asset']?>" type="video/mp4">
+                                             
+                                            Your browser does not support the video tag.
+                                            </video>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                      </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                  </div>
+                                  <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+
+
+                              <?php }else{ ?>
+                              <a href="<?php echo $fetch_tutorial['tutorial_asset'];?>" target="_blank">View</a>
+                               <?php } ?>
+                            </td>
+                        </tr>
+                        <?php endwhile;//get_all_tutorials_by_department_id ?>
+
+
+                      </tbody>
+                        </table>
+                      </div>
+                      <!-- /.box-body -->
+               </div>
+             </div>
+                
+
+           </div> <!-- end tutorial row -->
+
+
+
 
 
            <div class="row">
@@ -1174,6 +1408,21 @@ $connection->close();
     //CKEDITOR.replace('editor1')
     //bootstrap WYSIHTML5 - text editor
     $('.textarea').wysihtml5()
+
+
+     $("div#upload_link").hide();
+        $("div#upload_file").hide();
+  
+    $("#link_tutorial").click(function(){
+        $("div#upload_link").show();
+        $("div#upload_file").hide();
+    });
+    
+    
+    $("#file_tutorial").click(function(){
+        $("div#upload_link").hide();
+        $("div#upload_file").show();
+    });
 
 
 

@@ -1286,6 +1286,23 @@ function get_subject_with_refence_id($subject_id){
 }
 
 
+
+function get_professor_with_refence_id($professor_id){
+      global $connection;
+
+      $professor_id = mysql_prep($professor_id);
+
+      $query = "SELECT  * FROM tblprofessor WHERE tbl_prof_id = '$professor_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
 function get_department_with_refence_id($department_id){
       global $connection;
 
@@ -1363,6 +1380,149 @@ function get_student_class_info($student_id){
 
     return $get_data;
 
+}
+
+
+
+//accepts yearlevel,section,program_id,department comming from tblstudentinfo
+function get_student_subject_from_prof_class_info($yearlevel,$section,$program_id,$deparment){
+      global $connection;
+
+      $yearlevel = mysql_prep($yearlevel);
+      $section = mysql_prep($section);
+      $program_id = mysql_prep($program_id);
+      $deparment = mysql_prep($deparment);
+
+      $query = "SELECT  * FROM tblprofessorsubject WHERE yearlevel = '$yearlevel' AND section_id = '$section' AND program_id = '$program_id' AND department_id = '$deparment'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
+
+function get_midterm_grade_for_student($prof_id,$student_id,$subject_id){
+      global $connection;
+
+      $prof_id = mysql_prep($prof_id);
+      $student_id = mysql_prep($student_id);
+      $subject_id = mysql_prep($subject_id);
+      
+
+      $query = "SELECT  * FROM tblstudentsubjects WHERE prof_id = '$prof_id' AND student_id = '$student_id' AND subject_id = '$subject_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+
+function get_midterm_evaluation_for_student($prof_id,$student_id,$subject_id){
+      global $connection;
+
+      $prof_id = mysql_prep($prof_id);
+      $student_id = mysql_prep($student_id);
+      $subject_id = mysql_prep($subject_id);
+      
+
+      $query = "SELECT  * FROM tblstudentsubjects WHERE prof_id = '$prof_id' AND student_id = '$student_id' AND subject_id = '$subject_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+function get_finals_grade_for_student($prof_id,$student_id,$subject_id){
+      global $connection;
+
+      $prof_id = mysql_prep($prof_id);
+      $student_id = mysql_prep($student_id);
+      $subject_id = mysql_prep($subject_id);
+      
+
+      $query = "SELECT  * FROM tblstudentsubjects WHERE prof_id = '$prof_id' AND student_id = '$student_id' AND subject_id = '$subject_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+
+function get_finals_evaluation_for_student($prof_id,$student_id,$subject_id){
+      global $connection;
+
+      $prof_id = mysql_prep($prof_id);
+      $student_id = mysql_prep($student_id);
+      $subject_id = mysql_prep($subject_id);
+      
+
+      $query = "SELECT  * FROM tblstudentsubjects WHERE prof_id = '$prof_id' AND student_id = '$student_id' AND subject_id = '$subject_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+
+
+//get subject for that department
+function get_subject_for_this_department_by_department_id($department_id){
+      global $connection;
+
+      $department_id = mysql_prep($department_id);
+
+      $query = "SELECT  * FROM tblsubjects WHERE department_id = '$department_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+
+}
+
+
+//get all tutorials by department_id
+
+function get_all_tutorials_by_department_id($department_id){
+    global $connection;
+
+      $department_id = mysql_prep($department_id);
+
+      $query = "SELECT  * FROM tbltutorials WHERE department_id = '$department_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
+}
+
+
+function get_subject_for_this_tutorial($subject_id){
+    global $connection;
+
+      $subject_id = mysql_prep($subject_id);
+
+      $query = "SELECT  * FROM tblsubjects WHERE subject_id = '$subject_id'";
+
+    
+
+      $get_data = $connection->query($query) or die(mysqli_error());
+
+    return $get_data;
 }
 
 

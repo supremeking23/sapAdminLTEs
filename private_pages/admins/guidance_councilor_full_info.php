@@ -206,8 +206,10 @@ desired effect
                     </ul>
 
                     <a href="gc_edit_info.php?guidance_councilor=<?php echo $_GET['guidance_councilor']?>" class="btn btn-primary btn-block"><b>Edit Information</b></a> 
-                    <a href="gc_rating_info.php?guidance_councilor=<?php echo $_GET['guidance_councilor']?>" class="btn btn-success btn-block"><b>Councilor's Rating</b></a> 
                    
+
+                   <!-- <a href="gc_rating_info.php?guidance_councilor=<?php echo $_GET['guidance_councilor']?>" class="btn btn-success btn-block"><b>Councilor's Rating</b></a> 
+                    -->
                   </div>
                   <!-- /.box-body -->
                 </div>

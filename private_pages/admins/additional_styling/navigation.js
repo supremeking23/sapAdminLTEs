@@ -7,4 +7,5 @@ $(function(){
   $("#gc a:contains('Guidance Councilors')").parent().addClass('active');
   $("#subjects a:contains('Subjects')").parent().addClass('active');
   $("#class a:contains('Class')").parent().addClass('active');
+  $("#inbox a:contains('Inbox')").parent().addClass('active');
 })

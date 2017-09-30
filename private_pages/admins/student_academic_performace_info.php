@@ -169,6 +169,14 @@ desired effect
                       $student_date_birth = $get_student_info['date_birth'];
                       $student_id = $get_student_info['student_id'];
 
+
+
+
+                      //for fetching subjects
+                      $yearlevel = $get_student_info['yearlevel'];
+                      $program = $get_student_info['program_major'];
+                      $section = $get_student_info['section'];
+
                     }
 
                    $get_student_dept = get_department_details_by_department_id($student_dept_id);
@@ -227,9 +235,10 @@ desired effect
           <div class="col-md-9">
 
 
-              <div class="box box-info">
+
+            <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Professor Classes</h3>
+              <h3 class="box-title">Student Classes</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -256,183 +265,95 @@ desired effect
 
 
 
-                <?php $get_student = get_student_class_info($_GET['student_id']);
+          <!-- get first the department,program,yearlevel,section,subject,prof from tblprofessorsubject depending on the parameters -->
+            <?php $get_data = get_student_subject_from_prof_class_info($yearlevel,$section,$program,$student_dept_id);
 
-                      while($student = mysqli_fetch_assoc($get_student)):
-                ?>
+               
+                while($fetch_data = mysqli_fetch_assoc($get_data)):
+                    
+          ?>
+              <!-- pag wala pang subject baka pwedeng wag muna ipakita -- >
+                <tr>
+                  <!--fetch subject name -->
+                  <?php 
+                     $get_subject_data = get_subject_with_refence_id($fetch_data['subject_id']);
+                     while($fetch_subject_data = mysqli_fetch_assoc($get_subject_data)):
+                  ?>
+                  <td><?php echo  $fetch_subject_data['subject_name'];?></td>
+                  
 
-                  <tr>
-
-                            <?php $get_section = get_section_with_refence_id($prof['section_id']);
-                                  while($year_section = mysqli_fetch_assoc($get_section)):
-                            ?>
-                              <td> <?php echo $year_section['yearlevel'] . ' - ' . $year_section['section_name']?></td>
-                                   
-
-                              <td><?php 
-                                      //for subject
-                                      if($prof['subject_id'] == 0){
-                                        echo "No Subject Assigned";
-                                      }else{ 
-
-                                        $get_subject = get_subject_with_refence_id($prof['subject_id']);
-                                        while($subject = mysqli_fetch_assoc($get_subject)){
-                                          echo $subject['subject_name'];
-                                        }//get subject name
-                                      }
-                              ?></td>  
-
-                            <?php $get_department = get_department_with_refence_id($prof['department_id']);
-                                  while($department = mysqli_fetch_assoc($get_department)):
-                            ?>
-                                      <td><?php echo $department['department_code']?></td>   
-                           
-                      
-                   
-                          <td>
-                          <?php  //check to see if the there is a subject assigned
-                                      if($prof['subject_id'] == 0){
-                          ?>
-                          <a  data-placement="left" data-tooltip ="tooltip" data-title="Assigned Subject" data-toggle="modal" data-target="#addSubject<?php echo $prof['profsubject_id']?>" ><span class='fa fa-book'></span></a> 
-                          <?php }else{ ?>
-
-                           <a  data-placement="left" data-tooltip ="tooltip" data-title="Edit Assigned Subject" data-toggle="modal" data-target="#editSubject<?php echo $prof['profsubject_id']?>" ><span class='fa fa-book'></span></a> 
-
-                          <?php } ?>
-                          |
-                          <a  data-placement="left" data-tooltip ="tooltip" data-title="Delete Class" href="process_pages/delete_class_process.php?profsubject_id=<?php echo $prof['profsubject_id']?>&professor_id=<?php echo $_GET['professor_id']?>"><span class='fa fa-remove'></span></a> 
-                          </td>
+                  <!--fetch prof name -->
+                  <?php 
+                     $get_prof_data = get_professor_with_refence_id($fetch_data['prof_id']);
+                     while($fetch_prof_data = mysqli_fetch_assoc($get_prof_data)):
+                  ?>
+                  <td><?php echo  $fetch_prof_data['first_name'];?> <?php echo  $fetch_prof_data['middle_name'];?> <?php echo  $fetch_prof_data['last_name'];?></td>
 
 
+                    <!--fetch midterm grade -->
+                  <?php 
+                     $get_midterm_grade_data = get_midterm_grade_for_student($fetch_data['prof_id'],$student_dept_id,$fetch_data['subject_id']);
+                     if(mysqli_num_rows($get_midterm_grade_data)){
+                     while($fetch_mid_grade_data = mysqli_fetch_assoc($get_midterm_grade_data)):
+                  ?>
+                  <td> <?php echo $fetch_mid_grade_data['midterm_grade'];?> </td>
+                    
+                   <?php endwhile; //  (get_midterm_grade_for_student)?>
+                  <?php } else{ ?>
 
-                          
+                  <td>N/A</td>
+                  <?php }?>
 
-                                          <!-- for adding of professor and subject -->
-                 <div class="modal fade" id="addSubject<?php echo $prof['profsubject_id']?>">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Add Subject to this professor</h4>
-                      </div>
-                      <div class="modal-body">
+                       <!--fetch midterm evaluation -->
+                  <?php 
+                     $get_midterm_evaluation_data = get_midterm_evaluation_for_student($fetch_data['prof_id'],$student_dept_id,$fetch_data['subject_id']);
+                     if(mysqli_num_rows($get_midterm_evaluation_data)){
+                     while($fetch_mid_evaluation_data = mysqli_fetch_assoc($get_midterm_evaluation_data)):
+                  ?>
+                  <td> <?php echo $fetch_mid_evaluation_data['midterm_evaluation'];?> </td>
+                    
+                   <?php endwhile; //  (get_midterm_evaluation_for_student)?>
+                  <?php } else{ ?>
+                  
+                  <td>N/A</td>
+                  <?php }?>
 
+                       <!--fetch final grade -->
+                  <?php 
+                     $get_final_grade_data = get_finals_grade_for_student($fetch_data['prof_id'],$student_dept_id,$fetch_data['subject_id']);
+                     if(mysqli_num_rows($get_final_grade_data)){
+                     while($fetch_final_grade_data = mysqli_fetch_assoc($get_final_grade_data)):
+                  ?>
+                  <td> <?php echo $fetch_mid_grade_data['final_grade'];?> </td>
+                    
+                   <?php endwhile; //  (get_final_grade_for_student)?>
+                  <?php } else{ ?>
+                  
+                  <td>N/A</td>
+                  <?php }?>
 
-
-
-                       <p>Class: <?php echo $year_section['yearlevel'] . ' - ' . $year_section['section_name']?></p>
-
-
-                      <form action="process_pages/add_subject_to_this_prof.php" method="POST">
-
-                          <div class="form-group has-feedback">
-                            <select required=""  class="form-control" name="subject_id">
-                            <option value="">Please choose a subject</option>
-                              <?php //departments for student_use?>
-                               <?php $all_subject = get_all_subject_for_this_professor_by_department_id($prof_dept_id);
-                                            while($subject = mysqli_fetch_assoc($all_subject)){
-
-
-                                              ?>
-                                           <option value="<?php echo $subject['subject_id']?>"><?php echo $subject['subject_name'] ?></option>
-
-                                <?php } // prof while?>
-                            </select>
-                          </div>
-
-
-                         
-
-                          </div>
-                          <div class="modal-footer">
-
-                       
-                            <input type="hidden" name="profsubject_id" value="<?php echo $prof['profsubject_id']?>">
-
-                            <input type="hidden" name="professor_id" value="<?php echo $_GET['professor_id']?>">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="add_subject_to_prof" class="btn btn-primary">Assigned this Subject</button>
-                          </div>
-
-                      </form>
-                    </div>
-                    <!-- /.modal-content -->
-                  </div>
-                  <!-- /.modal-dialog -->
-                </div>
-                <!-- /.modal -->
-
-
-
-                                                          <!-- for adding of professor and subject -->
-                 <div class="modal fade" id="editSubject<?php echo $prof['profsubject_id']?>">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Edit Subject to this professor</h4>
-                      </div>
-                      <div class="modal-body">
+                       <!--fetch final evaluation -->
+                  <?php 
+                     $get_final_evaluation_data = get_finals_evaluation_for_student($fetch_data['prof_id'],$student_dept_id,$fetch_data['subject_id']);
+                     if(mysqli_num_rows($get_final_evaluation_data)){
+                     while($fetch_final_evaluation_data = mysqli_fetch_assoc($get_final_evaluation_data)):
+                  ?>
+                  <td> <?php echo $fetch_final_evaluation_data['final_evaluation'];?> </td>
+                    
+                   <?php endwhile; //  (get_finals_evaluation_for_student)?>
+                  <?php } else{ ?>
+                  
+                  <td>N/A</td>
+                  <?php }?>
 
 
 
 
-                       <p>Class: <?php echo $year_section['yearlevel'] . ' - ' . $year_section['section_name']?></p>
-
-
-                      <form action="process_pages/add_subject_to_this_prof.php" method="POST">
-
-                          <div class="form-group has-feedback">
-                            <select required=""  class="form-control" name="subject_id">
-                            <option value="">Please choose a subject</option>
-                              <?php $prof_subject_id = $prof['profsubject_id'];?>
-                               <?php $all_subject_edit = get_all_subject_for_this_professor_by_department_id($prof_dept_id);
-                                            while($subject = mysqli_fetch_assoc($all_subject_edit)){
-
-
-                                              ?>
-                                           <option value="<?php echo $subject['subject_id']?>"><?php echo $subject['subject_name'] ?></option>
-
-                                <?php } // prof while?>
-                            </select>
-                          </div>
-
-
-                         
-
-                          </div>
-                          <div class="modal-footer">
-
-                       
-                            <input type="hidden" name="profsubject_id" value="<?php echo $prof['profsubject_id']?>">
-
-                            <input type="hidden" name="professor_id" value="<?php echo $_GET['professor_id']?>">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="edit_subject_to_prof" class="btn btn-primary">Assigned this Subject</button>
-                          </div>
-
-                      </form>
-                    </div>
-                    <!-- /.modal-content -->
-                  </div>
-                  <!-- /.modal-dialog -->
-                </div>
-                <!-- /.modal -->
-
-                       
-                  </tr>
-
-
-               <?php endwhile; // department?>     
-
-              <?php endwhile;//section outer?>    
-
-              <?php endwhile;//prof outer?>
-                 
-
-
+                </tr>
+                  
+                  <?php endwhile; //  (get_professor_with_refence_id)?>
+                 <?php endwhile; //  (get_subject_with_refence_id)?>
+                <?php endwhile; // outer while (get_student_subject_from_prof_class_info)?>
                   </tbody>
                 </table>
               </div>
@@ -502,3 +423,6 @@ $connection->close();
 
 </body>
 </html>
+
+
+

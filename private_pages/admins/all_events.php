@@ -386,7 +386,7 @@ desired effect
                         $all_events = get_all_multiple_day_events();
                         while($events = mysqli_fetch_assoc($all_events)):
                     ?>
-                  <tr>
+                  <tr style="background-color: <?php echo ($admin_department_id == $events['department_id'])?"rgba(0,0,0,0.2)":""; ?> ">
                       <td><?php echo $events['id']; ?></td>
                       <td><?php echo $events['title']; ?></td>
                        <?php $date_from = date_create($events['start']);
@@ -425,9 +425,16 @@ desired effect
 
                        ?>
 
+
+                             <?php //can delete if the department id of admin is = 1 and admin that is currently in the same department
+                    if($events['department_id'] == $admin_department_id ||  $admin_department_id == 1):
+                    ?>
+
                        <td><a type="button" data-tooltip="tooltip" data-placement="left" data-title="Edit Event"  data-toggle="modal" data-target="#editmodal_multiple_day<?php echo $events['id'];?>"><span class='glyphicon glyphicon-pencil'></span>  </a> | <a type="button" data-tooltip="tooltip" data-placement="left" data-title="Edit Event"  data-toggle="modal" data-target="#deletemodal_multiple_day<?php echo $events['id'];?>"><span class='glyphicon glyphicon-trash'></span></a>
               
                       </td>
+
+                    <?php endif;?>   
 
 
                               <div class="modal fade" id="editmodal_multiple_day<?php echo $events['id'];?>">

@@ -209,7 +209,7 @@ desired effect
                     </ul>
 
                     <a href="prof_edit_info.php?professor_id=<?php echo $_GET['professor_id']?>" class="btn btn-primary btn-block"><b>Edit Information</b></a> 
-                    <a href="prof_rating_info.php?professor_id=<?php echo $_GET['professor_id']?>" class="btn btn-success btn-block"><b>Professor's Rating</b></a> 
+                  <!--  <a href="prof_rating_info.php?professor_id=<?php echo $_GET['professor_id']?>" class="btn btn-success btn-block"><b>Professor's Rating</b></a>  -->
                     <a href="prof_classes_info.php?professor_id=<?php echo $_GET['professor_id']?>" class="btn btn-warning btn-block"><b>Professor's Classes</b></a> 
                   </div>
                   <!-- /.box-body -->
